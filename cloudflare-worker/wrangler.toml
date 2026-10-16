@@ -8,7 +8,9 @@ workers_dev = false
 # AUTH_REDIRECT_URI is optional in code, but keeping it explicit avoids redirect mismatch mistakes.
 AUTH_REDIRECT_URI = "https://baroncs.co.kr/auth/callback"
 AUTH_POST_LOGOUT_REDIRECT_URI = "https://baroncs.co.kr/"
-AUTH_SCOPE = "openid profile email"
+AUTH_SCOPE = "openid tenants profile email"
+ALLOWED_TENANT_IDS = "038326b6-954a-48a7-a85f-efd83f62b82a,9951229e-eea5-4376-96f4-78989bc3a506"
+TENANT_CLAIMS = "joined_tenants,tenant_id,tenants"
 
 # Session/cookie settings.
 SESSION_COOKIE_NAME = "baron_worker_session"
@@ -21,7 +23,7 @@ PUBLIC_PREFIXES = "/ko/egbim/,/ko/tova/,/ko/gaia/,/en/egbim/,/en/tova/,/en/gaia/
 PROTECTED_PREFIXES = "/ko/,/en/,/_include/,/assets/,/recruit/,/portfolio/"
 INTERNAL_ONLY_PREFIXES = "/protected/"
 
-# Optional authorization filters. Leave empty unless access must be restricted further.
+# Optional additional authorization filters.
 # ALLOWED_EMAIL_DOMAINS = "baroncs.co.kr"
 # ALLOWED_EMAILS = "user1@baroncs.co.kr,user2@baroncs.co.kr"
 # REQUIRED_GROUPS = "group-a,group-b"

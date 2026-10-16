@@ -3,6 +3,7 @@ const DEFAULT_CONTENT_TYPE = 'application/octet-stream';
 const DEFAULT_SESSION_COOKIE_NAME = 'baron_worker_session';
 const DEFAULT_PENDING_COOKIE_NAME = 'baron_worker_pending';
 const DEFAULT_SESSION_TTL_SECONDS = 60 * 60 * 8;
+const SESSION_AUTHORIZATION_VERSION = 2;
 const STATIC_ASSET_PATTERN = /\.(?:css|js|mjs|json|svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|otf|mp4|webm|pdf|txt|xml|map|wasm)$/i;
 const LEGACY_BLOCKED_PATHS = new Set([
   '/assets/js/baron-sso-config.js',
@@ -208,6 +209,9 @@ function buildConfig(url, env) {
     allowedEmails: parseCsv(env.ALLOWED_EMAILS).map((email) => email.toLowerCase()),
     requiredGroups: parseCsv(env.REQUIRED_GROUPS),
     groupClaim: String(env.GROUP_CLAIM || 'groups'),
+    allowedTenantIds: parseCsv(env.ALLOWED_TENANT_IDS).map(normalizeTenantId),
+    tenantClaims: parseCsv(env.TENANT_CLAIMS || env.TENANT_CLAIM || 'joined_tenants,tenant_id,tenants'),
+    debugTenantAuth: String(env.DEBUG_TENANT_AUTH || '').toLowerCase() === 'true',
     sessionCookieName: String(env.SESSION_COOKIE_NAME || DEFAULT_SESSION_COOKIE_NAME),
     pendingCookieName: String(env.OAUTH_COOKIE_NAME || DEFAULT_PENDING_COOKIE_NAME),
     sessionTtlSeconds: Math.max(Number(env.SESSION_TTL_SECONDS || DEFAULT_SESSION_TTL_SECONDS), 60),
@@ -287,6 +291,24 @@ async function handleCallback(request, config, url) {
 
   const tokenResult = await exchangeCode(config, code, pending.verifier, pending.redirectUri || config.redirectUri);
   const profile = await fetchUserInfo(config, tokenResult.access_token);
+  if (config.debugTenantAuth) {
+    console.log('[local tenant auth diagnostic]', JSON.stringify({
+      tenantClaims: config.tenantClaims.map((claim) => {
+        const value = profile?.[claim];
+        return {
+          claim,
+          present: value !== undefined && value !== null,
+          shape: describeTenantClaim(value),
+          containsAllowedTenantId: containsAllowedTenantId(value, config.allowedTenantIds),
+        };
+      }),
+      userInfoClaimNames: Object.keys(profile || {}).sort(),
+      tenantLikeClaimNames: Object.keys(profile || {}).filter((key) => /tenant/i.test(key)).sort(),
+      idTokenClaimNames: getJwtClaimNames(tokenResult.id_token),
+      accessTokenClaimNames: getJwtClaimNames(tokenResult.access_token),
+    }, null, 2));
+  }
+
   if (!isAuthorized(config, profile)) {
     return redirect(config.postLogoutRedirectUri, {
       'set-cookie': [
@@ -302,6 +324,7 @@ async function handleCallback(request, config, url) {
     {
       profile: sessionProfile,
       expiresAt: Date.now() + Math.max(expiresIn - 30, 30) * 1000,
+      authorizationVersion: SESSION_AUTHORIZATION_VERSION,
     },
     config.sessionSecret
   );
@@ -400,7 +423,12 @@ function buildSafeReturnTo(url) {
 
 async function readSession(request, config) {
   const session = await readSignedCookie(request, config.sessionCookieName, config.sessionSecret);
-  if (!session || !session.expiresAt || Date.now() >= Number(session.expiresAt)) {
+  if (
+    !session ||
+    session.authorizationVersion !== SESSION_AUTHORIZATION_VERSION ||
+    !session.expiresAt ||
+    Date.now() >= Number(session.expiresAt)
+  ) {
     return null;
   }
 
@@ -468,12 +496,79 @@ function isAuthorized(config, profile) {
   }
 
   if (!config.requiredGroups.length) {
-    return true;
+    return isAllowedTenant(config, profile);
   }
 
   const groupValue = profile?.[config.groupClaim];
   const groups = Array.isArray(groupValue) ? groupValue : typeof groupValue === 'string' ? [groupValue] : [];
-  return config.requiredGroups.some((group) => groups.includes(group));
+  return config.requiredGroups.some((group) => groups.includes(group)) && isAllowedTenant(config, profile);
+}
+
+function isAllowedTenant(config, profile) {
+  if (!config.allowedTenantIds.length) {
+    return false;
+  }
+
+  return config.tenantClaims.some((claim) =>
+    containsAllowedTenantId(profile?.[claim], config.allowedTenantIds)
+  );
+}
+
+function normalizeTenantId(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function describeTenantClaim(value, depth = 0) {
+  if (Array.isArray(value)) {
+    return {
+      type: 'array',
+      length: value.length,
+      items: depth < 2 ? value.slice(0, 5).map((item) => describeTenantClaim(item, depth + 1)) : undefined,
+    };
+  }
+
+  if (value && typeof value === 'object') {
+    const keys = Object.keys(value).slice(0, 20);
+    return {
+      type: 'object',
+      keys,
+      values: depth < 2
+        ? keys.slice(0, 5).map((key) => describeTenantClaim(value[key], depth + 1))
+        : undefined,
+    };
+  }
+
+  return { type: value === null ? 'null' : typeof value };
+}
+
+function containsAllowedTenantId(value, allowedTenantIds) {
+  if (typeof value === 'string') {
+    return allowedTenantIds.includes(normalizeTenantId(value));
+  }
+
+  if (Array.isArray(value)) {
+    return value.some((entry) => containsAllowedTenantId(entry, allowedTenantIds));
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.entries(value).some(([key, entry]) =>
+      allowedTenantIds.includes(normalizeTenantId(key)) || containsAllowedTenantId(entry, allowedTenantIds)
+    );
+  }
+
+  return false;
+}
+
+function getJwtClaimNames(token) {
+  try {
+    const encodedPayload = String(token || '').split('.')[1];
+    if (!encodedPayload) return [];
+    const base64 = encodedPayload.replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, '=')));
+    return Object.keys(payload).sort();
+  } catch {
+    return [];
+  }
 }
 
 function buildKeyCandidates(pathname) {

@@ -52,6 +52,8 @@
 - `AUTH_REDIRECT_URI`
 - `AUTH_POST_LOGOUT_REDIRECT_URI`
 - `AUTH_SCOPE`
+- `ALLOWED_TENANT_IDS` (allowed tenant IDs; configured in `wrangler.toml`)
+- `TENANT_CLAIMS` (defaults to `joined_tenants,tenant_id,tenants`)
 - `ALLOWED_EMAIL_DOMAINS`
 - `ALLOWED_EMAILS`
 - `REQUIRED_GROUPS`
