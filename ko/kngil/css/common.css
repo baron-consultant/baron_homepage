@@ -2227,9 +2227,16 @@ label {
 }
 
 @media only screen and (min-width: 768px) {
-  /* PC: 팝업 이미지를 원본 크기(1011×717)의 50%로 노출 */
-  .popup-in.notice img {
-    width: 506px;
+  /* style.css의 width:auto / max-width:900px보다 우선합니다. */
+  #pop_notice.popup-wrap .popup-in.notice {
+    width: var(--notice-pc-width, 490px);
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  #pop_notice .popup-in.notice .pop-contents,
+  #pop_notice .popup-in.notice .notice-pop-desktop {
+    width: 100%;
     max-width: 100%;
     height: auto;
   }
