@@ -448,8 +448,14 @@ $(function () {
   // 초기 실행
   createSlidesAllSorted();
 });
+// 동영상 임시 비활성화: 목록과 재생 코드는 추후 재공개를 위해 보존합니다.
+// 재공개 시 true로 변경하고 ko/dx.html의 YouTube API 주석과 영상 UI 숨김을 해제합니다.
+const DX_VIDEOS_ENABLED = false;
 var players = [];
 $(function () {
+  // display: none만으로는 재생이 중단되지 않으므로 플레이어/썸네일 생성 전에 종료합니다.
+  if (!DX_VIDEOS_ENABLED) return;
+
   const videos = [
     ["TRVL7Rtn08E", " 원주청광터교차로", "a"],
     ["wAKT5PQgdgA", "PG착공식_자율주행영상", "a"],
@@ -510,8 +516,9 @@ $(function () {
     });
   }
   function onPlayerReady(event) {
-    //event.target.stopVideo();
-    event.target.playVideo();
+    // 재공개 후에도 페이지 진입만으로 숨겨진 영상이 자동 재생되지 않게 합니다.
+    event.target.stopVideo();
+    // event.target.playVideo();
   }
   function onPlayerStateChange(event) {
     if (event.data == "0") {
