@@ -16,3 +16,4 @@ __pycache__/
 # 모든 경로 하위의 img 폴더를 절대적으로 제외
 **/img/
 /assets/media/
+/scripts/promote-r2.ps1
