@@ -22,7 +22,7 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.CF_R2_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
           echo "AWS_DEFAULT_REGION=auto" >> $GITHUB_ENV
           echo "R2_ACCOUNT_ID=${{ secrets.CF_R2_ACCOUNT_ID }}" >> $GITHUB_ENV
-          echo "R2_BUCKET=${{ secrets.CF_R2_BUCKET }}" >> $GITHUB_ENV
+          echo "R2_BUCKET=baron-hompage" >> $GITHUB_ENV
 
       - name: Verify AWS CLI
         run: aws --version
@@ -39,12 +39,12 @@ jobs:
           fi
 
           if [ -z "$trimmed_bucket" ]; then
-            echo "::error::CF_R2_BUCKET is empty. Set it to the exact R2 bucket name."
+            echo "::error::R2_BUCKET is empty. Set the deployment bucket name in this workflow."
             exit 1
           fi
 
           if [ "$trimmed_bucket" != "$R2_BUCKET" ]; then
-            echo "::warning::CF_R2_BUCKET contained trailing newline characters. The workflow trimmed them before validation."
+            echo "::warning::R2_BUCKET contained trailing newline characters. The workflow trimmed them before validation."
           fi
 
           echo "Checking access to R2 bucket: $trimmed_bucket"
@@ -55,7 +55,7 @@ jobs:
             --endpoint-url "$endpoint" \
             > /tmp/r2-check.log 2>&1; then
             if grep -q "NoSuchBucket" /tmp/r2-check.log; then
-              echo "::error::R2 bucket '$trimmed_bucket' was not found at account endpoint '$endpoint'. Check CF_R2_BUCKET for typos, confirm the bucket exists in the Cloudflare account from CF_R2_ACCOUNT_ID, and verify the access key was created in that same account."
+              echo "::error::R2 bucket '$trimmed_bucket' was not found at account endpoint '$endpoint'. Confirm the bucket exists in the Cloudflare account from CF_R2_ACCOUNT_ID and verify the access key was created in that same account."
             else
               echo "::error::Unable to access R2 bucket '$trimmed_bucket'. Confirm the R2 access key can list and write objects in this bucket. aws s3 sync requires ListObjectsV2 access before upload and delete operations."
             fi

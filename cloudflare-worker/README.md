@@ -1,6 +1,6 @@
 # BARON Cloudflare Worker
 
-이 폴더는 Cloudflare Worker가 R2 버킷 `baron-hompage-test`의 정적 파일을 브라우저에 서빙하기 위한 최소 구성이다.
+이 폴더는 Cloudflare Worker가 R2 버킷 `baron-hompage`의 정적 파일을 브라우저에 서빙하기 위한 최소 구성이다.
 
 ## 포함 파일
 

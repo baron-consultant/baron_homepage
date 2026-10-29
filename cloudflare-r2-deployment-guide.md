@@ -177,7 +177,7 @@ Cloudflare 대시보드에서:
 
 권장 버킷명:
 
-- 운영: `baron-prod`
+- 운영: `baron-hompage`
 - 스테이징: `baron-stg`
 
 ## 3단계: R2 배포용 API 자격증명 생성
@@ -218,7 +218,8 @@ GitHub 저장소의 `Settings -> Secrets and variables -> Actions`에 아래 값
 - `CF_R2_ACCOUNT_ID`
 - `CF_R2_ACCESS_KEY_ID`
 - `CF_R2_SECRET_ACCESS_KEY`
-- `CF_R2_BUCKET`
+
+이 저장소의 배포 대상 버킷은 `.github/workflows/deploy-r2.yml`에서 `baron-hompage`로 지정한다.
 
 선택 Secrets:
 
@@ -533,7 +534,7 @@ R2는 일반 웹호스팅처럼 자동 문서 인덱스를 항상 보장하지 �
 3. 디자인팀은 GitHub에서 최신 내용을 pull 받은 뒤 로컬에서 작업한다.
 4. 작업 완료 후 GitHub `main` 브랜치로 push 한다.
 5. `main` push 시 GitHub Actions가 자동 실행된다.
-6. GitHub Actions가 R2 `baron-prod` 버킷으로 sync 배포한다.
+6. GitHub Actions가 R2 `baron-hompage` 버킷으로 sync 배포한다.
 7. `www.example.com`을 R2 커스텀 도메인으로 연결한다.
 8. `example.com`은 `www.example.com`으로 리다이렉트한다.
 9. `/`는 `/ko/index.html`로 리다이렉트한다.

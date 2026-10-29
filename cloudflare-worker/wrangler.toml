@@ -44,4 +44,4 @@ INTERNAL_ONLY_PREFIXES = "/protected/"
 
 [[r2_buckets]]
 binding = "SITE_BUCKET"
-bucket_name = "baron-hompage-test"
+bucket_name = "baron-hompage"
