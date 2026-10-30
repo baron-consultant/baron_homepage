@@ -931,6 +931,33 @@ html[lang="en"][data-baron-auth-state="authenticated"] header .sitemap nav ol li
 }
 } /* /@media (min-width: 1401px) 로그인 사이트맵 PC 전용 */
 
+/* --------------------------------- */
+/* 사이트맵 인재채용 바로가기 (nav.html .nav-recruit) */
+/* --------------------------------- */
+/* nav.html은 GNB·풋터에도 쓰이므로 인재채용 항목은 사이트맵에서만 노출한다. */
+header .header_inner nav ol li.depth1.nav-recruit,
+footer .footer_inner nav ol li.depth1.nav-recruit {
+  display: none;
+}
+header .sitemap nav ol li.depth1.nav-recruit > ul.depth2 {
+  display: grid;
+}
+/* 로그인 사이트맵(PC): 인재채용 항목이 추가된 경우 행 수를 1개 늘린다(국문 9행, 영문 8행). */
+@media (min-width: 1401px) {
+  html[data-baron-auth-state="authenticated"] header .sitemap nav ol:has(> li.depth1.nav-recruit) {
+    grid-template-rows: repeat(3, 1fr) 1.7fr 1.7fr repeat(4, 1fr);
+  }
+  html[lang="en"][data-baron-auth-state="authenticated"] header .sitemap nav ol:has(> li.depth1.nav-recruit) {
+    grid-template-rows: repeat(3, 1fr) 1.7fr repeat(4, 1fr);
+  }
+}
+@media (max-width: 1400px) {
+  header .sitemap nav ol li.depth1.nav-recruit > ul.depth2 {
+    display: block;
+    max-height: none;
+  }
+}
+
 /* --- 오픈형 메뉴 */
 /* --- 버튼형 메뉴 */
 /* --- 사이트맵 */
