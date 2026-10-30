@@ -958,6 +958,33 @@ header .sitemap nav ol li.depth1.nav-recruit > ul.depth2 {
   }
 }
 
+/* --------------------------------- */
+/* 사이트맵 패키지 S/W 통합 소개 (nav.html .nav-sw-overview) */
+/* --------------------------------- */
+/* nav.html은 GNB·풋터에도 쓰이므로 통합 소개 항목은 사이트맵에서만 노출한다. */
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-sw-overview,
+footer .footer_inner nav ol li.depth1 ul.depth2 li.nav-sw-overview {
+  display: none;
+}
+/* PC 사이트맵: 기존 행 높이와 제품 3열(EG-BIM·TOVA·GAIA) 배치를 바꾸지 않도록 '패키지 S/W' 제목 아래 빈 공간에 둔다.
+   (1400px 이하 아코디언에서는 하위 목록의 첫 항목으로 그대로 노출) */
+@media (min-width: 1401px) {
+  header .sitemap nav ol li.depth1:has(li.nav-sw-overview) {
+    position: relative;
+  }
+  header .sitemap nav ol li.depth1 ul.depth2 li.nav-sw-overview {
+    position: absolute;
+    left: 0;
+    top: calc(50% + 38px);
+    width: 240px;
+    padding: 0;
+    font-size: 15px;
+  }
+  header .sitemap nav ol li.depth1 ul.depth2 li.nav-sw-overview a::after {
+    content: " →";
+  }
+}
+
 /* --- 오픈형 메뉴 */
 /* --- 버튼형 메뉴 */
 /* --- 사이트맵 */
