@@ -63,6 +63,21 @@
     transform: translateX(-50%) translateY(0);
   }
 
+  /* 클릭(터치) 시 열림, Esc로 닫은 뒤에는 포인터/포커스가 벗어날 때까지 닫힘 유지 (header-login.js) */
+  header .header_login.is-open .header_login_menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  header .header_login.is-dismissed .header_login_menu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(4px);
+  }
+
   header .header_login_menu::before {
     content: "";
     position: absolute;
@@ -127,10 +142,10 @@
         </div>
 
         <div class="header_login">
-          <button type="button" class="header_login_trigger" aria-label="로그인">
+          <button type="button" class="header_login_trigger" aria-label="로그인" aria-expanded="false" aria-controls="header-login-menu">
             <img src="/assets/img/ico_user.svg" alt="" />
           </button>
-          <div class="header_login_menu">
+          <div class="header_login_menu" id="header-login-menu">
             <a class="header_login_link" href="../ko/br_future.html">로그인</a>
           </div>
         </div>
