@@ -113,7 +113,9 @@ body:has(.inquiry-page) header .header_R .language a:first-child::after { backgr
 .inquiry-dialog input:focus, .inquiry-dialog select:focus, .inquiry-dialog textarea:focus { border: 1px solid #1d8467; outline: 2px solid #1d846733; }
 .inquiry-form-feedback { font-size: 14px; color: #08734c; margin-top: 16px; }
 body:has(.inquiry-dialog[open]) { overflow: hidden; }
-html.inquiry-modal-open { overflow: hidden; }
+/* Lock background scrolling only while a dialog is open; !important is needed to override layout.css html/body { overflow: visible !important }. */
+html.inquiry-modal-open,
+html.inquiry-modal-open body { overflow: hidden !important; }
 @media (max-width: 1400px) {
   .inquiry-page { padding-top: 50px; }
 }
