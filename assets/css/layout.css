@@ -1672,8 +1672,9 @@ header#header_recruit .btn_menu {
     opacity: 0;
     transition: opacity 0.2s ease-in;
   }
+  /* 모바일 사이트맵: 1뎁스 제목 오른쪽 아이콘은 숨김(2뎁스 '인재채용 바로가기' 아이콘은 유지) */
   header .sitemap nav ol li.depth1:last-child span i {
-    display: inline-block;
+    display: none;
     float: right;
     width: 20px;
     height: 20px;

@@ -9,8 +9,10 @@
   const MOBILE_QUERY = window.matchMedia("(max-width: 600px)");
   const LOAD_TIMEOUT_MS = 15000;
   const EMBED_STYLE_ID = "service-detail-embed-style";
+  // 헤더를 숨기므로 제품 페이지의 헤더 높이 여백(.container padding-top: 92px)도 팝업 안에서만 없앤다.
   const EMBED_CSS =
-    "#header, #footer, .map_list, .btn_top, .floating_guide_only, .floating-kngil, .floating-menu, .floating-top-btn, #pop_notice { display: none !important; }";
+    "#header, #footer, .map_list, .btn_top, .floating_guide_only, .floating-kngil, .floating-menu, .floating-top-btn, #pop_notice { display: none !important; }" +
+    " .container { padding-top: 0 !important; }";
   const NAMES = { egbim: "EG-BIM", tova: "TOVA", gaia: "GAIA", kngil: "KNGIL" };
   const TEXT =
     document.documentElement.lang === "en"
