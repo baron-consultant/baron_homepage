@@ -69,14 +69,14 @@ const authResult = await ensureBaronSsoAuth(
 );
 
 const isAuthenticated = Boolean(authResult?.session);
-const isAnonymousPublicPage = Boolean(isPublicInfoPage && !isAuthenticated);
 
 document.documentElement.dataset.baronAuthState = isAuthenticated ? 'authenticated' : 'anonymous';
 
 // ?�� AJAX 관??SCRIPT
 $(function () {
-  const includeVersion = '20260623-4';
-  const navIncludeFile = isAnonymousPublicPage ? 'nav-public.html' : 'nav.html';
+  const includeVersion = '20261030-1';
+  // 메뉴는 로그인 여부와 관계없이 동일하게 노출한다(접근 권한은 Worker 인증이 처리).
+  const navIncludeFile = 'nav.html';
   const includeBase = `${rootPrefix}/_include/eng`;
 
   $.ajaxSetup({ cache: false });
@@ -236,28 +236,6 @@ $(function () {
     });
   }
 
-  function trimPublicNav(root) {
-    if (!isAnonymousPublicPage || !root) {
-      return;
-    }
-
-    const allowedLabels = ['Package S/W', 'Service S/W', 'Big Room', 'PR Center'];
-    const topLevels = root.querySelectorAll('ol > li.depth1');
-    topLevels.forEach((item) => {
-      const label = item.querySelector('span')?.textContent.replace(/\s+/g, ' ').trim() || '';
-      const shouldKeep = allowedLabels.some((allowedLabel) => label.includes(allowedLabel));
-
-      if (!shouldKeep) {
-        // li는 유지하고 링크만 비워 sitemap 팝업의 :nth-child 기반 3depth 스타일 위치를 보존한다.
-        item.classList.add('menu_hidden');
-        const depth2 = item.querySelector(':scope > ul.depth2');
-        if (depth2) {
-          depth2.innerHTML = '';
-        }
-      }
-    });
-  }
-
   function configureHeaderActions(root) {
     if (!root) {
       return;
@@ -295,7 +273,6 @@ $(function () {
     if (!$('.container').hasClass('recruit')) {
       loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '.popup_wrap.sitemap .popup_contents_wrap nav', function () {
         normalizeSiteLinks(document.querySelector('.popup_wrap.sitemap .popup_contents_wrap nav'));
-        trimPublicNav(document.querySelector('.popup_wrap.sitemap .popup_contents_wrap nav'));
         mobileMenu();
       });
     } else {
@@ -312,7 +289,6 @@ $(function () {
         normalizeSiteLinks(document.querySelector('#header .corp .nav'));
         connectNavToMapList();
         initPackageSWTab();
-        trimPublicNav(document.querySelector('#header .corp .nav'));
       });
       configureHeaderActions(document.querySelector('#header'));
       loadSitemapNav();
@@ -340,7 +316,6 @@ $(function () {
     normalizeSiteLinks(document.querySelector('#footer'));
     loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '#footer .nav', function () {
       normalizeSiteLinks(document.querySelector('#footer .nav'));
-      trimPublicNav(document.querySelector('#footer .nav'));
     });
   });
 });

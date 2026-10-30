@@ -273,22 +273,15 @@ header#header_recruit .header_inner.recruit .btn_corp {
 }
 
 header .header_inner nav {
-  flex: 1 1 auto;
-  min-width: 0;
   height: 100%;
 }
 header .header_inner nav ol {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(100px, 1.6vw, 28px);
+  gap: 28px;
   width: 100%;
   height: 100%;
-}
-
-/* 로그인 시 메뉴가 8개로 늘어나는 것에 대응 (피그마 기준 40px, 좁은 화면에서는 축소) */
-html[data-baron-auth-state="authenticated"] header .header_inner nav ol {
-  gap: clamp(24px, 2.2vw, 40px);
 }
 header .header_inner nav ol li.depth1 {
   height: 100%;
@@ -657,7 +650,7 @@ header .sitemap .popup_header {
   width: 100%;
   max-width: 100%;
   min-height: 92px;
-  padding: 0 50px;
+  padding: 0 144px 0 160px;
   border-bottom: 1px solid #ccc;
   margin: 0 auto;
   display: flex;
@@ -716,13 +709,13 @@ header .sitemap nav {
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #fff;
-  padding: 0 240px 0 270px;
+  padding: 0 160px 0 240px;
 }
 header .sitemap nav ol {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-auto-rows: minmax(auto, 260px);
+  grid-auto-rows: minmax(auto, 160px);
   align-content: center;
   align-items: center;
   position: relative;
@@ -733,27 +726,26 @@ header .sitemap nav ol::before {
   width: 30%;
   height: 100%;
   top: 0;
-  right: 82%;
+  right: 80%;
   background: linear-gradient(90deg, transparent 0%, #006aff 100%);
   opacity: 0.05;
   pointer-events: none;
 }
 header .sitemap nav ol li.depth1 {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  column-gap: 29px;
+  grid-template-columns: 1fr 4fr;
   align-content: stretch;
   align-items: center;
   height: 100%;
   opacity: 0.5;
 }
 header .sitemap nav ol li.depth1 span {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
 }
 header .sitemap nav ol li.depth1 span em {
   display: block;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
 }
 header .sitemap nav ol li.depth1 ul.depth2 {
@@ -761,16 +753,9 @@ header .sitemap nav ol li.depth1 ul.depth2 {
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
   height: 100%;
-  font-size: 20px;
-  color: #333;
-  letter-spacing: -0.8px;
-  padding-left: 70px;
+  font-size: 18px;
+  padding-left: 80px;
   border-bottom: 1px solid #eee;
-  gap: 90px;
-}
-
-header .sitemap nav ol li.depth1:last-child ul.depth2 {
-  border-bottom: none;
 }
 
 header .sitemap nav ol li.depth1 ul.depth2 > li > a {
@@ -781,7 +766,7 @@ header .sitemap nav ol li.depth1 ul.depth2 li {
   width: 80%;
 }
 header .sitemap nav ol li.depth1 ul.depth2 li a {
-  /* width: 100%; */
+  width: 100%;
   height: 100%;
   display: block;
 }
@@ -854,134 +839,27 @@ header .sitemap nav ol li.depth1:last-child ul.depth2 li i {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
-header .sitemap nav ol li.depth1 ul.depth2 li a:hover {
-  color:#006aff;
+header .sitemap nav ol li.depth1 ul.depth2 li:hover {
+  color: var(--color-primary);
+  font-weight: 700;
 }
-header .sitemap nav ol li.depth1 ul.depth2 li a:hover i {
-  background-color: #006aff;
+header .sitemap nav ol li.depth1 ul.depth2 li:hover i {
+  background-color: var(--color-primary);
 }
 header .sitemap nav ol li.depth1:hover {
   opacity: 1;
 }
 
-/* 아래 로그인 시 사이트맵(PC 그리드 레이아웃) 보정은 데스크톱 전용.
-   768px~1400px 이하에서는 아코디언 형태의 별도 모바일 사이트맵 CSS를 사용하므로,
-   여기서 겹쳐 적용되면 항목 높이가 100%로 강제되어 간격이 깨진다(로그인 시에만 발생하던 버그). */
-@media (min-width: 1401px) {
-/* 로그인 시 사이트맵 메뉴가 8개로 늘어나는 것에 대응: 8개 행이 스크롤 없이 화면 높이에 꽉 차도록 비율(fr) 배분 + 전체 폭 구분선 */
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol {
-  grid-auto-rows: unset;
-  grid-template-rows: repeat(3, 1fr) 1.7fr 1.7fr repeat(3, 1fr);
-  align-content: stretch;
-  height: 100%;
-  padding: 12px 0;
-}
-
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1 {
-  height: 100%;
-  padding: 0;
-  border-bottom: 1px solid #eee;
-}
-
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1:last-child {
-  border-bottom: none;
-}
-
-/* 8개 메뉴 기준 폰트 크기 축소 */
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1 ul.depth2 {
-  border-bottom: none;
-  font-size: 18px;
-}
-
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1 span {
-  font-size: 26px;
-}
-
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1 span em {
-  font-size: 18px;
-}
-
-/* EG-BIM/TOVA/GAIA, KNGIL 하위 항목: 3열, 줄바꿈 없이 한 줄로 */
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1:nth-child(4) ul.depth2 li.has_depth3 ul.depth3,
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1:nth-child(5) ul.depth2 li.has_depth3 ul.depth3 {
-  grid-template-columns: repeat(3, minmax(max-content, 1fr));
-  column-gap: 16px;
-  font-size: 16px;
-}
-
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1:nth-child(4) ul.depth2 li.has_depth3 ul.depth3 li a,
-html[data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1:nth-child(5) ul.depth2 li.has_depth3 ul.depth3 li a {
-  white-space: nowrap;
-}
-
-/* 영문 사이트맵 전용 보정: 영문판 nav.html은 Service S/W 항목이 없어 7개뿐이라
-   행 개수/순서가 한글판과 다름 (Package S/W만 그룹형이라 4번째만 넓게 배분).
-   "Digital Transformation" 등 긴 제목이 줄바꿈되지 않도록 왼쪽 칸도 넓힘. */
-html[lang="en"][data-baron-auth-state="authenticated"] header .sitemap nav ol {
-  grid-template-rows: repeat(3, 1fr) 1.7fr repeat(3, 1fr);
-}
-
-html[lang="en"][data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1 {
-  grid-template-columns: 210px 1fr;
-}
-
-html[lang="en"][data-baron-auth-state="authenticated"] header .sitemap nav ol li.depth1 span {
-  font-size: 22px;
-  white-space: nowrap;
-}
-} /* /@media (min-width: 1401px) 로그인 사이트맵 PC 전용 */
-
 /* --------------------------------- */
 /* 사이트맵 인재채용 바로가기 (nav.html .nav-recruit) */
 /* --------------------------------- */
-/* nav.html은 GNB·풋터에도 쓰이므로 인재채용 항목은 사이트맵에서만 노출한다. */
-header .header_inner nav ol li.depth1.nav-recruit,
-footer .footer_inner nav ol li.depth1.nav-recruit {
-  display: none;
-}
 header .sitemap nav ol li.depth1.nav-recruit > ul.depth2 {
   display: grid;
-}
-/* 로그인 사이트맵(PC): 인재채용 항목이 추가된 경우 행 수를 1개 늘린다(국문 9행, 영문 8행). */
-@media (min-width: 1401px) {
-  html[data-baron-auth-state="authenticated"] header .sitemap nav ol:has(> li.depth1.nav-recruit) {
-    grid-template-rows: repeat(3, 1fr) 1.7fr 1.7fr repeat(4, 1fr);
-  }
-  html[lang="en"][data-baron-auth-state="authenticated"] header .sitemap nav ol:has(> li.depth1.nav-recruit) {
-    grid-template-rows: repeat(3, 1fr) 1.7fr repeat(4, 1fr);
-  }
 }
 @media (max-width: 1400px) {
   header .sitemap nav ol li.depth1.nav-recruit > ul.depth2 {
     display: block;
     max-height: none;
-  }
-}
-
-/* --------------------------------- */
-/* 사이트맵 패키지 S/W 통합 소개 (nav.html .nav-sw-overview) */
-/* --------------------------------- */
-/* nav.html은 GNB·풋터에도 쓰이므로 통합 소개 항목은 사이트맵에서만 노출한다. */
-header .header_inner nav ol li.depth1 ul.depth2 li.nav-sw-overview,
-footer .footer_inner nav ol li.depth1 ul.depth2 li.nav-sw-overview {
-  display: none;
-}
-/* PC 사이트맵: 기존 행 높이와 제품 3열(EG-BIM·TOVA·GAIA) 배치를 바꾸지 않도록 '패키지 S/W' 제목 아래 빈 공간에 둔다.
-   (1400px 이하 아코디언에서는 하위 목록의 첫 항목으로 그대로 노출) */
-@media (min-width: 1401px) {
-  header .sitemap nav ol li.depth1:has(li.nav-sw-overview) {
-    position: relative;
-  }
-  header .sitemap nav ol li.depth1 ul.depth2 li.nav-sw-overview {
-    position: absolute;
-    left: 0;
-    top: calc(50% + 38px);
-    width: 240px;
-    padding: 0;
-    font-size: 15px;
-  }
-  header .sitemap nav ol li.depth1 ul.depth2 li.nav-sw-overview a::after {
-    content: " →";
   }
 }
 
@@ -1099,7 +977,7 @@ footer .footer_inner nav ol li.depth1 span i {
   translate: 0 1px;
   filter: invert(1);
 }
-/* footer .footer_inner nav ol li.depth1:last-child {
+footer .footer_inner nav ol li.depth1:last-child {
   padding-left: 48px;
 }
 footer .footer_inner nav ol li.depth1:last-child::before {
@@ -1114,7 +992,7 @@ footer .footer_inner nav ol li.depth1:last-child::before {
 footer .footer_inner nav ol li.depth1:last-child span::after,
 footer .footer_inner nav ol li.depth1:last-child ul.depth2 {
   display: none;
-} */
+}
 footer .footer_inner nav ol li.depth1 ul.depth2 {
   display: flex;
   flex-direction: column;
@@ -1323,55 +1201,54 @@ footer .footer_inner .footer_info .copyright {
   letter-spacing: 0;
 }
 
-/* 아래 로그인 시 풋터 재배치도 사이트맵과 동일하게 데스크톱 전용.
-   모바일에서는 로그인 여부와 무관하게 기존(로그아웃) 풋터 스타일을 그대로 사용한다. */
+/* 데스크톱 풋터: nav를 전체 폭 상단 행으로, footer_info(로고·주소·연락처·저작권·Family Site)를
+   구분선 아래 한 줄 하단 바로 배치한다(로그인 여부와 무관). 모바일은 기존 풋터 스타일을 사용한다. */
 @media (min-width: 1401px) {
-/* 로그인 시 메뉴가 8개로 늘어나면서 풋터 구조 변경: nav를 전체 폭 상단 행으로,
-   footer_info(로고·주소·연락처·저작권·Family Site)를 구분선 아래 한 줄 하단 바로 재배치 */
-html[data-baron-auth-state="authenticated"] footer .footer_inner {
+footer .footer_inner {
   flex-direction: column;
   align-items: stretch;
   gap: 32px;
   padding: 40px 160px 0;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner nav {
+footer .footer_inner nav {
   order: 1;
   flex: 1 1 auto;
   width: 100%;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner nav ol {
+footer .footer_inner nav ol {
   gap: 28px;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_info {
+footer .footer_inner .footer_info {
   order: 2;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   flex: none;
+  flex-wrap: wrap;
   width: 100%;
   gap: 16px;
   padding: 20px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_info .home {
+footer .footer_inner .footer_info .home {
   width: 150px;
   height: 22px;
   margin: 0 16px 0 0;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_info > span:first-of-type {
+footer .footer_inner .footer_info > span:first-of-type {
   margin-top: 0;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_contact {
+footer .footer_inner .footer_contact {
   display: contents;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_contact span::before {
+footer .footer_inner .footer_contact span::before {
   content: "";
   display: inline-block;
   width: 1px;
@@ -1381,18 +1258,18 @@ html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_contact
   background: rgba(255, 255, 255, 0.3);
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .footer_info .copyright {
+footer .footer_inner .footer_info .copyright {
   margin-top: 0;
   margin-left: auto;
 }
 
-html[data-baron-auth-state="authenticated"] footer .footer_inner .family_wrap {
+footer .footer_inner .family_wrap {
   position: relative;
   right: auto;
   bottom: auto;
   margin-left: 16px;
 }
-} /* /@media (min-width: 1401px) 로그인 풋터 PC 전용 */
+} /* /@media (min-width: 1401px) 풋터 PC 전용 */
 
 footer .btn_top {
   position: fixed;
