@@ -82,8 +82,8 @@ document.documentElement.dataset.baronAuthState = isAuthenticated ? 'authenticat
 // ── AJAX 관련 SCRIPT
 $(function () {
   const includeVersion = '20261030-1';
-  // 메뉴는 로그인 여부와 관계없이 동일하게 노출한다(접근 권한은 Worker 인증이 처리).
-  const navIncludeFile = 'nav.html';
+  // 비로그인 요청은 Worker가 nav-public.html만 허용하므로(내용은 nav.html과 동일한 전체 메뉴) 로그인 여부로 파일만 나눈다.
+  const navIncludeFile = isAuthenticated ? 'nav.html' : 'nav-public.html';
   const includeBase = `${rootPrefix}/_include`;
 
   $.ajaxSetup({ cache: false });
