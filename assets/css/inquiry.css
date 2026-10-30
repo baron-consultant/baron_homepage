@@ -4,7 +4,7 @@
 .inquiry-sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden !important; clip-path: inset(50%); white-space: nowrap; }
 .inquiry-page :focus-visible, .inquiry-dialog :focus-visible { outline: 2px solid #0c367f; outline-offset: 3px; }
 .inquiry-page input, .inquiry-dialog input, .inquiry-dialog textarea { user-select: text; }
-.inquiry-hero { --inquiry-hero-shade: transparent; height: 480px; position: relative; background: #0b2743 linear-gradient(var(--inquiry-hero-shade), var(--inquiry-hero-shade)) center / cover no-repeat; background-image: linear-gradient(var(--inquiry-hero-shade), var(--inquiry-hero-shade)), url(../img/inquiry-hero.png); }
+.inquiry-hero { --inquiry-hero-shade: transparent; height: 480px; position: relative; background: #0b2743 linear-gradient(var(--inquiry-hero-shade), var(--inquiry-hero-shade)) center / cover no-repeat; background-image: linear-gradient(var(--inquiry-hero-shade), var(--inquiry-hero-shade)), url(../img/inquiry-hero.webp); }
 .inquiry-hero__copy { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; text-align: center; padding: 40px 24px; }
 .inquiry-hero h1 { font-size: 70px; font-weight: 700; line-height: 1.4; letter-spacing: -0.04em; }
 .inquiry-hero p { font-size: 22px; line-height: 1.6; }
