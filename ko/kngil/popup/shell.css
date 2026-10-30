@@ -1,0 +1,412 @@
+/* 팝업(자세히 보기) 전용: service-detail.js가 iframe 안에서만 불러온다. ★최종 원본에서 이식. */
+/* ★최종 KNGIL 사이트맵(공통 사이트맵과 충돌하지 않게 #kngil-sitemap으로 한정. common.css에서는 비활성화 상태) */
+#kngil-sitemap.sitemap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--window-inner-height);
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  gap: 16px;
+  padding: 20px;
+  pointer-events: none;
+  animation: enableHover 0.8s forwards;
+  animation-delay: 0.3s;
+  display: none;
+}
+#kngil-sitemap.sitemap.open {
+  display: flex;
+}
+#kngil-sitemap.sitemap.open ~ * {
+  overflow: hidden !important;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap {
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li {
+    height: 100%;
+  }
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li span {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(.bg-line) {
+    display: none;
+  }
+}
+#kngil-sitemap.sitemap div[class*=bg-line] {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background-color: #fff;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+#kngil-sitemap.sitemap .bg-line.down {
+  animation-name: slideDown;
+}
+#kngil-sitemap.sitemap .bg-line.up {
+  animation-name: slideup;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.5s;
+  width: 20%;
+  z-index: 1;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).value {
+  background-image: url("../img/img_sitemap_01.jpg");
+  background-position: left 42% center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).value a::before {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).provided {
+  background-image: url("../img/img_sitemap_02.jpg");
+  background-position: left 32% center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).provided a::before {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).primary {
+  background-image: url("../img/img_sitemap_03.jpg");
+  background-position: left 58% center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).analysis {
+  background-image: url("../img/img_sitemap_04.jpg");
+  background-position: left 38% center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).analysis a::before {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).results {
+  background-image: url("../img/img_sitemap_05.jpg");
+  background-position: left 2% center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding-left: 24px;
+  padding-top: 20px;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  white-space: nowrap;
+  transform-origin: left;
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a::before,
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a::before {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: 0.5s ease;
+  z-index: -1;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a::after {
+  background-color: #111;
+  z-index: 1;
+  animation: slideRight 0.5s ease-in forwards;
+  animation-delay: 0.1s;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a span {
+  position: relative;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.2;
+  z-index: 2;
+}
+@media only screen and (max-width: 1023px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a span {
+    font-size: 2.8rem;
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a span::before {
+  position: absolute;
+  top: -100px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  font-weight: 900;
+  line-height: 80%;
+  font-size: 80px;
+  display: none;
+  z-index: -1;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a span::before {
+    display: block;
+    top: -50%;
+    left: 0;
+    width: max-content;
+    line-height: 1;
+    font-size: 60px;
+  }
+}
+@media only screen and (max-width: 991px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a span::before {
+    font-size: 3.8rem;
+  }
+}
+@media only screen and (max-width: 575px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a span::before {
+    display: none;
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a p {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  color: #fff;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a p {
+    display: none;
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) a em {
+  font-weight: 700;
+  color: #fff;
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).value a span::before {
+  content: "\aValue of";
+  white-space: pre;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).value a span::before {
+    content: "Value of";
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).provided a span::before {
+  content: "Provided\a Data";
+  white-space: pre;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).provided a span::before {
+    content: "Provided Data";
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).primary a span::before {
+  content: "Key \a Features";
+  white-space: pre;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).primary a span::before {
+    content: "Key Features";
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).analysis a span::before {
+  content: "Data\a Analysis";
+  white-space: pre;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).analysis a span::before {
+    content: "Data Analysis";
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).results a span::before {
+  content: "Exploration\aResults";
+  white-space: pre;
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)).results a span::before {
+    content: "Exploration Results";
+  }
+}
+@media only screen and (min-width: 1280px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)):hover {
+    width: 60%;
+  }
+}
+@media only screen and (min-width: 1280px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)):hover a {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+#kngil-sitemap.sitemap li:has(:not(.bg-line)):hover a::before {
+  opacity: 0;
+  background-color: transparent;
+}
+@media only screen and (min-width: 1280px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)):hover a span::before {
+    display: initial;
+  }
+}
+@media only screen and (min-width: 1280px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)):hover a em {
+    color: var(--color-yellow);
+  }
+}
+@media only screen and (max-width: 1279px) {
+#kngil-sitemap.sitemap li:has(:not(.bg-line)) {
+    width: 100%;
+  }
+}
+/* /★최종 KNGIL 사이트맵 */
+/* Keep the original service design inside the shared, independently scrolling iframe. */
+html { height: auto; overflow-x: hidden; overflow-y: auto; scroll-behavior: auto; }
+body { min-height: 100vh; overscroll-behavior: contain; }
+.wrap { min-height: 100vh; overflow: clip; }
+.container { padding-top: 0; }
+.header { z-index: 1001; }
+.header,
+.header.is-scrolled:not(:has(.sitemap.open)),
+.header:has(.sitemap.open) {
+  background: linear-gradient(180deg, #00000033, transparent);
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.header .menu-all { border: 0; background: none; }
+.header h1 a,
+.header.is-scrolled:not(:has(.sitemap.open)) h1 a {
+  background-image: var(--kngil-header-logo, url('../img/logo_kngil.svg'));
+}
+.header .menu-all span,
+.header.is-scrolled:not(:has(.sitemap.open)) .menu-all span {
+  background-color: var(--kngil-header-menu, #fff);
+}
+.header[data-logo-tone="dark"] { --kngil-header-logo: url('../img/loco_kngil_c.svg'); }
+.header[data-menu-tone="dark"] { --kngil-header-menu: #111; }
+#kngil-sitemap.sitemap { height: 100dvh; padding-top: 100px; overflow-y: auto; }
+#kngil-sitemap.sitemap[hidden] { display: none !important; }
+.header > .floating-top-btn {
+  position: fixed;
+  top: -2px;
+  z-index: 0;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.header > .floating-top-btn[hidden],
+.header > .floating-service-btn[hidden],
+.header:has(.sitemap.open) > .floating-top-btn,
+.header:has(.sitemap.open) > .floating-service-btn { display: none; }
+.footer-family { display: none !important; }
+.footer a[aria-disabled="true"] { cursor: default; }
+a:focus-visible, button:focus-visible { outline: 3px solid #ffc600; outline-offset: 3px; }
+@media(max-width:991px) { #kngil-sitemap.sitemap { padding-top: 48px; } }
+@media(max-width:1023px) {
+  .header > .floating-top-btn { width: min(320px, calc(100% - 32px)); height: 44px; }
+  .sub-header .page-title { height: calc(22rem + 44px); padding-top: 44px; }
+}
+@media(max-width:767px) {
+  .header > .floating-top-btn { width: calc(100% - 176px); height: 36px; }
+  .header > .floating-top-btn a { gap: 4px; }
+  .header > .floating-top-btn span { font-size: 11px; letter-spacing: 0; }
+  .header > .floating-top-btn img.logo { width: 35px; }
+}
+/* Leave room for the outer dialog's close button on short mobile screens. */
+@media(max-width:991px) and (max-height:760px) { .header-right { margin-right: 40px; } }
+@media(prefers-reduced-motion:reduce) { [data-aos] { opacity: 1 !important; transform: none !important; } }
+
+/* The service and guide links share the supplied two-part floating background. */
+.header > .floating-service-btn {
+  position: fixed; top: 108px; right: 0; z-index: 1;
+  box-sizing: border-box; width: 80px; height: 320px; padding: 16px 0;
+  display: flex; flex-direction: column;
+  background: url('../img/bg_floating_2nd.png') center / 100% 100% no-repeat;
+  animation: kngil-service-reveal .18s ease-out;
+}
+.header > .floating-service-btn > a,
+.header > .floating-service-btn > button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex-shrink: 0; box-sizing: border-box; width: 100%; margin: 0; padding: 0;
+  gap: 8px; border: 0; background: none; color: #fff; font-family: inherit;
+  text-align: center; text-decoration: none; cursor: pointer;
+}
+.header > .floating-service-btn .item-service { height: 58%; padding-top: 36px; }
+.header > .floating-service-btn .item-guide { height: 42%; padding-bottom: 52px; gap: 2px; }
+.header > .floating-service-btn .logo { display: block; flex-shrink: 0; width: 48px; height: auto; }
+.header > .floating-service-btn .ico-guide {
+  display: block; flex-shrink: 0; width: 28px; height: 28px;
+  background: url('../img/ico/ico_floating_book.svg') center / contain no-repeat;
+}
+.header > .floating-service-btn span { color: #fff; font-size: 14px; font-weight: 500; line-height: 1.2; white-space: nowrap; letter-spacing: -1px; }
+.header > .floating-service-btn > :is(a,button):is(:hover,:focus-visible) span { color: #ffd700; }
+.header > .floating-service-btn .item-guide:is(:hover,:focus-visible) .ico-guide { background-image: url('../img/ico/ico_floating_book_hover.svg'); }
+.header > .floating-service-btn > :is(a,button):focus-visible { outline-offset: -4px; border-radius: 8px; }
+@keyframes kngil-service-reveal {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (max-width: 767px) {
+  .header > .floating-service-btn { top: 72px; width: 68px; height: 272px; padding: 13px 0; }
+  .header > .floating-service-btn .item-service { padding-top: 30px; gap: 6px; }
+  .header > .floating-service-btn .item-guide { padding-bottom: 44px; }
+  .header > .floating-service-btn .logo { width: 40px; }
+  .header > .floating-service-btn .ico-guide { width: 24px; height: 24px; }
+  .header > .floating-service-btn span { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header > .floating-service-btn { animation: none; }
+}
+/* Retain the original guide tabs and player in a native dialog inside the preview. */
+dialog.guide-modal { margin: 0; border: 0; padding: 0; max-width: none; max-height: none; width: 100%; height: 100dvh; background: transparent; }
+dialog.guide-modal::backdrop { background: transparent; }
+.guide-modal .guide-modal-panel { width: min(1160px, calc(100vw - 32px)); height: min(720px, calc(100dvh - 112px)); padding: 0; }
+.guide-modal .guide-modal-close { right: 0; top: -44px; width: 36px; height: 36px; }
+.guide-modal .guide-tab span { word-break: keep-all; line-height: 1.3; }
+@media (max-width: 600px) {
+  .guide-modal .guide-modal-panel { width: calc(100vw - 24px); }
+  .guide-modal .guide-modal-tabs { height: 52px; }
+  .guide-modal .guide-tab { font-size: 11px; gap: 4px; }
+  .guide-modal .guide-tab[data-guide-tab="video"] { padding: 0 16px 0 10px; }
+  .guide-modal .guide-tab[data-guide-tab="pdf"] { padding: 0 10px 0 18px; }
+  .guide-modal .guide-tab .ico-tab { width: 12px; height: 12px; }
+}
+
+@media (max-width: 600px) {
+  .guide-modal .guide-modal-tabs { display: flex; gap: 4px; top: 0; }
+  .guide-modal .guide-tab, .guide-modal .guide-tab.active {
+    position: relative; inset: auto; flex: 1 1 0; min-width: 0; width: auto;
+    background-size: auto 100%; border-radius: 8px 8px 0 0;
+  }
+  .guide-modal .guide-tab[data-guide-tab] { padding: 0 8px; }
+  .guide-modal:has(.guide-panel-video.active) .guide-modal-panel { height: auto; }
+  .guide-modal:has(.guide-panel-video.active) .guide-modal-body { flex: none; height: calc(56.25vw + 26px); max-height: calc(100dvh - 164px); }
+  .guide-modal .guide-video { height: calc(100% - 36px); }
+  .guide-modal .video-controls { height: 36px; box-sizing: border-box; }
+  .guide-modal .video-seek { min-width: 0; }
+  .guide-modal .video-center-play { top: calc(50% - 18px); }
+}

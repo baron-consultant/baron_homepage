@@ -1,0 +1,384 @@
+/* 팝업(자세히 보기) 전용: service-detail.js가 iframe 안에서만 불러온다. ★최종 원본에서 이식. */
+/* ★최종 EG-BIM 제품 헤더(공통 header와 충돌하지 않게 .egbim-original-header로 한정) */
+header.egbim-original-header { width: 100%; height: 100px; padding: 0 48px; display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; z-index: 1000; background: linear-gradient(180deg, #00000033, transparent); }
+header.egbim-original-header h1 { flex: 1; }
+header.egbim-original-header h1 a { display: block; width: 190px; height: 36px; background: url("../img/egbim_w.svg") center no-repeat; background-size: contain; }
+header.egbim-original-header .menu_my,
+header.egbim-original-header .menu_ham,
+header.egbim-original-header .menu_admin { padding: 10px; position: relative; }
+header.egbim-original-header .menu_my_list { display: flex; background: #fff; border-radius: 4px; box-sizing: border-box; border: 1px solid #131313; position: absolute; left: calc(25% - 60px); top: 50px; padding: 4px; }
+header.egbim-original-header .menu_my_list li { width: 68px; height: 32px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; }
+header.egbim-original-header .menu_my_list li:hover { background: var( --color-yellow); }
+header.egbim-original-header .menu_my_list li a { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+header.egbim-original-header .menu_my_list::before { content:""; background: url("../img/tri_img.svg") no-repeat; background-size: cover; width: 12px; height: 10px; position: absolute; top: -9px; left: calc(50% - 6px); }
+header.egbim-original-header .menu_ham { cursor: pointer; }
+header.egbim-original-header .menu_ham a { display: block; width: 32px; height: 32px; position: relative; }
+header.egbim-original-header .menu_ham a div { width: 24px; height: 2px; position: absolute; left: 4px; background-color: #fff; transition: 0.2s; }
+header.egbim-original-header .menu_ham a div:nth-child(1) { top: 7px; }
+header.egbim-original-header .menu_ham a div:nth-child(2) { top: 15px; }
+header.egbim-original-header .menu_ham a div:nth-child(3) { bottom: 7px; }
+@media (max-width: 1200px) {
+header.egbim-original-header {
+    height: 48px;
+    padding: 0 8px 0 16px;
+  }
+}
+@media (max-width: 1200px) {
+header.egbim-original-header h1 a {
+    width: 140px;
+  }
+}
+@media (max-width: 1200px) {
+header.egbim-original-header .menu_my,
+header.egbim-original-header .menu_ham,
+header.egbim-original-header .menu_admin {
+    padding: 6px;
+  }
+}
+@media (max-width: 1200px) {
+header.egbim-original-header .menu_my_list {
+    left: initial;
+    right: 0;
+  }
+}
+@media (max-width: 1200px) {
+header.egbim-original-header .menu_my_list::before {
+    left: initial;
+    right: 15px;
+  }
+}
+@media (max-width: 576px) {
+header.egbim-original-header .language {
+    padding-right: 0;
+  }
+}
+/* /★최종 EG-BIM 제품 헤더 */
+/* The header rules come from EG-BIM's archived style_240927.css.
+   These rules only coordinate that header and sitemap inside the preview iframe. */
+.egbim-original-header { z-index:10001; }
+body:has(.egbim-original-header) .container {padding-top:0!important}
+.popup_sitemap { z-index:10000; height:100dvh; }
+.popup_sitemap[hidden] { display:none!important; }
+.popup_sitemap:not([hidden]) { display:block; }
+.egbim-original-header.sitemap-open { background:linear-gradient(180deg,#00000033,transparent);border:0;backdrop-filter:none; }
+.egbim-original-header.sitemap-open h1 a { width:190px;height:36px;background-image:url('../img/egbim_w.svg');background-position:center; }
+.egbim-original-header.sitemap-open .menu_my { display:none; }
+.egbim-original-header .btn_map_close a div:nth-child(1) { animation:btn-close-bar1 .5s ease both; }
+.egbim-original-header .btn_map_close a div:nth-child(2) { animation:btn-close-bar2 .5s ease both; }
+.egbim-original-header .btn_map_close a div:nth-child(3) { animation:btn-close-bar3 .5s ease both; }
+.egbim-original-header.sitemap-open .menu_ham a div { background-color:#fff; }
+.egbim-original-header a:focus-visible,.egbim-original-header .menu_my:focus-visible,.sitemap a:focus-visible { outline:2px solid #ffc600;outline-offset:3px; }
+.egbim-original-header .menu_my { cursor:pointer; }
+@media(max-width:1200px){.egbim-original-header.sitemap-open h1 a{width:140px}}
+/* Preserve the original stacked menu while allowing shorter popup windows to scroll. */
+@media(max-width:1200px){.popup_sitemap{overflow-y:auto;overscroll-behavior:contain}.popup_sitemap .sitemap{min-height:600px}}
+@media(max-height:760px){.egbim-original-header{padding-right:52px}}
+
+/* Preserve the original panels while accommodating English navigation labels. */
+.sitemap div[class*="menu"] a{white-space:normal;padding-left:24px;padding-right:16px}
+.sitemap div[class*="menu"] a span{font-size:clamp(20px,1.9vw,40px);line-height:1.15;word-break:normal;overflow-wrap:normal}
+.sitemap div[class*="menu"] a .sub_text{font-size:14px;line-height:1.5;margin-top:16px;height:auto}
+.sitemap .menu1 a span{max-width:100%}
+.sitemap div[class*="menu"]:hover a{transform:scale(1.08)}
+.sitemap div[class*="menu"] a .sub_text,.sitemap div[class*="menu"] a em{word-break:normal;overflow-wrap:normal}
+footer.service-original-footer .address{word-break:normal;overflow-wrap:break-word}
+@media(max-width:1200px){
+ .sitemap div[class*="menu"] a{padding:0 16px}
+ .sitemap div[class*="menu"] a span{font-size:26px}
+ .sitemap div[class*="menu"]:hover a{transform:none}
+}
+
+/* ★최종 EG-BIM 제품 사이트맵 레이아웃·호버(공통 사이트맵과 충돌하지 않게 #sitemap 안으로 한정) */
+#sitemap .sitemap {
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  gap: 16px;
+  padding: 20px;
+  pointer-events: none;
+  animation: enableHover 0.8s forwards;
+  animation-delay: 0.3s;
+}
+#sitemap .sitemap div[class*="bg_line"] {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background-color: #fff;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+#sitemap .sitemap .bg_line1,
+#sitemap .sitemap .bg_line3 {
+  animation-name: slideDown;
+}
+#sitemap .sitemap .bg_line2 {
+  animation-name: slideup;
+}
+#sitemap .sitemap div[class*="menu"] {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.5s;
+  width: calc(100% / 4);
+  z-index: 1;
+}
+#sitemap .sitemap div[class*="menu"]::before,
+#sitemap .sitemap div[class*="menu"]:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#sitemap .sitemap div[class*="menu"]::before {
+  background-color: #00000077;
+  transition: 0.5s ease;
+  z-index: -1;
+}
+#sitemap .sitemap div[class*="menu"]:after {
+  background-color: #111;
+  z-index: 1;
+  animation: slideRight 0.5s ease-in forwards;
+  animation-delay: 0.1s;
+}
+#sitemap .sitemap div[class*="menu"] a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding-left: 24px;
+  padding-top: 20px;
+  width: 100%;
+  height: 100%;
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  white-space: nowrap;
+  transform-origin: left;
+}
+#sitemap .sitemap div[class*="menu"] a span {
+  position: relative;
+  line-height: 110%;
+}
+#sitemap .sitemap div[class*="menu"] a span:after {
+  position: absolute;
+  top: -100px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  font-weight: 900;
+  line-height: 80%;
+  font-size: 80px;
+  display: none;
+}
+#sitemap .sitemap div[class*="menu"] a .sub_text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  height: 100px;
+}
+#sitemap .sitemap div[class*="menu"] a em {
+  font-weight: 700;
+  color: #fff;
+}
+#sitemap .sitemap .menu1 {
+  background-image: url("../img/sitemap_menu01.png");
+}
+#sitemap .sitemap .menu2 {
+  background-image: url("../img/sitemap_menu02.png");
+}
+#sitemap .sitemap .menu3 {
+  background-image: url("../img/sitemap_menu03.png");
+}
+#sitemap .sitemap .menu4 {
+  background-image: url("../img/sitemap_menu04.png");
+}
+#sitemap .sitemap .menu5 {
+  background-image: url("../img/sitemap_menu05.png");
+}
+#sitemap .sitemap div[class*="menu"]:hover {
+  width: 60%;
+}
+#sitemap .sitemap div[class*="menu"]:hover::before {
+  display: none;
+}
+#sitemap .sitemap div[class*="menu"]:hover a {
+  opacity: 1;
+  transform: scale(1.3);
+}
+#sitemap .sitemap div[class*="menu"]:hover a span::after {
+  display: initial;
+}
+#sitemap .sitemap div[class*="menu"]:hover a em {
+  color: var(--color-yellow);
+}
+@media (max-width: 1600px) {
+#sitemap .sitemap div[class*="menu"] a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    padding-left: 24px;
+    padding-top: 20px;
+    width: 100%;
+    height: 100%;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    transform-origin: left;
+  }
+}
+@media (max-width: 1600px) {
+#sitemap .sitemap div[class*="menu"] a span {
+    font-size: 38px;
+    font-weight: 900;
+    position: relative;
+  }
+}
+@media (max-width: 1600px) {
+#sitemap .sitemap div[class*="menu"] a .sub_text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    height: 100px;
+  }
+}
+@media (max-width: 1600px) {
+#sitemap .sitemap div[class*="menu"] a .sub_text br.brk {
+    display: initial;
+  }
+}
+@media (max-width: 1600px) {
+#sitemap .sitemap div[class*="menu"] a span:after {
+    font-size: 60px;
+    top: -80px;
+  }
+}
+@media (max-width: 1400px) {
+#sitemap .sitemap div[class*="menu"] a {
+    padding-left: 16px;
+    gap: 8px;
+  }
+}
+@media (max-width: 1400px) {
+#sitemap .sitemap div[class*="menu"] a span {
+    font-size: 32px;
+  }
+}
+@media (max-width: 1400px) {
+#sitemap .sitemap div[class*="menu"] a span:after {
+    font-size: 42px;
+    top: -52px;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap {
+    flex-direction: column;
+    padding: 0;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="bg_line"] {
+    display: none;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"] {
+    width: 100%;
+    height: 100%;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"] a {
+    padding: 0;
+    text-align: center;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"] a span {
+    font-size: 38px;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"] a span:after {
+    font-size: 60px;
+    top: -20px;
+    left: 20px;
+    text-align: left;
+    opacity: 0.1;
+    display: initial;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap .menu1 a span::after {
+    content: " Value of EG-BIM";
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap .menu2 a span:after {
+    content: "Interface";
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap .menu3 a span:after {
+    content: "Key Features";
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap .menu4 a span:after {
+    content: "Drawing management";
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap .menu5 a span:after {
+    content: "Cross Check";
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"] a .sub_text {
+    display: none;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"]:hover {
+    width: 100%;
+  }
+}
+@media (max-width: 1200px) {
+#sitemap .sitemap div[class*="menu"]:hover a {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (max-width: 768px) {
+#sitemap .sitemap {
+    gap: 8px;
+  }
+}
+@media (max-width: 768px) {
+#sitemap .sitemap div[class*="menu"] a span:after {
+    font-size: 48px;
+    bottom: -55px;
+  }
+}
+@media (max-width: 576px) {
+#sitemap .sitemap div[class*="menu"] a span {
+    font-size: 28px;
+  }
+}
+@media (max-width: 576px) {
+#sitemap .sitemap div[class*="menu"] a span:after {
+    display: none;
+  }
+}
+

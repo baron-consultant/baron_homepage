@@ -1,0 +1,66 @@
+/* Shared inquiry shortcut in the original TOVA, GAIA and EG-BIM headers. */
+header.service-inquiry-header > h1 { min-width: 0; }
+header.service-inquiry-header > .menu_ham { flex-shrink: 0; }
+header.service-inquiry-header > .service-inquiry-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-sizing: border-box;
+  position: relative;
+  height: 30px;
+  padding: 0 10px;
+  margin-right: 12px;
+  border: 1px solid #ffffff66;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color .15s, border-color .15s, background-color .15s;
+}
+header.service-inquiry-header > .service-inquiry-link::before {
+  content: "";
+  position: absolute;
+  inset: -7px 0;
+}
+header.service-inquiry-header > .service-inquiry-link svg {
+  display: block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+header.service-inquiry-header > .service-inquiry-link span { color: inherit; }
+header.service-inquiry-header > .service-inquiry-link:is(:hover, :focus-visible) {
+  color: #006aff;
+  border-color: #91beff;
+  background-color: #f2f7ff;
+}
+header.service-inquiry-header > .service-inquiry-link:focus-visible {
+  outline: 2px solid #91beff;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  header.service-inquiry-header { padding-left: 16px; padding-right: 8px; }
+  header.service-inquiry-header > h1 a { max-width: clamp(80px, 25vw, 112px); }
+  header.service-inquiry-header > .service-inquiry-link {
+    height: 28px;
+    padding: 0 8px;
+    margin-right: 6px;
+    font-size: 12px;
+  }
+  header.service-inquiry-header > .service-inquiry-link svg { width: 14px; height: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  header.service-inquiry-header > .service-inquiry-link { transition: none; }
+}

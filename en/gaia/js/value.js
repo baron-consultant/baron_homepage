@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', (event)=> {
         animation: bottomToCenter,
         trigger: ".js__height_trigger",
         start: "top top",
-        end: "+=1000 top",
+        // Match the TOVA popup: enough wheel travel even inside a short iframe.
+        end: () => '+=' + Math.max(1900, Math.round(window.innerHeight * 2.4)),
+        invalidateOnRefresh: true,
         pin: true,
         duration: 0.5,
         // markers: true,
@@ -122,8 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function guideSample() {
     console.log('애니메이션 시작');
-    window.addEventListener('wheel', preventScroll, { passive: false });
-    window.addEventListener('touchmove', preventScroll, { passive: false });
 
     const guide = document.querySelector ('.js__height_item');
     guide.classList.add('show_ani');

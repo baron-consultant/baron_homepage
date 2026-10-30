@@ -420,6 +420,10 @@ header .header_inner nav ol li.depth1:hover span {
 header .header_inner nav ol li.depth1:hover ul.depth2 {
   display: block;
 }
+/* PC GNB: 인재채용은 1뎁스 링크만 노출(2뎁스 드롭다운 숨김, ★최종 기준) */
+header .header_inner nav ol li.depth1.nav-recruit ul.depth2 {
+  display: none;
+}
 header .header_inner nav ol li.depth1 ul.depth2 li:hover a {
   color: #0044f2;
 }
