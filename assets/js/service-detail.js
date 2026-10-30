@@ -11,7 +11,7 @@
   const EMBED_STYLE_ID = "service-detail-embed-style";
   // 헤더를 숨기므로 제품 페이지의 헤더 높이 여백(.container padding-top: 92px)도 팝업 안에서만 없앤다.
   const EMBED_CSS =
-    "#header, #footer, .map_list, .btn_top, .floating_guide_only, .floating-kngil, .floating-menu, .wrap > .floating-top-btn, #pop_notice { display: none !important; }" +
+    "#header, #footer, .map_list, .btn_top, .floating-kngil, .floating-menu, .wrap > .floating-top-btn, #pop_notice { display: none !important; }" +
     " .container { padding-top: 0 !important; }" +
     // 공통 layout.css의 header 흰 배경·구분선·hover 흰 배경이 제품 헤더에 걸리지 않게 한다(★최종처럼 투명 유지).
     " header.service-inquiry-header, header.egbim-original-header, .wrap > header.header," +
