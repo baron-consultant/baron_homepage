@@ -1,17 +1,16 @@
 // 패키지 S/W '자세히 보기' 상세 팝업 (dialog + iframe)
 // - a[data-service-detail] 링크는 기본적으로 제품 페이지로 이동하는 일반 링크다.
-//   이 스크립트가 있고 조건(601px 이상, 같은 출처, 일반 클릭, dialog 지원)이 맞을 때만 팝업으로 연다.
+//   이 스크립트가 있고 조건(같은 출처, 일반 클릭, dialog 지원)이 맞으면 PC·모바일 모두 팝업으로 연다.
 // - 제품 페이지 원본은 수정하지 않는다. 같은 출처 iframe 문서에만 헤더·푸터·플로팅·KNGIL 공지 숨김 스타일을 주입한다.
 // - 제품 페이지의 common.js(SSO)와 GA 스크립트는 iframe 안에서 그대로 실행된다.
 (() => {
   if (typeof HTMLDialogElement !== "function") return;
 
-  const MOBILE_QUERY = window.matchMedia("(max-width: 600px)");
   const LOAD_TIMEOUT_MS = 15000;
   const EMBED_STYLE_ID = "service-detail-embed-style";
   // 헤더를 숨기므로 제품 페이지의 헤더 높이 여백(.container padding-top: 92px)도 팝업 안에서만 없앤다.
   const EMBED_CSS =
-    "#header, #footer, .map_list, .btn_top, .floating_guide_only, .floating-kngil, .floating-menu, .wrap > .floating-top-btn, #pop_notice { display: none !important; }" +
+    "#header, #footer, .map_list, .btn_top, .floating-kngil, .floating-menu, .wrap > .floating-top-btn, #pop_notice { display: none !important; }" +
     " .container { padding-top: 0 !important; }" +
     // 공통 layout.css의 header 흰 배경·구분선·hover 흰 배경이 제품 헤더에 걸리지 않게 한다(★최종처럼 투명 유지).
     " header.service-inquiry-header, header.egbim-original-header, .wrap > header.header," +
@@ -221,8 +220,6 @@
     const link = event.target.closest && event.target.closest("a[data-service-detail]");
     if (!link) return;
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    // 600px 이하는 팝업 대신 기존 제품 페이지로 이동한다.
-    if (MOBILE_QUERY.matches) return;
 
     const url = new URL(link.getAttribute("href"), window.location.href);
     if (url.origin !== window.location.origin) return;

@@ -1989,6 +1989,10 @@ header .header_inner .header_R .header_qa_button:is(:hover, :focus-visible) {
   }
 }
 @media (max-width: 600px) {
+  /* 로고와 버튼 묶음 사이 간격(기본 80px)을 줄여 햄버거 버튼이 화면 밖으로 밀리지 않게 한다(★최종 기준 16px) */
+  header .header_inner.corp:has(.header_qa_button) {
+    gap: 16px;
+  }
   header .header_inner .header_qa_button {
     height: 28px;
     padding: 0 6px;
