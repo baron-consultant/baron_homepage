@@ -1,5 +1,5 @@
-// ?��?��?�� sv_공통.html??SCRIPT
-// ?��S : btn_more ?�릭???�업
+// 📌📌📌 sv_공통.html의 SCRIPT
+// 💚S : btn_more 클릭시 팝업
 $(function () {
   $(".btn_more")
     .not(
@@ -11,7 +11,7 @@ $(function () {
       const value = $this.data("value");
 
       if (!value) {
-        console.log("data-value ?�음, popup ?�행?��? ?�음");
+        console.log("data-value 없음, popup 실행하지 않음");
         return;
       }
 
@@ -39,15 +39,15 @@ $(function () {
         `;
 
       $wrap.after(html);
-      console.log(`${value} ?�성 ?�료`);
+      console.log(`${value} 작성 완료`);
 
       const $popup = $wrap.next(".popup_wrap." + value);
       $popup.fadeIn(300);
     });
 });
-// E : btn_more ?�릭???�업
+// E : btn_more 클릭시 팝업
 
-// ?��S : svg ?�인 그리�?
+// 💚S : svg 라인 그리기
 $(function () {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -73,27 +73,27 @@ $(function () {
     });
   }
 });
-// E : svg ?�인 그리�?
+// E : svg 라인 그리기
 
-// ?��?��?�� sv_solution.html??SCRIPT
-// ?��S : op_more ?�업
+// 📌📌📌 sv_solution.html의 SCRIPT
+// 💚S : op_more 팝업
 var players = [];
 $(function () {
   function onYouTubeIframeAPIReady() {
-    // ?�상 ID 배열 (?�라?�드마다 ?�른 ?�상)
+    // 영상 ID 배열 (슬라이드마다 다른 영상)
     var videoIDs = ["bq3AVI8HgA0", "Hmy6Ako3j_4", "zg8Rogrmpns", "2HiPL3iCWSM"];
 
-    // �??�라?�드???�??YouTube ?�레?�어�??�성
+    // 각 슬라이드에 대해 YouTube 플레이어를 생성
     videoIDs.forEach(function (videoID, index) {
       players[index] = new YT.Player("video" + (index + 1), {
         height: "315",
         width: "100%",
-        videoId: videoID, // ?�튜�??�상 ID
+        videoId: videoID, // 유튜브 영상 ID
         playerVars: {
-          autoplay: 1, // ?�동 ?�생
-          controls: 1, // 컨트롤러 ?�시
-          rel: 0, // 관???�영???�시 ?�함
-          showinfo: 0, // ?�상 ?�보 ??보이�?
+          autoplay: 1, // 자동 재생
+          controls: 1, // 컨트롤러 표시
+          rel: 0, // 관련 동영상 표시 안함
+          showinfo: 0, // 영상 정보 안 보이게
           modestbranding: 1, // 브랜??최소??
         },
         events: {
@@ -156,7 +156,7 @@ $(function () {
         `;
 
     $wrap.after(html);
-    console.log(`op_more ?�성 ?�료`);
+    console.log(`op_more 작성 완료`);
 
     const $popup = $wrap.next(".popup_wrap.op_moree");
     $popup.fadeIn(300);
@@ -164,11 +164,11 @@ $(function () {
   });
 });
 
-// E : op_more ?�업
+// E : op_more 팝업
 
-// ?��?��?�� sv_sw.html??SCRIPT
-// ?��S : kngil ?�세??보기
-// ?��kngil_more ?�업
+// 📌📌📌 sv_sw.html의 SCRIPT
+// 💚S : kngil 자세히 보기
+// 🤍kngil_more 팝업
 $(function () {
   $('.btn_more[data-value="kngil_more"]').on("click", function () {
     const $this = $(this);
@@ -188,7 +188,7 @@ $(function () {
 
     //$this.after(html);
     $wrap.after(html);
-    console.log(`kngil_more ?�성 ?�료`);
+    console.log(`kngil_more 작성 완료`);
 
     //const $popup = $this.next(".popup_wrap.kngil_more");
     const $popup = $wrap.next(".popup_wrap.kngil_more");
@@ -198,7 +198,7 @@ $(function () {
   });
 });
 
-// ?��kngil_more ?�립�?
+// 🤍kngil_more 플립북
 $(function () {
   if (!$(".container").hasClass("sw")) return;
 
@@ -216,7 +216,7 @@ $(function () {
       const scale = 2.0;
       const v = page.getViewport({ scale });
 
-      // �??�이지 뷰포???�??(비율 계산??
+      // 첫 페이지 뷰포트 저장 (비율 계산용)
       if (!firstViewport) firstViewport = v;
 
       const c = document.createElement("canvas");
@@ -237,10 +237,10 @@ $(function () {
         1120
       );
       const aspectRatio = firstViewport.height / firstViewport.width;
-      const pageWidth = containerWidth / 2; // ?�쳐�????�이지?�까
+      const pageWidth = containerWidth / 2; // 펼쳐진 양 페이지니까
       const pageHeight = pageWidth * aspectRatio;
 
-      $flipbook.turn("size", pageWidth * 2, pageHeight); // ?�면 기�?
+      $flipbook.turn("size", pageWidth * 2, pageHeight); // 양면 기준
       $flipbook.css({
         width: pageWidth * 2,
         height: pageHeight,
@@ -281,9 +281,9 @@ $(function () {
     });
   }
 });
-// E : kngil ?�세??보기
+// E : kngil 자세히 보기
 
-// ?��S : cs_more ?�업
+// 💚S : cs_more 팝업
 $(function () {
   $('.btn_more[data-value="cs_more"]').on("click", function () {
     const $this = $(this);
@@ -319,7 +319,7 @@ $(function () {
         `;
 
       $wrap.after(html);
-      console.log(`cs_more ?�성 ?�료`);
+      console.log(`cs_more 작성 완료`);
 
       const $popup = $this
         .closest("section")
@@ -329,13 +329,13 @@ $(function () {
     } else {
       const popup = document.querySelector(".popup_wrap.cs_more");
       popup.style.display = "block";
-      console.log(`?��? ${value} ?�업??존재?�니??`);
+      console.log(`이미 ${value} 팝업이 존재합니다.`);
     }
   });
 });
-// E : cs_more ?�업
+// E : cs_more 팝업
 
-// ?��S : FAQ ?�코?�언
+// 💚S : FAQ 아코디언
 $(function () {
   if (!$(".container").hasClass("sw")) return;
 
@@ -352,7 +352,7 @@ $(function () {
     }
   });
 });
-// E : FAQ ?�코?�언
+// E : FAQ 아코디언
 
 // 카피버튼
 function btnCopy() {
@@ -373,7 +373,7 @@ function btnCopy() {
 
     // Add 'complete' class to button
     copyBtn.classList.add("complete");
-    btnSpan.textContent = "?�료";
+    btnSpan.textContent = "완료";
 
     // Remove 'complete' class after 2 seconds
     setTimeout(function () {
