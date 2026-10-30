@@ -154,6 +154,9 @@
     showStatus(TEXT.loading, false);
 
     document.documentElement.classList.add("service-detail-open");
+    // dialog는 닫힐 때 '열기 직전 포커스 요소'로 포커스를 되돌리므로, 클릭으로 포커스가 이동하지 않는
+    // 환경(Safari 마우스 클릭, 스크립트 클릭)에서도 트리거로 복귀하도록 먼저 포커스를 맞춘다.
+    link.focus({ preventScroll: true });
     dialog.showModal();
     link.setAttribute("aria-expanded", "true");
 
