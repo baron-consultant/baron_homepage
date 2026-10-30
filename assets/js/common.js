@@ -1,4 +1,5 @@
 import { ensureBaronSsoAuth } from "./baron-sso-auth.js?v=20260721-worker2";
+import "./header-login.js?v=20261030-1";
 
 // --window-inner-height: 실제 뷰포트 높이를 CSS 변수로 반영 (모바일 100vh 이슈 대응, kngil 레이아웃에서 사용)
 function updateWindowInnerHeight() {

@@ -21,6 +21,8 @@
   header .header_inner .header_login_menu{position:absolute;top:100%;left:50%;padding-top:12px;transform:translateX(-50%) translateY(4px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0.2s ease, transform 0.2s ease;z-index:20;}
   header .header_inner .header_login:hover .header_login_menu,
   header .header_inner .header_login:focus-within .header_login_menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+  header .header_inner .header_login.is-open .header_login_menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+  header .header_inner .header_login.is-dismissed .header_login_menu{opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(4px);}
   header .header_inner .header_login_menu::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:7px solid #ffffff;}
   header .header_inner .header_login_link{display:block;white-space:nowrap;background:#ffffff;color:#111111;font-size:13px;font-weight:700;padding:10px 22px;border:2px solid transparent;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.18);text-align:center;box-sizing:border-box;transition:background-color 0.15s ease, border-color 0.15s ease;}
   header .header_inner .header_login_link:hover{background:#ffcc00;border-color:#ffffff;}
@@ -56,10 +58,10 @@
         </div>
 
         <div class="header_login">
-          <button type="button" class="header_login_trigger" aria-label="LOGIN">
+          <button type="button" class="header_login_trigger" aria-label="LOGIN" aria-expanded="false" aria-controls="header-login-menu">
             <img src="/assets/img/ico_user.svg" alt="" />
           </button>
-          <div class="header_login_menu">
+          <div class="header_login_menu" id="header-login-menu">
             <a class="header_login_link" href="../en/br_future.html">LOGIN</a>
           </div>
         </div>
