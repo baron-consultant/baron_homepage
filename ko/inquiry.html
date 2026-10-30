@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon" />
+    <title>문의하기 | 바론컨설턴트</title>
+    <link rel="stylesheet" href="../assets/css/reset.css" />
+    <link rel="stylesheet" href="../assets/css/font.css" />
+    <link rel="stylesheet" href="../assets/css/lib/aos.min.css" />
+    <link rel="stylesheet" href="../assets/css/lib/lenis.min.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/common.css" />
+    <link rel="stylesheet" href="../assets/css/inquiry.css" />
+
+    <script src="../assets/js/lib/aos.min.js"></script>
+    <script src="../assets/js/lib/lenis.min.js"></script>
+    <script src="../assets/js/lib/jquery-3.6.1.min.js"></script>
+    <script src="../assets/js/lib/gsap.min.js"></script>
+    <script src="../assets/js/lib/scrolltrigger.min.js"></script>
+    <script src="../assets/js/lib/scrollToPlugin.min.js"></script>
+    <script type="module" src="../assets/js/common.js?v=20260623-4"></script>
+    <!-- S/W 문의 게시판: 디자인 목업(예시 데이터). API 연동 전까지 조회·등록·저장 기능 없음 -->
+    <script type="module" src="../assets/js/inquiry.js"></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header id="header"></header>
+      <main class="container inquiry-page" data-inquiry-ko="../ko/inquiry.html" data-inquiry-en="../en/inquiry.html">
+        <section class="inquiry-hero" aria-labelledby="inquiry-title">
+          <div class="inquiry-hero__copy">
+            <h1 id="inquiry-title">S/W 문의</h1>
+            <p>소프트웨어 관련 문의하기</p>
+          </div>
+        </section>
+
+        <div class="inquiry-workspace">
+          <div class="inquiry-tabs-shell">
+            <div class="inquiry-tabs" role="tablist" aria-label="문의할 소프트웨어">
+              <button type="button" role="tab" id="tab-egbim" aria-controls="inquiry-panel" aria-selected="true" data-service="egbim" aria-label="EG-BIM 문의">
+                <span class="inquiry-tab-description">BIM 모델</span>
+                <picture class="inquiry-tab-logo"><source media="(max-width: 600px)" srcset="./egbim/img/egbim_symbol.svg" width="49" height="25" /><img src="./egbim/img/egbim_k.svg" alt="EG-BIM" width="150" height="26" /></picture>
+              </button>
+              <button type="button" role="tab" id="tab-tova" aria-controls="inquiry-panel" aria-selected="false" tabindex="-1" data-service="tova" aria-label="TOVA 문의">
+                <span class="inquiry-tab-description">통합 교통 수요분석</span>
+                <span class="inquiry-tab-logo"><img src="./tova/img/tova_k.svg" alt="TOVA" width="104" height="26" /></span>
+              </button>
+              <button type="button" role="tab" id="tab-gaia" aria-controls="inquiry-panel" aria-selected="false" tabindex="-1" data-service="gaia" aria-label="GAIA 문의">
+                <span class="inquiry-tab-description">지반조사</span>
+                <span class="inquiry-tab-logo"><img src="./gaia/img/gaia_k.svg" alt="GAIA" width="82" height="33" /></span>
+              </button>
+            </div>
+          </div>
+        <section class="inquiry-board" id="inquiry-panel" role="tabpanel" aria-labelledby="tab-egbim">
+          <div class="inquiry-board__heading">
+            <h2>문의 내역</h2>
+            <a class="inquiry-remote" href="https://939.co.kr/saman/" target="_blank" rel="noopener noreferrer" aria-label="원격지원 (새 창)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8M12 17v4m-1-13 4 3-4 3" /></svg>
+              <span>원격지원</span>
+            </a>
+          </div>
+          <form class="inquiry-controls" role="search" id="inquiry-search">
+            <div class="inquiry-filters">
+              <fieldset class="inquiry-categories">
+                <legend>문의 구분</legend>
+                <label><input type="radio" name="category" value="all" checked /><span>전체</span></label>
+                <label><input type="radio" name="category" value="general" /><span>일반</span></label>
+                <label><input type="radio" name="category" value="improvement" /><span>개선</span></label>
+                <label><input type="radio" name="category" value="error" /><span>오류</span></label>
+              </fieldset>
+              <label class="inquiry-mine"><input type="checkbox" name="mine" /> 내가 작성한 글</label>
+            </div>
+            <div class="inquiry-search">
+              <label class="inquiry-sr-only" for="inquiry-keyword">제목 및 내용 검색</label>
+              <input type="search" id="inquiry-keyword" name="keyword" placeholder="제목 또는 내용 검색" autocomplete="off" />
+              <button type="submit" class="inquiry-search-button" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" /><path d="m15 15 6 6" /></svg></button>
+            </div>
+          </form>
+          <p class="inquiry-scroll-hint">좌우로 밀어 문의 목록을 확인하세요.</p>
+          <div class="inquiry-table-scroll" tabindex="0" role="region" aria-label="문의 목록. 작은 화면에서는 좌우로 스크롤할 수 있습니다.">
+            <table class="inquiry-table">
+              <caption class="inquiry-sr-only"><span data-service-name>EG-BIM</span> 문의 목록</caption>
+              <colgroup><col class="col-number" /><col class="col-category" /><col class="col-company" /><col class="col-team" /><col class="col-author" /><col /><col class="col-date" /><col class="col-status" /></colgroup>
+              <thead><tr><th scope="col">번호</th><th scope="col">구분</th><th scope="col">회사</th><th scope="col">부서</th><th scope="col">작성자</th><th scope="col">제목</th><th scope="col">등록일</th><th scope="col">상태</th></tr></thead>
+              <!-- Design fixtures only. Replace rendering in inquiry.js when connecting the API. -->
+              <tbody id="inquiry-rows"></tbody>
+            </table>
+          </div>
+          <p class="inquiry-sr-only" id="inquiry-results" role="status"></p>
+          <nav class="inquiry-pagination" aria-label="문의 목록 페이지" id="inquiry-pagination"></nav>
+          <div class="inquiry-board__bottom">
+            <p class="inquiry-preview-note">디자인 확인용 예시 게시물입니다.</p>
+            <button type="button" class="inquiry-button inquiry-write" id="inquiry-write"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 15 12-12 5 5L9 20l-6 1 1-6Zm10-10 5 5M4 15l5 5" /></svg>문의등록</button>
+          </div>
+        </section>
+        </div>
+      </main>
+      <footer id="footer"></footer>
+    </div>
+
+    <dialog class="inquiry-dialog" id="inquiry-detail" aria-labelledby="inquiry-detail-title" data-lenis-prevent>
+      <div class="inquiry-dialog__heading"><h2 id="inquiry-detail-title">문의 내용</h2><button type="button" class="inquiry-close" data-close aria-label="문의 내용 닫기">×</button></div>
+      <p class="inquiry-detail__meta" id="inquiry-detail-meta"></p>
+      <div class="inquiry-detail__body" id="inquiry-detail-body"></div>
+      <p class="inquiry-preview-note">디자인 확인용 예시 게시물입니다.</p>
+      <div class="inquiry-dialog__actions"><button type="button" class="inquiry-button" data-close>목록으로</button></div>
+    </dialog>
+
+    <dialog class="inquiry-dialog inquiry-dialog--write" id="inquiry-compose" aria-labelledby="inquiry-compose-title" data-lenis-prevent>
+      <div class="inquiry-dialog__heading"><h2 id="inquiry-compose-title">문의등록</h2><button type="button" class="inquiry-close" data-close aria-label="문의등록 닫기">×</button></div>
+      <p class="inquiry-preview-note">디자인 미리보기 화면입니다. 입력한 내용은 저장되거나 전송되지 않습니다.</p>
+      <form id="inquiry-compose-form">
+        <div class="inquiry-form-grid">
+          <label>서비스<select name="service" id="inquiry-compose-service"><option value="egbim">EG-BIM</option><option value="tova">TOVA</option><option value="gaia">GAIA</option></select></label>
+          <label>문의 구분<select name="category"><option>일반문의</option><option>개선문의</option><option>오류문의</option></select></label>
+          <label>회사<input type="text" name="company" placeholder="회사명을 입력하세요" /></label>
+          <label>부서<input type="text" name="team" placeholder="부서명을 입력하세요" /></label>
+          <label>작성자<input type="text" name="author" placeholder="이름을 입력하세요" /></label>
+          <label>이메일<input type="email" name="email" placeholder="이메일을 입력하세요" /></label>
+        </div>
+        <label class="inquiry-form-wide">제목<input type="text" name="subject" placeholder="문의 제목을 입력하세요" /></label>
+        <label class="inquiry-form-wide">내용<textarea name="content" rows="6" placeholder="문의 내용을 입력하세요"></textarea></label>
+        <label class="inquiry-form-wide">첨부파일<input type="file" name="attachment" multiple /></label>
+        <p class="inquiry-form-feedback" id="inquiry-compose-feedback" role="status"></p>
+        <div class="inquiry-dialog__actions"><button type="button" class="inquiry-button inquiry-button--light" data-close>취소</button><button type="submit" class="inquiry-button">등록</button></div>
+      </form>
+    </dialog>
+  </body>
+</html>
