@@ -11,8 +11,15 @@
   const EMBED_STYLE_ID = "service-detail-embed-style";
   // 헤더를 숨기므로 제품 페이지의 헤더 높이 여백(.container padding-top: 92px)도 팝업 안에서만 없앤다.
   const EMBED_CSS =
-    "#header, #footer, .map_list, .btn_top, .floating_guide_only, .floating-kngil, .floating-menu, .floating-top-btn, #pop_notice { display: none !important; }" +
-    " .container { padding-top: 0 !important; }";
+    "#header, #footer, .map_list, .btn_top, .floating_guide_only, .floating-kngil, .floating-menu, .wrap > .floating-top-btn, #pop_notice { display: none !important; }" +
+    " .container { padding-top: 0 !important; }" +
+    // 공통 layout.css의 header 흰 배경·구분선·hover 흰 배경이 제품 헤더에 걸리지 않게 한다(★최종처럼 투명 유지).
+    " header.service-inquiry-header, header.egbim-original-header, .wrap > header.header," +
+    " header.service-inquiry-header:hover, header.egbim-original-header:hover, .wrap > header.header:hover" +
+    " { background-color: transparent !important; border-bottom: 0 !important; }";
+  // 팝업 안에서만 붙이는 제품 전용 헤더·사이트맵(★최종). 제품 폴더의 popup/ 아래 header.html·shell.css·shell.js를 쓴다.
+  const SHELL_ID = "service-detail-shell";
+  const SHELL_PATH = /^\/(ko|en)\/(gaia|tova|egbim|kngil)\//;
   const NAMES = { egbim: "EG-BIM", tova: "TOVA", gaia: "GAIA", kngil: "KNGIL" };
   const TEXT =
     document.documentElement.lang === "en"
@@ -94,6 +101,32 @@
     showStatus(TEXT.failed, true);
   }
 
+  function injectShell(doc) {
+    const match = doc.location.pathname.match(SHELL_PATH);
+    if (!match || doc.getElementById(SHELL_ID)) return;
+    const base = `/${match[1]}/${match[2]}/popup/`;
+    fetch(`${base}header.html`)
+      .then((response) => (response.ok ? response.text() : ""))
+      .then((html) => {
+        if (!html || doc.getElementById(SHELL_ID) || frame.contentDocument !== doc) return;
+        ["/assets/css/service-inquiry.css", `${base}shell.css`].forEach((href, index) => {
+          const link = Object.assign(doc.createElement("link"), { rel: "stylesheet", href });
+          if (index === 1) link.id = SHELL_ID;
+          doc.head.append(link);
+        });
+        // KNGIL 헤더는 원본처럼 .wrap 안에, 나머지는 body 맨 앞에 둔다.
+        const host = match[2] === "kngil" ? doc.querySelector(".wrap") || doc.body : doc.body;
+        host.insertAdjacentHTML("afterbegin", html);
+        doc.body.append(Object.assign(doc.createElement("script"), { src: `${base}shell.js` }));
+      })
+      .catch(() => {});
+  }
+
+  // 제품 헤더에서 Esc로 닫기를 요청하면(사이트맵이 닫혀 있을 때) 팝업을 닫는다.
+  window.addEventListener("message", (event) => {
+    if (event.origin === window.location.origin && event.data?.type === "service-detail-close" && dialog?.open) dialog.close();
+  });
+
   function onFrameLoad() {
     if (!dialog.open || frame.getAttribute("src") === "about:blank") return;
 
@@ -128,9 +161,12 @@
       }
     });
 
+    injectShell(doc);
+
     // iframe 안의 키 입력은 부모 dialog로 전달되지 않으므로 Esc를 직접 받아 닫는다.
+    // 제품 헤더가 Esc를 먼저 처리했다면(사이트맵 닫기 등) 그쪽 동작에 맡긴다.
     frame.contentWindow.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && dialog.open) dialog.close();
+      if (event.key === "Escape" && dialog.open && !event.defaultPrevented) dialog.close();
     });
 
     clearTimeout(loadTimer);

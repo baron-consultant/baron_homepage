@@ -28,68 +28,68 @@ document.addEventListener('DOMContentLoaded', (event)=> {
     observer.observe(featuresAni);
 })
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    // 화면 너비가 993px 이상일 때만 실행
-    if (window.matchMedia("(min-width: 993px)").matches) {
-        gsap.set(".js__height_item", {transform: "translateY(70%) scale(0.5)", bottom: "50%"});
+document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('.js__height_trigger');
+    if (!section) return;
 
-        const bottomToCenter = gsap.timeline();
-        let guideSampleCalled = false;
+    gsap.matchMedia().add('(min-width: 993px)', () => {
+        const item = section.querySelector('.js__height_item');
+        const button = section.querySelector('.js__height_btn');
+        const mouseMark = document.querySelector('.js__mouse_mark');
+        const menuTexts = item.querySelectorAll('.menu_text');
+        let expanded;
+        let sampled = false;
 
-        // ScrollTrigger 설정
-        ScrollTrigger.create({
-            animation: bottomToCenter,
-            trigger: ".js__height_trigger",
-            start: "top top",
-            end: "+=1000 top",
-            pin: true,
-            duration: 0.5,
-            onUpdate: (self) => {
-                const item = document.querySelector(".js__height_item");
-                const btn = document.querySelector(".js__height_btn");
-                const mouseMark = document.querySelector(".js__mouse_mark");
-
-                if (self.progress > 0.5) {
-                    if (!guideSampleCalled) {
-                        guideSample();
-                        guideSampleCalled = true;
-                    }
-                    item.classList.add("full");
-                    item.style.transition = '0.5s';
-                    item.style.transform = 'translateY(50%) scale(1)';
-                    mouseMark.style.opacity = '0';
-                    btn.classList.remove("on");
-                    btn.style.transition = '0.5s';
-                    btn.style.left = 'calc(11% - 60px)';
-                    btn.style.opacity = '1';
-
-                    const menuTexts = item.querySelectorAll(".menu_text");
-                    menuTexts.forEach(menuText => {
-                        menuText.style.display = '';
-                    });
-                } else {
-                    item.style.backgroundImage = 'url(img/value_screen1.png)';
-                    item.classList.remove("full");
-                    item.style.transition = '0.5s';
-                    item.style.transform = 'translateY(70%) scale(0.5)';
-                    mouseMark.style.opacity = '1';
-                    btn.classList.remove("on");
-                    btn.style.transition = '0.5s';
-                    btn.style.left = 'calc(50% - 60px)';
-                    btn.style.opacity = '0';
-
-                    const menuTexts = item.querySelectorAll(".menu_text");
-                    menuTexts.forEach(menuText => {
-                        menuText.style.display = 'none';
-                    });
-                }
-            },
-            onLeave: () => {
-                document.querySelector(".js__height_item").style.backgroundImage = 'url(img/value_screen1.png)';
+        function setExpanded(next) {
+            // Only change modes at the boundary, so scrolling does not reset the guide button.
+            if (expanded === next) return;
+            expanded = next;
+            item.classList.toggle('full', next);
+            item.style.backgroundImage = 'url(img/value_screen1.png)';
+            button.classList.remove('on');
+            gsap.set(button, {
+                left: next ? 'calc(11% - 60px)' : 'calc(50% - 60px)',
+                opacity: next ? 1 : 0,
+                pointerEvents: next ? '' : 'none'
+            });
+            if (mouseMark) gsap.set(mouseMark, { opacity: next ? 0 : 1 });
+            menuTexts.forEach(text => { text.style.display = next ? '' : 'none'; });
+            if (next && !sampled) {
+                guideSample();
+                sampled = true;
             }
+            if (!next) item.classList.remove('show_ani');
+        }
+
+        gsap.set(item, { bottom: '50%', transition: 'none' });
+        setExpanded(false);
+        const timeline = gsap.timeline({ paused: true });
+        // 10% introduction, 50% scroll-driven enlargement, 40% at full size for reading.
+        timeline.fromTo(item, { yPercent: 70, scale: 0.5 }, {
+            yPercent: 50, scale: 1, duration: 0.5, ease: 'none'
+        }, 0.1).to({}, { duration: 0.4 });
+        timeline.eventCallback('onUpdate', () => setExpanded(timeline.progress() >= 0.6 - 0.0001));
+
+        ScrollTrigger.create({
+            animation: timeline,
+            trigger: section,
+            start: 'top top',
+            // Keep enough wheel travel even in a short iframe; recalculate after resizing.
+            end: () => '+=' + Math.max(1900, Math.round(window.innerHeight * 2.4)),
+            pin: true,
+            scrub: 0.25,
+            invalidateOnRefresh: true
         });
-    }
+
+        return () => {
+            item.classList.remove('full', 'show_ani');
+            item.style.removeProperty('background-image');
+            button.classList.remove('on');
+            menuTexts.forEach(text => text.style.removeProperty('display'));
+        };
+    });
 });
+
 
 // 고정 슬라이드
 document.addEventListener('DOMContentLoaded', function() {
@@ -124,8 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function guideSample() {
     console.log('애니메이션 시작');
-    window.addEventListener('wheel', preventScroll, { passive: false });
-    window.addEventListener('touchmove', preventScroll, { passive: false });
 
     const guide = document.querySelector('.js__height_item');
     guide.classList.add('show_ani');
@@ -147,8 +145,6 @@ function preventScroll(event) {
 
 function guideSample() {
     console.log('애니메이션 시작');
-    window.addEventListener('wheel', preventScroll, { passive: false });
-    window.addEventListener('touchmove', preventScroll, { passive: false });
 
     const guide = document.querySelector ('.js__height_item');
     guide.classList.add('show_ani');

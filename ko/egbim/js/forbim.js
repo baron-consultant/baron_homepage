@@ -108,7 +108,7 @@ window.addEventListener('resize', function() {
     if (window.innerWidth <= 992) {
         checkAndToggleDisplay();
     } else {
-        document.querySelector('div.left.vc').style.display = 'none';
+        const panel=document.querySelector('div.left.vc');if(panel)panel.style.display='none';
     }
 });
 
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.innerWidth <= 992) {
         checkAndToggleDisplay();
     } else {
-        document.querySelector('div.left.vc').style.display = 'none';
+        const panel=document.querySelector('div.left.vc');if(panel)panel.style.display='none';
     }
 });
 
@@ -124,20 +124,20 @@ window.addEventListener('wheel', function(event) {
     if (window.innerWidth <= 992) {
         checkAndToggleDisplay(event);
     } else {
-        document.querySelector('div.left.vc').style.display = 'none';
+        const panel=document.querySelector('div.left.vc');if(panel)panel.style.display='none';
     }
 });
 
 function checkAndToggleDisplay(event) {
     const secondChild = document.querySelector('.process .left span.js__fixLeft_tit:nth-of-type(2)');
-    console.log(secondChild);
+    
 
     const leftVcDiv = document.querySelector('div.left.vc');
     if (!leftVcDiv) return;
 
     if (secondChild && secondChild.classList.contains('on')) {
         // 마우스 휠 내리면 opacity를 0으로, 올리면 1로 설정
-        if (event.deltaY > 0) {
+        if (event && event.deltaY > 0) {
             leftVcDiv.style.opacity = 0;  // 휠 내리면 opacity = 0
         } else if (event.deltaY < 0) {
             leftVcDiv.style.opacity = 1;  // 휠 올리면 opacity = 1

@@ -1,0 +1,253 @@
+/* 팝업(자세히 보기) 전용: service-detail.js가 iframe 안에서만 불러온다. ★최종 원본에서 이식. */
+
+header {width: 100%; height: 100px; padding: 0 48px 0 32px; display: flex; flex-wrap: nowrap; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; z-index: 1000; background: linear-gradient(180deg, #00000033, transparent);}
+header h1 {flex: 1;}
+header h1 a {display: block; width: 64px; height: 64px; background: url("../img/original-shell/logo_gaia.jpg") center no-repeat; background-size: contain;}
+header .menu_my, header .menu_ham, header .menu_admin {padding: 10px; position: relative;}
+header .menu_my_list { display: flex; background: #fff; border-radius: 4px; box-sizing: border-box; border: 1px solid #131313; position: absolute; left: calc(25% - 60px); top: 50px; padding: 4px; }
+header .menu_my_list li { width: 68px; height: 32px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer;} 
+header .menu_my_list li:hover { background: var( --color-accent); color: #fff;}
+header .menu_my_list li a {width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;}
+header .menu_my_list::before { content:""; background: url("../img/original-shell/tri_img.svg") no-repeat; background-size: cover; width: 12px; height: 10px; position: absolute; top: -9px; left: calc(50% - 6px);}
+header .menu_ham { cursor: pointer;}
+header .menu_ham a {display: block; width: 32px; height: 32px; position: relative;}
+header .menu_ham a div {width: 24px; height: 2px; position: absolute; left: 4px; background-color: #fff; transition: 0.2s;}
+header .menu_ham a div:nth-child(1) {top: 7px;}
+header .menu_ham a div:nth-child(2) {top: 15px;}
+header .menu_ham a div:nth-child(3) {bottom: 7px;}
+
+
+.floating_menu {position: fixed; top: 120px; right: 24px; z-index: 20;}
+.floating_menu ul {width: 100px; height: 120px; display: flex; flex-direction: column; gap: 0px; background-color: #000; border-radius: 20px; position: relative; overflow: hidden; padding: 5px; font-size: 16px; font-weight: 700; color: #fff; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;}
+.floating_menu ul::after {content: ""; position: absolute; inset: 0; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; border-radius: inherit; padding:  2px; background: linear-gradient(180deg, #716557 0%, #EEE6DD 50%, #372E23 100%);}
+.floating_menu li {width: 100%; height: 100%; position: relative; z-index: 1;}
+.floating_menu li::after {position: absolute; content: ""; width: 100%; height: 150%; top: 0; left: 0; background-size: contain; background-repeat: no-repeat; z-index: -1;}
+.floating_menu .floating_faq::after {background-image: url("../img/original-shell/floating_faq_bg.svg");}
+.floating_menu .floating_buy::after {background-image: url("../img/original-shell/floating_buy_bg.svg");}
+.floating_menu li a {width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;}
+.floating_menu li:hover {color: var(--color-accent);}
+
+
+
+
+.popup_sitemap {position: fixed; width: 100%; height: 100vh; top: 0; right: 0; display: none; z-index: 1000; overflow: hidden; background-color: #111;}
+.popup_sitemap header .menu_my { display: none; }
+.popup_sitemap header .btn_map_close {background: none; border: none; z-index: 1;}
+.popup_sitemap header .btn_map_close a div:nth-child(1) { animation: btn-close-bar1 0.5s ease both; } 
+.popup_sitemap header .btn_map_close a div:nth-child(2) { animation: btn-close-bar2 0.5s ease both; } 
+.popup_sitemap header .btn_map_close a div:nth-child(3) { animation: btn-close-bar3 0.5s ease both; } 
+@keyframes btn-close-bar1 { 
+    from { top: 7px; } 
+    to { top: 15px; transform: rotate(45deg); } 
+}
+@keyframes btn-close-bar2 { 
+    from { opacity: 1; } 
+    to { opacity: 0; } 
+}
+@keyframes btn-close-bar3 { 
+    from { bottom: 7px; } 
+    to { bottom: 15px; transform: rotate(-45deg); } 
+}
+.sitemap {width: 100%; height: 100%; background-color: #111; display: flex; justify-content: center; overflow: hidden; width: 100%; position: relative; gap: 16px; padding: 20px; pointer-events: none; animation: enableHover 0.8s forwards; animation-delay: 0.3s;}
+@keyframes enableHover {
+    to {pointer-events: auto;}
+}
+.sitemap div[class*="bg_line"] { position: relative; width: 1px; height: 100%; background-color: #fff; animation-duration: 0.8s; animation-timing-function: ease-out; animation-fill-mode: both; } 
+.sitemap .bg_line1, .sitemap .bg_line3  {animation-name: slideDown;} 
+.sitemap .bg_line2 {animation-name: slideup;} 
+.sitemap .bg_line3 {animation-name: slideDown;} 
+@keyframes slideDown { 
+    0% { top: -1000px; opacity: 80%; } 
+    100% { top: 0; opacity: 20%; } 
+}
+@keyframes slideup { 
+    0% { bottom: -1000px; opacity: 80%; } 
+    100% { bottom: 0; opacity: 20%; } 
+}
+.sitemap div[class*="menu"] {background-size: cover; background-position: center; position: relative; overflow: hidden; cursor: pointer; transition: all 0.5s; width: calc(100% / 4); z-index: 1; } 
+.sitemap div[class*="menu"]::before, 
+.sitemap div[class*="menu"]:after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; } 
+.sitemap div[class*="menu"]::before { background-color: #00000077; transition:0.5s ease; z-index: -1;} 
+.sitemap div[class*="menu"]:after { background-color: #111; z-index: 1; animation: slideRight 0.5s ease-in forwards; animation-delay: 0.1s;} 
+@keyframes slideRight { 
+    0% { transform: translateX(0); } 
+    100% { transform: translateX(100%); } 
+}
+.sitemap div[class*="menu"] a {display: flex; flex-direction: column; justify-content: center; padding-left: 40px; padding-top: 20px; width: 100%; height: 100%; font-size: 40px; font-weight: 600; color: #fff; white-space: nowrap; transform-origin: left;} 
+.sitemap div[class*="menu"] a span {font-size: 60px; font-weight: 900; position: relative; filter: drop-shadow(0 2px 4px #00000055);} 
+.sitemap div[class*="menu"] a .sub_text {font-size: 16px; font-weight: 400; line-height: 24px; height: 100px; filter: drop-shadow(0 1px 4px #000);} 
+.sitemap div[class*="menu"] a em { font-weight: 700; color: var(--color-accent); } 
+.sitemap div[class*="menu"] a span:after { position: absolute; top:-100px; left: 0px; width: 100%; height: 100%; opacity: 0.2; font-weight: 900; line-height: 80%; font-size: 80px; display: none;}
+.sitemap .menu1 a span {display: block; width: 240px; height: 200px; position: relative; background-image: url("../img/original-shell/gaia_w.svg"); background-repeat: no-repeat; background-position: center;} 
+.sitemap .menu1 a span::after { content: "Value of"; top: 10px !important; left: -120px !important; } 
+.sitemap .menu2 a span:after { content: "Key \A Features"; white-space: pre; } 
+.sitemap .menu3 a span:after { content: "Exploration \A Results"; white-space: pre; } 
+.sitemap .menu4 a span:after { content: "further \A GAIA"; white-space: pre; } 
+.sitemap .menu1 { background-image: url("../img/original-shell/sitemap_menu01.webp");} 
+.sitemap .menu2 { background-image: url("../img/original-shell/sitemap_menu02.webp");} 
+.sitemap .menu3 { background-image: url("../img/original-shell/sitemap_menu03.webp");} 
+.sitemap .menu4 { background-image: url("../img/original-shell/sitemap_menu04.webp");}
+.sitemap div[class*="menu"]:hover { width: 60%;} 
+.sitemap div[class*="menu"]:hover::before { display: none;} 
+.sitemap div[class*="menu"]:hover a {opacity: 1; transform: scale(1.3); } 
+.sitemap div[class*="menu"]:hover a span::after {display: initial;}
+.sitemap .menu1:hover a span {padding-left:0; transform: translateX(140px);}
+/* Responsive rules retained from the supplied service project. */
+@media (max-width: 100rem){
+.sitemap div[class*="menu"] a{
+    padding-left: 1.125rem;
+    font-size: 3rem;
+  }
+.sitemap div[class*="menu"] a span:after{
+    font-size: 3.75rem;
+    top: -5rem;
+  }
+}
+@media (max-width: 87.5rem){
+.sitemap div[class*="menu"] a{
+    font-size: 2.625rem;
+  }
+.sitemap div[class*="menu"] a .sub_text{
+    line-height: 140% !important;
+  }
+.sitemap div[class*="menu"] a .sub_text br.brk{
+    display: initial;
+  }
+.sitemap .menu1 a span{
+    width: 12.5rem;
+  }
+}
+@media (max-width: 75rem){
+header{
+    height: 3rem;
+    padding: 0 .5rem 0 1rem;
+  }
+header h1 a{
+    height: 2.375rem;
+    background-position: left center;
+  }
+header .menu_my,
+  header .menu_ham,
+  header .menu_admin{
+    padding: .375rem;
+  }
+header .menu_my_list{
+    left: initial;
+    right: 0;
+  }
+header .menu_my_list::before{
+    left: initial;
+    right: .9375rem;
+  }
+.sitemap{
+    flex-direction: column;
+    padding: 0;
+  }
+.sitemap div[class*="bg_line"]{
+    display: none;
+  }
+.sitemap div[class*="menu"] a{
+    padding: 0;
+    text-align: center;
+  }
+.sitemap div[class*="menu"]{
+    width: 100%;
+    height: 100%;
+  }
+.sitemap div[class*="menu"] a span{
+    font-size: 2.375rem;
+  }
+.sitemap div[class*="menu"] a span:after{
+    font-size: 3.75rem;
+    top: -1.25rem;
+    left: 1.25rem;
+    text-align: left;
+    opacity: 0.1;
+    display: initial;
+  }
+.sitemap .menu1 a span{
+    width: 100%;
+    height: 3.5rem;
+    background-size: 7.1875rem;
+  }
+.sitemap div[class*="menu"] a .sub_text{
+    display: none;
+  }
+.sitemap div[class*="menu"]:hover{
+    width: 100%;
+  }
+.sitemap div[class*="menu"]:hover a{
+    opacity: 1;
+    transform: scale(1);
+  }
+.sitemap .menu1:hover a span{
+    transform: initial;
+  }
+}
+@media (max-width: 48rem){
+.sitemap{
+    gap: .5rem;
+  }
+.sitemap div[class*="menu"] a span:after{
+    font-size: 2.8125rem;
+    line-height: 104%;
+    bottom: 1.25rem;
+    left: .625rem;
+    top: auto !important;
+  }
+}
+@media (max-width: 36rem){
+header .language{
+    padding-right: 0;
+  }
+.popup_sitemap header h1{
+    visibility: hidden;
+  }
+.sitemap div[class*="menu"] a span{
+    font-size: 1.75rem;
+    line-height: 120%;
+  }
+.sitemap div[class*="menu"] a span:after{
+    display: none;
+  }
+.sitemap .menu1 a span{
+    background-size: 5.4375rem;
+  }
+}
+
+/* Iframe integration only. The header and four panels above are NAS originals. */
+.service-original-header {z-index:10000}
+.popup_sitemap {z-index:10001;height:100dvh;overflow-y:auto;overscroll-behavior:contain}
+.popup_sitemap[hidden] {display:none!important}
+.popup_sitemap:not([hidden]) {display:block}
+html.service-sitemap-open {overflow-y:hidden!important}
+.service-original-header .menu_my {cursor:pointer}
+.service-original-header a:focus-visible,.service-original-header .menu_my:focus-visible,.popup_sitemap a:focus-visible {outline:2px solid #ffc600;outline-offset:3px}
+body:has(.service-original-header) .container {padding-top:0!important}
+@media(max-width:1200px){
+  .popup_sitemap .sitemap {min-height:600px;padding-top:48px}
+  .popup_sitemap header h1 {visibility:visible}
+  .popup_sitemap .floating_menu {top:64px;right:16px}
+  .popup_sitemap .floating_menu li {width:64px;height:36px}
+  .popup_sitemap .floating_menu li a {font-size:12px}
+  .popup_sitemap .floating_menu ul {width:64px;height:auto}
+}
+@media(max-height:760px){.service-original-header,.popup_sitemap header {padding-right:52px}}
+@media(prefers-reduced-motion:reduce){
+  .popup_sitemap .sitemap {animation:none;pointer-events:auto}
+  .popup_sitemap .sitemap div[class*="menu"]::after {display:none}
+}
+
+/* Preserve the original panels while accommodating English navigation labels. */
+.sitemap div[class*="menu"] a{white-space:normal;padding-left:24px;padding-right:16px}
+.sitemap div[class*="menu"] a span{font-size:clamp(20px,1.9vw,40px);line-height:1.15;word-break:normal;overflow-wrap:normal}
+.sitemap div[class*="menu"] a .sub_text{font-size:14px;line-height:1.5;margin-top:16px;height:auto}
+.sitemap .menu1 a span{max-width:100%}
+.sitemap div[class*="menu"]:hover a{transform:scale(1.08)}
+.sitemap div[class*="menu"] a .sub_text,.sitemap div[class*="menu"] a em{word-break:normal;overflow-wrap:normal}
+footer.service-original-footer .address{word-break:normal;overflow-wrap:break-word}
+@media(max-width:1200px){
+ .sitemap div[class*="menu"] a{padding:0 16px}
+ .sitemap div[class*="menu"] a span{font-size:26px}
+ .sitemap div[class*="menu"]:hover a{transform:none}
+}
