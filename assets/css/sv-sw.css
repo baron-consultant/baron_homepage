@@ -1,0 +1,57 @@
+/* --------------------------------- */
+/* 패키지 S/W 통합 페이지 (ko/en sv_sw.html) */
+/* --------------------------------- */
+/* '자세히 보기'는 링크(a)로 작성되므로 기존 button.btn_more(common.css, sevice.css)와 같은 모양을 적용한다. */
+.sv.sw a.btn_more {
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 8px 0;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  letter-spacing: -0.06em;
+  width: max-content;
+  margin-top: 24px;
+  color: inherit;
+}
+.sv.sw a.btn_more::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-image: url(../img/ico_more.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-left: 6px;
+  translate: 0 2px;
+}
+.sv.sw a.btn_more:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.sv.sw a.btn_more:hover::after {
+  background-image: url(../img/ico_more_hover.svg);
+}
+
+@media all and (max-width: 1400px) {
+  .sv.sw a.btn_more::after {
+    min-width: 12px;
+    width: 3.33333vw;
+    max-width: 18px;
+    min-height: 12px;
+    height: 3.33333vw;
+    max-height: 18px;
+    vertical-align: baseline;
+  }
+  .sv.sw section:not(.intro) a.btn_more {
+    margin-top: 0;
+    font-size: clamp(12px, 3.3333vw, 22px);
+  }
+  .sv.sw section.right > div:not(.objs_wrap) a.btn_more {
+    margin: 24px 0 0 auto;
+  }
+  .sv.sw .tova_links a.btn_more {
+    margin-top: 0;
+  }
+}

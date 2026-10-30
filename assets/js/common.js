@@ -1,4 +1,5 @@
 import { ensureBaronSsoAuth } from "./baron-sso-auth.js?v=20260721-worker2";
+import "./header-login.js?v=20261030-1";
 
 // --window-inner-height: 실제 뷰포트 높이를 CSS 변수로 반영 (모바일 100vh 이슈 대응, kngil 레이아웃에서 사용)
 function updateWindowInnerHeight() {
@@ -75,14 +76,14 @@ const authResult = await ensureBaronSsoAuth(
 );
 
 const isAuthenticated = Boolean(authResult?.session);
-const isAnonymousPublicPage = Boolean(isPublicInfoPage && !isAuthenticated);
 
 document.documentElement.dataset.baronAuthState = isAuthenticated ? 'authenticated' : 'anonymous';
 
 // ── AJAX 관련 SCRIPT
 $(function () {
-  const includeVersion = '20260623-3';
-  const navIncludeFile = isAnonymousPublicPage ? 'nav-public.html' : 'nav.html';
+  const includeVersion = '20261030-1';
+  // 메뉴는 로그인 여부와 관계없이 동일하게 노출한다(접근 권한은 Worker 인증이 처리).
+  const navIncludeFile = 'nav.html';
   const includeBase = `${rootPrefix}/_include`;
 
   $.ajaxSetup({ cache: false });
@@ -244,28 +245,6 @@ $(function () {
     });
   }
 
-  function trimPublicNav(root) {
-    if (!isAnonymousPublicPage || !root) {
-      return;
-    }
-
-    const allowedLabels = ['패키지 S/W', '서비스 S/W', '빅룸', '홍보센터'];
-    const topLevels = root.querySelectorAll('ol > li.depth1');
-    topLevels.forEach((item) => {
-      const label = item.querySelector('span')?.textContent.replace(/\s+/g, ' ').trim() || '';
-      const shouldKeep = allowedLabels.some((allowedLabel) => label.includes(allowedLabel));
-
-      if (!shouldKeep) {
-        // li는 유지하고 링크만 비워 sitemap 팝업의 :nth-child 기반 3depth 스타일 위치를 보존한다.
-        item.classList.add('menu_hidden');
-        const depth2 = item.querySelector(':scope > ul.depth2');
-        if (depth2) {
-          depth2.innerHTML = '';
-        }
-      }
-    });
-  }
-
   function configureHeaderActions(root) {
     if (!root) {
       return;
@@ -303,7 +282,6 @@ $(function () {
     if (!$('.container').hasClass('recruit')) {
       loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '.popup_wrap.sitemap .popup_contents_wrap nav', function () {
         normalizeSiteLinks(document.querySelector('.popup_wrap.sitemap .popup_contents_wrap nav'));
-        trimPublicNav(document.querySelector('.popup_wrap.sitemap .popup_contents_wrap nav'));
         mobileMenu();
       });
     } else {
@@ -320,7 +298,6 @@ $(function () {
         normalizeSiteLinks(document.querySelector('#header .corp .nav'));
         connectNavToMapList();
         initPackageSWTab();
-        trimPublicNav(document.querySelector('#header .corp .nav'));
       });
       configureHeaderActions(document.querySelector('#header'));
       loadSitemapNav();
@@ -348,7 +325,6 @@ $(function () {
     normalizeSiteLinks(document.querySelector('#footer'));
     loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '#footer .nav', function () {
       normalizeSiteLinks(document.querySelector('#footer .nav'));
-      trimPublicNav(document.querySelector('#footer .nav'));
     });
   });
 });
