@@ -44,4 +44,26 @@ INTERNAL_ONLY_PREFIXES = "/protected/"
 
 [[r2_buckets]]
 binding = "SITE_BUCKET"
+bucket_name = "baron-hompage-test"
+
+[env.test]
+workers_dev = false
+routes = [{ pattern = "test.baroncs.co.kr/*", zone_name = "baroncs.co.kr" }]
+
+[env.test.vars]
+AUTH_REDIRECT_URI = "https://test.baroncs.co.kr/auth/callback"
+AUTH_POST_LOGOUT_REDIRECT_URI = "https://test.baroncs.co.kr/"
+AUTH_SCOPE = "openid tenants profile email"
+ALLOWED_TENANT_IDS = "038326b6-954a-48a7-a85f-efd83f62b82a,9951229e-eea5-4376-96f4-78989bc3a506"
+TENANT_CLAIMS = "joined_tenants,tenant_id,tenants"
+SESSION_COOKIE_NAME = "baron_worker_session_test"
+OAUTH_COOKIE_NAME = "baron_worker_oauth_test"
+SESSION_TTL_SECONDS = "3600"
+PUBLIC_EXACT_PATHS = "/,/ko/index.html,/en/index.html,/ko/sw-inquiry.html,/en/sw-inquiry.html,/ko/inquiry.html,/en/inquiry.html"
+PUBLIC_PREFIXES = "/ko/br_,/en/br_,/ko/dt_,/en/dt_,/ko/egbim/,/ko/tova/,/ko/gaia/,/en/egbim/,/en/tova/,/en/gaia/,/ko/kngil/,/en/kngil/,/ko/pr_,/en/pr_"
+PROTECTED_PREFIXES = "/ko/sv_,/en/sv_,/ko/dx,/en/dx,/_include/"
+INTERNAL_ONLY_PREFIXES = "/protected/"
+
+[[env.test.r2_buckets]]
+binding = "SITE_BUCKET"
 bucket_name = "baron-hompage"

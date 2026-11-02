@@ -1,17 +1,23 @@
 # BARON Cloudflare Worker
 
-이 폴더는 Cloudflare Worker가 R2 버킷 `baron-hompage`의 정적 파일을 브라우저에 서빙하기 위한 최소 구성이다.
+이 폴더는 운영 Worker와 테스트 Worker를 분리해 각각의 R2 버킷 정적 파일을 서빙한다.
 
 ## 포함 파일
 
-- `wrangler.toml`: Worker 이름과 R2 바인딩 설정
+- `wrangler.toml`: 운영 및 테스트 Worker 이름, 도메인, R2 바인딩 설정
 - `src/index.js`: `/` 요청을 `index.html`로 매핑하고, 요청 경로에 해당하는 R2 객체를 서빙하는 엔트리
 
 ## 자동 배포
 
 - GitHub Actions 워크플로: `.github/workflows/deploy-worker.yml`
-- `main` 브랜치에서 `cloudflare-worker/**`가 변경되면 Worker를 자동 배포한다.
+- `main` 브랜치에서 `cloudflare-worker/**`가 변경되면 운영 Worker와 테스트 Worker를 각각 자동 배포한다.
 - 필요 GitHub Secrets: `CF_API_TOKEN`, `CF_R2_ACCOUNT_ID`
+
+버킷과 도메인은 다음처럼 분리한다.
+
+- 운영 `baron-auth-gateway` → `baroncs.co.kr` → `baron-hompage-test`
+- 테스트 `baron-auth-gateway-test` → `test.baroncs.co.kr` → `baron-hompage`
+- 사이트 파일 push는 `.github/workflows/deploy-r2.yml`에서 테스트 버킷 `baron-hompage`만 갱신한다.
 # BARON Cloudflare Worker Scaffold
 
 이 폴더는 `cloudflare-worker-r2-auth-task.md`의 1차 구현 골격이다.
@@ -46,6 +52,8 @@
 - `AUTH_TOKEN_URL`
 - `AUTH_USERINFO_URL`
 - `AUTH_LOGOUT_URL`
+
+테스트 환경은 별도 Worker `baron-auth-gateway-test`이므로 위 SSO secret을 Cloudflare에서 테스트 Worker에도 등록해야 한다. IDP에는 `https://test.baroncs.co.kr/auth/callback` redirect URI도 등록한다.
 
 선택 변수:
 

@@ -31,10 +31,18 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy Worker to Cloudflare
+      - name: Deploy production Worker to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_R2_ACCOUNT_ID }}
           workingDirectory: cloudflare-worker
           command: deploy
+
+      - name: Deploy test Worker to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_R2_ACCOUNT_ID }}
+          workingDirectory: cloudflare-worker
+          command: deploy --env test
