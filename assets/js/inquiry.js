@@ -29,7 +29,9 @@ function createPreviewRows(service) {
 }
 
 const pageSize = 10;
-let service = Object.hasOwn(SERVICES, location.hash.slice(1)) ? location.hash.slice(1) : 'egbim';
+const requestedService = new URLSearchParams(location.search).get('service');
+const initialService = Object.hasOwn(SERVICES, requestedService) ? requestedService : location.hash.slice(1);
+let service = Object.hasOwn(SERVICES, initialService) ? initialService : 'egbim';
 let currentPage = 1;
 let query = '';
 const searchForm = document.querySelector('#inquiry-search');
@@ -197,6 +199,16 @@ for (const dialog of [detail, compose]) {
   });
 }
 document.querySelector('#inquiry-write').addEventListener('click', event => {
+  if (document.documentElement.dataset.baronAuthState !== 'authenticated') {
+    window.alert(document.documentElement.lang === 'en' ? 'Sign in is required to write an inquiry.' : '문의 글 작성은 로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+    const loginUrl = new URL(window.location.href);
+    loginUrl.search = '';
+    loginUrl.searchParams.set('login', '1');
+    loginUrl.searchParams.set('service', service);
+    loginUrl.hash = '';
+    window.location.assign(loginUrl.toString());
+    return;
+  }
   composeForm.reset();
   document.querySelector('#inquiry-compose-service').value = service;
   document.querySelector('#inquiry-compose-feedback').textContent = '';
@@ -207,6 +219,12 @@ composeForm.addEventListener('submit', event => {
   document.querySelector('#inquiry-compose-feedback').textContent = copy.submitPreview;
 });
 selectService(service);
+if (requestedService) {
+  const cleanUrl = new URL(location.href);
+  cleanUrl.searchParams.delete('service');
+  cleanUrl.hash = service;
+  history.replaceState(null, '', cleanUrl.toString());
+}
 // Run after the shared header's jQuery-ready title initialization.
 window.jQuery(() => { document.title = copy.title; });
 
