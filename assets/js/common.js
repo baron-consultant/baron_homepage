@@ -59,6 +59,10 @@ const publicPagePaths = [
   `${rootPrefix}/en/kngil`,
   `${rootPrefix}/ko/sv_bigroom.html`,
   `${rootPrefix}/en/sv_bigroom.html`,
+  `${rootPrefix}/ko/sw-inquiry.html`,
+  `${rootPrefix}/en/sw-inquiry.html`,
+  `${rootPrefix}/ko/inquiry.html`,
+  `${rootPrefix}/en/inquiry.html`,
 ];
 const normalizedLandingPagePaths = landingPagePaths.map(normalizePath);
 const isLandingPage = normalizedLandingPagePaths.includes(currentPath);
