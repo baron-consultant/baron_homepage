@@ -1,4 +1,4 @@
-<!-- Same full menu as nav.html. Anonymous requests may only load nav-public.html (Worker policy), so keep both files identical. -->
+<!-- Anonymous menu. Services Provided and D/X Experience stay disabled until sign-in. -->
 <ol>
   <li class="depth1">
     <span><em>Designing the Future</em>Baron Consultants</span>
@@ -16,18 +16,18 @@
       <li><a href="/en/dt_use.html">Leveraging D/X<br>Infrastructure Construction</a></li>
     </ul>
   </li>
-  <li class="depth1">
-    <span><em>Realizing Value</em>Services Provided</span>
+  <li class="depth1 nav-login-required" data-login-tooltip="Sign in to access these services.">
+    <span title="Sign in to access these services."><em>Realizing Value</em>Services Provided</span>
     <ul class="depth2">
-      <li><a href="/en/sv_solution.html">Solution Program</a></li>
-      <li><a href="/en/sv_sw.html">Package Software</a></li>
-      <li><a href="/en/sv_bigroom.html">Big Room</a></li>
+      <li><a href="/en/sv_solution.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">Solution Program</a></li>
+      <li><a href="/en/sv_sw.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">Package Software</a></li>
+      <li><a href="/en/sv_bigroom.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">Big Room</a></li>
     </ul>
   </li>
-  <li class="depth1">
-    <span><em>Experiencing the Vision</em>D/X Experience</span>
+  <li class="depth1 nav-login-required" data-login-tooltip="Sign in to access this experience.">
+    <span title="Sign in to access this experience."><em>Experiencing the Vision</em>D/X Experience</span>
     <ul class="depth2">
-      <li><a href="/en/dx.html">D/X experience<br>to experience the vision</a></li>
+      <li><a href="/en/dx.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">D/X experience<br>to experience the vision</a></li>
     </ul>
   </li>
   <li class="depth1">

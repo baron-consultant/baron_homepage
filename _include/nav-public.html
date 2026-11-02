@@ -1,4 +1,4 @@
-<!-- nav.html과 같은 전체 메뉴. 비로그인 요청은 Worker가 nav-public.html만 허용하므로 두 파일 내용을 동일하게 유지한다. -->
+<!-- 비로그인 사용자용 전체 메뉴. 제공서비스와 D/X 체험은 로그인 전까지 비활성화한다. -->
 <ol>
   <li class="depth1">
     <span><em>미래를 설계하는</em>바론 컨설턴트</span>
@@ -16,18 +16,18 @@
       <li><a href="/ko/dt_use.html">건설산업에서의 디지털전환 활용</a></li>
     </ul>
   </li>
-  <li class="depth1">
-    <span><em>가치를 실현하는</em>제공서비스</span>
+  <li class="depth1 nav-login-required" data-login-tooltip="로그인 후 이용할 수 있습니다.">
+    <span title="로그인 후 이용할 수 있습니다."><em>가치를 실현하는</em>제공서비스</span>
     <ul class="depth2">
-      <li><a href="/ko/sv_solution.html">솔루션 프로그램</a></li>
-      <li><a href="/ko/sv_sw.html">패키지 소프트웨어</a></li>
-      <li><a href="/ko/sv_bigroom.html">빅룸</a></li>
+      <li><a href="/ko/sv_solution.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">솔루션 프로그램</a></li>
+      <li><a href="/ko/sv_sw.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">패키지 소프트웨어</a></li>
+      <li><a href="/ko/sv_bigroom.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">빅룸</a></li>
     </ul>
   </li>
-  <li class="depth1">
-    <span><em>비전을 체험하는</em>D/X 체험</span>
+  <li class="depth1 nav-login-required" data-login-tooltip="로그인 후 이용할 수 있습니다.">
+    <span title="로그인 후 이용할 수 있습니다."><em>비전을 체험하는</em>D/X 체험</span>
     <ul class="depth2">
-      <li><a href="/ko/dx.html">비전을 체험하는 D/X체험</a></li>
+      <li><a href="/ko/dx.html" data-auth-disabled="true" aria-disabled="true" tabindex="-1">비전을 체험하는 D/X체험</a></li>
     </ul>
   </li>
   <li class="depth1">

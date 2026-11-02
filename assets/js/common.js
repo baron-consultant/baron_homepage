@@ -79,10 +79,20 @@ const isAuthenticated = Boolean(authResult?.session);
 
 document.documentElement.dataset.baronAuthState = isAuthenticated ? 'authenticated' : 'anonymous';
 
+// Disabled links in anonymous navigation must not navigate, including keyboard/programmatic clicks.
+document.addEventListener('click', (event) => {
+  const target = event.target instanceof Element ? event.target : null;
+  const disabledLink = target?.closest('a[data-auth-disabled="true"]');
+  if (!disabledLink) return;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+}, true);
+
 // ── AJAX 관련 SCRIPT
 $(function () {
   const includeVersion = '20261030-1';
-  // 비로그인 요청은 Worker가 nav-public.html만 허용하므로(내용은 nav.html과 동일한 전체 메뉴) 로그인 여부로 파일만 나눈다.
+  // 비로그인 요청은 Worker가 nav-public.html만 허용하므로 로그인 상태에 맞는 메뉴 파일을 선택한다.
   const navIncludeFile = isAuthenticated ? 'nav.html' : 'nav-public.html';
   const includeBase = `${rootPrefix}/_include`;
 
