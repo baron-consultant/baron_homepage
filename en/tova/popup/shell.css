@@ -263,6 +263,3 @@ footer.service-original-footer .address{word-break:normal;overflow-wrap:break-wo
  .sitemap div[class*="menu"] a span{font-size:26px}
  .sitemap div[class*="menu"]:hover a{transform:none}
 }
-
-/* S/W inquiry shortcut hidden for TOVA (popup top header and sitemap header). The link markup in popup/header.html is kept; delete this rule to show it again. */
-header.service-inquiry-header > a.service-inquiry-link {display:none}
