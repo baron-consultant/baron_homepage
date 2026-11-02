@@ -13,8 +13,6 @@ const DEFAULT_PUBLIC_EXACT_PATHS = [
   '/index.html',
   '/ko/index.html',
   '/en/index.html',
-  '/ko/sv_bigroom.html',
-  '/en/sv_bigroom.html',
   '/ko/sw-inquiry.html',
   '/en/sw-inquiry.html',
   '/ko/inquiry.html',
@@ -82,12 +80,11 @@ const DEFAULT_PUBLIC_PREFIXES = [
   '/assets/',
 ];
 const DEFAULT_PROTECTED_PREFIXES = [
-  '/ko/',
-  '/en/',
+  '/ko/sv_',
+  '/en/sv_',
+  '/ko/dx',
+  '/en/dx',
   '/_include/',
-  '/assets/',
-  '/recruit/',
-  '/portfolio/',
 ];
 const DEFAULT_INTERNAL_ONLY_PREFIXES = [
   '/protected/',
@@ -124,8 +121,8 @@ export default {
     }
 
     const session = await readSession(request, config);
-    const anonymousPublicPath = isPublicPath(url.pathname, config);
     const protectedPath = isProtectedPath(url.pathname, config);
+    const anonymousPublicPath = isPublicPath(url.pathname, config) || (isPageRequest(url.pathname) && !protectedPath);
 
     if (!session && !anonymousPublicPath && (isPageRequest(url.pathname) || protectedPath)) {
       return redirect(buildWorkerLoginUrl(url), {

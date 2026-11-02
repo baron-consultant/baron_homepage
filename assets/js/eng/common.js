@@ -29,37 +29,17 @@ const landingPagePaths = [
   `${rootPrefix}/en/`,
   `${rootPrefix}/en/index.html`,
 ];
-const publicPagePaths = [
-  ...landingPagePaths,
-  `${rootPrefix}/ko/br_`,
-  `${rootPrefix}/en/br_`,
-  `${rootPrefix}/ko/dt_`,
-  `${rootPrefix}/en/dt_`,
-  `${rootPrefix}/recruit/`,
-  `${rootPrefix}/ko/sv_sw.html`,
-  `${rootPrefix}/en/sv_sw.html`,
-  `${rootPrefix}/ko/sv_sw_`,
-  `${rootPrefix}/en/sv_sw_`,
-  `${rootPrefix}/ko/egbim`,
-  `${rootPrefix}/en/egbim`,
-  `${rootPrefix}/ko/tova`,
-  `${rootPrefix}/en/tova`,
-  `${rootPrefix}/ko/pr_`,
-  `${rootPrefix}/en/pr_`,
-  `${rootPrefix}/ko/gaia`,
-  `${rootPrefix}/en/gaia`,
-  `${rootPrefix}/ko/kngil`,
-  `${rootPrefix}/en/kngil`,
-  `${rootPrefix}/ko/sv_bigroom.html`,
-  `${rootPrefix}/en/sv_bigroom.html`,
-  `${rootPrefix}/ko/sw-inquiry.html`,
-  `${rootPrefix}/en/sw-inquiry.html`,
-  `${rootPrefix}/ko/inquiry.html`,
-  `${rootPrefix}/en/inquiry.html`,
+const authRestrictedPaths = [
+  `${rootPrefix}/ko/sv_`,
+  `${rootPrefix}/en/sv_`,
+  `${rootPrefix}/ko/dx.html`,
+  `${rootPrefix}/en/dx.html`,
+  `${rootPrefix}/ko/dx_`,
+  `${rootPrefix}/en/dx_`,
 ];
 const normalizedLandingPagePaths = landingPagePaths.map(normalizePath);
 const isLandingPage = normalizedLandingPagePaths.includes(currentPath);
-const isPublicInfoPage = publicPagePaths.some((entry) => matchesPublicPath(currentPath, entry));
+const isPublicInfoPage = !authRestrictedPaths.some((entry) => matchesPublicPath(currentPath, entry));
 const loginRequested = isPublicInfoPage && new URL(window.location.href).searchParams.get('login') === '1';
 
 if (isLandingPage) {
@@ -71,7 +51,7 @@ if (isLandingPage) {
 const authResult = await ensureBaronSsoAuth(
   isPublicInfoPage
     ? {
-        publicPaths: publicPagePaths,
+        publicPaths: [currentPath],
         forceAuth: loginRequested,
       }
     : {}
