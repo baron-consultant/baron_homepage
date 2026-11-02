@@ -78,38 +78,13 @@ document.addEventListener('click', (event) => {
   event.stopImmediatePropagation();
 }, true);
 
-function followLoginTooltip(event) {
-  const target = event.target instanceof Element ? event.target : null;
-  const menuItem = target?.closest('li.nav-login-required[data-login-tooltip]');
-  if (!menuItem) return;
-
-  const rect = menuItem.getBoundingClientRect();
-  const margin = 8;
-  const offset = 16;
-  const tooltipWidth = Math.min(320, Math.max(0, window.innerWidth - margin * 2));
-  const tooltipHeight = 84;
-
-  let left = event.clientX + offset;
-  if (left + tooltipWidth > window.innerWidth - margin) {
-    left = event.clientX - tooltipWidth - offset;
-  }
-  left = Math.max(margin, left);
-
-  let top = event.clientY + offset;
-  if (top + tooltipHeight > window.innerHeight - margin) {
-    top = event.clientY - tooltipHeight - offset;
-  }
-  top = Math.max(margin, top);
-
-  menuItem.style.setProperty('--login-tooltip-left', `${left - rect.left}px`);
-  menuItem.style.setProperty('--login-tooltip-top', `${top - rect.top}px`);
-}
-
-document.addEventListener('pointermove', followLoginTooltip, { passive: true });
+// 공개 페이지는 ?login=1이면 ensureBaronSsoAuth(forceAuth)로 SSO 로그인을 시작하고, 로그인 후 현재 페이지로 돌아온다.
+// 헤더 로그인 버튼과 비로그인 메뉴의 로그인 안내가 같은 진입 주소를 사용한다.
+const loginHref = `${location.pathname}?login=1`;
 
 // ── AJAX 관련 SCRIPT
 $(function () {
-  const includeVersion = '20261030-1';
+  const includeVersion = '20261102-nav-login';
   // 비로그인 요청은 Worker가 nav-public.html만 허용하므로 로그인 상태에 맞는 메뉴 파일을 선택한다.
   const navIncludeFile = isAuthenticated ? 'nav.html' : 'nav-public.html';
   const includeBase = `${rootPrefix}/_include`;
@@ -302,14 +277,26 @@ $(function () {
 
     loginWrap.hidden = false;
     loginLink.textContent = '로그인';
-    loginLink.href = `${location.pathname}?login=1`;
+    loginLink.href = loginHref;
     loginLink.onclick = null;
+  }
+
+  // 비로그인 메뉴(nav-public.html)의 드롭다운 하단 로그인 안내를 헤더 로그인과 같은 SSO 진입 주소로 연결한다.
+  function configureLoginNotices(root) {
+    if (!root || isAuthenticated) {
+      return;
+    }
+
+    root.querySelectorAll('a[data-auth-login="true"]').forEach((link) => {
+      link.href = loginHref;
+    });
   }
 
   function loadSitemapNav() {
     if (!$('.container').hasClass('recruit')) {
       loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '.popup_wrap.sitemap .popup_contents_wrap nav', function () {
         normalizeSiteLinks(document.querySelector('.popup_wrap.sitemap .popup_contents_wrap nav'));
+        configureLoginNotices(document.querySelector('.popup_wrap.sitemap .popup_contents_wrap nav'));
         mobileMenu();
       });
     } else {
@@ -324,6 +311,7 @@ $(function () {
       normalizeSiteLinks(document.querySelector('#header'));
       loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '#header .corp .nav', function () {
         normalizeSiteLinks(document.querySelector('#header .corp .nav'));
+        configureLoginNotices(document.querySelector('#header .corp .nav'));
         connectNavToMapList();
         initPackageSWTab();
       });
@@ -353,6 +341,7 @@ $(function () {
     normalizeSiteLinks(document.querySelector('#footer'));
     loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '#footer .nav', function () {
       normalizeSiteLinks(document.querySelector('#footer .nav'));
+      configureLoginNotices(document.querySelector('#footer .nav'));
     });
   });
 });

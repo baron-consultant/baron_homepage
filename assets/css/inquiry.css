@@ -5,27 +5,28 @@
 .sw-inquiry-page .inquiry-hero h1 { font-size: 66px; }
 .sw-inquiry-page .inquiry-hero__copy > p:last-child { max-width: 720px; }
 .sw-inquiry-content { width: min(1248px, 100%); padding: 74px 24px 112px; margin: 0 auto; }
-.sw-inquiry-intro { margin-bottom: 34px; text-align: center; }
-.sw-inquiry-kicker { color: #1685bd; font-size: 12px; font-weight: 700; letter-spacing: .16em; }
-.sw-inquiry-intro h2 { margin-top: 10px; color: #202a38; font-size: 34px; font-weight: 700; letter-spacing: -.04em; }
-.sw-inquiry-intro p { margin-top: 10px; color: #697386; font-size: 16px; line-height: 1.7; }
+.sw-inquiry-intro { margin-bottom: 68px; text-align: center; }
+.sw-inquiry-intro h2 { color: #202a38; font-size: 34px; font-weight: 700; letter-spacing: -.04em; }
 .sw-inquiry-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
-.sw-inquiry-card { position: relative; display: flex; min-height: 310px; flex-direction: column; align-items: flex-start; padding: 30px; border: 1px solid #e4e9ef; border-top: 3px solid #1488c2; border-radius: 8px; background: #fff; box-shadow: 0 12px 32px #1739560b; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.sw-inquiry-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 30px; border: 1px solid #e4e9ef; border-top: 3px solid #1488c2; border-radius: 8px; background: #fff; box-shadow: 0 12px 32px #1739560b; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .sw-inquiry-card:hover { transform: translateY(-4px); border-color: #c8dff0; box-shadow: 0 18px 40px #17395616; }
-.sw-inquiry-card--coming-soon::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; background: rgba(15, 35, 60, .72); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
-.sw-inquiry-card--coming-soon::after { content: attr(data-coming-soon); position: absolute; top: 50%; left: 50%; z-index: 3; color: #fff; font-size: 22px; font-weight: 700; line-height: 1.5; text-align: center; white-space: nowrap; text-shadow: 0 2px 8px rgba(0, 0, 0, .28); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, calc(-50% + 4px)); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
-.sw-inquiry-card--coming-soon:hover::before, .sw-inquiry-card--coming-soon:focus-within::before,
-.sw-inquiry-card--coming-soon:hover::after, .sw-inquiry-card--coming-soon:focus-within::after { opacity: 1; visibility: visible; }
-.sw-inquiry-card--coming-soon:hover::after, .sw-inquiry-card--coming-soon:focus-within::after { transform: translate(-50%, -50%); }
+/* Coming soon cards (TOVA, GAIA): default matches hover (gray border, no lift or overlay); the inquiry button is shown disabled. */
+.sw-inquiry-card--coming-soon, .sw-inquiry-card--coming-soon:hover { transform: none; border-color: #e4e9ef; box-shadow: 0 12px 32px #1739560b; }
+/* Hover overlay that shows data-coming-soon. Currently unused; add the sw-inquiry-card--coming-soon-overlay class to a card to show it again. */
+.sw-inquiry-card--coming-soon-overlay::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; background: rgba(15, 35, 60, .72); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
+.sw-inquiry-card--coming-soon-overlay::after { content: attr(data-coming-soon); position: absolute; top: 50%; left: 50%; z-index: 3; color: #fff; font-size: 22px; font-weight: 700; line-height: 1.5; text-align: center; white-space: nowrap; text-shadow: 0 2px 8px rgba(0, 0, 0, .28); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, calc(-50% + 4px)); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+.sw-inquiry-card--coming-soon-overlay:hover::before, .sw-inquiry-card--coming-soon-overlay:focus-within::before,
+.sw-inquiry-card--coming-soon-overlay:hover::after, .sw-inquiry-card--coming-soon-overlay:focus-within::after { opacity: 1; visibility: visible; }
+.sw-inquiry-card--coming-soon-overlay:hover::after, .sw-inquiry-card--coming-soon-overlay:focus-within::after { transform: translate(-50%, -50%); }
 .sw-inquiry-card__logo { display: flex; align-items: center; justify-content: flex-start; height: 42px; margin-bottom: 20px; }
 .sw-inquiry-card__logo img { display: block; max-width: 150px; max-height: 38px; object-fit: contain; }
-.sw-inquiry-card__type { color: #788598; font-size: 13px; line-height: 1.5; }
-.sw-inquiry-card h3 { margin-top: 4px; color: #1e2c3d; font-size: 25px; font-weight: 700; }
-.sw-inquiry-card__description { margin: 10px 0 24px; color: #667386; font-size: 15px; line-height: 1.7; }
+.sw-inquiry-card__description { margin: 10px 0 24px; color: #667386; font-size: 14px; line-height: 1.7; word-break: keep-all; }
 .sw-inquiry-link { display: inline-flex; align-items: center; gap: 16px; min-height: 46px; margin-top: auto; padding: 0 17px; border-radius: 3px; color: #fff; background: #164b91; font-size: 14px; font-weight: 700; transition: background-color .2s ease; }
 .sw-inquiry-link:hover { background: #0b3671; }
 .sw-inquiry-link span { font-size: 20px; line-height: 1; }
-.sw-inquiry-footnote { margin-top: 22px; color: #8993a1; font-size: 13px; text-align: center; }
+/* Disabled placeholder for a product whose Q&A board is not open yet. */
+.sw-inquiry-link.sw-inquiry-link--disabled, .sw-inquiry-link.sw-inquiry-link--disabled:hover { justify-content: center; gap: 8px; min-width: 150px; border: 0; color: #104183; background: #d6dee8; font-size: 14px; font-weight: 700; cursor: not-allowed; transition: none; }
+.sw-inquiry-link--disabled::before { content: ""; flex-shrink: 0; width: 16px; height: 16px; background-color: currentColor; -webkit-mask: var(--sw-inquiry-clock-icon) center / contain no-repeat; mask: var(--sw-inquiry-clock-icon) center / contain no-repeat; --sw-inquiry-clock-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 37 37'%3E%3Cpath d='M18.3333 0C8.22433 0 0 8.22433 0 18.3333C0 28.4423 8.22433 36.6667 18.3333 36.6667C28.4423 36.6667 36.6667 28.4423 36.6667 18.3333C36.6667 8.22433 28.4423 0 18.3333 0ZM18.3333 33C10.2465 33 3.66667 26.4202 3.66667 18.3333C3.66667 10.2465 10.2465 3.66667 18.3333 3.66667C26.4202 3.66667 33 10.2465 33 18.3333C33 26.4202 26.4202 33 18.3333 33Z'/%3E%3Cpath d='M20.1667 9.1665H16.5V19.0922L22.5372 25.1293L25.1295 22.537L20.1667 17.5742V9.1665Z'/%3E%3C/svg%3E"); }
 .inquiry-page *, .inquiry-dialog * { box-sizing: border-box; }
 .inquiry-page button, .inquiry-dialog button { font: inherit; }
 .inquiry-sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden !important; clip-path: inset(50%); white-space: nowrap; }
@@ -196,9 +197,8 @@ html.inquiry-modal-open body { overflow: hidden !important; }
   .sw-inquiry-eyebrow { font-size: 11px !important; }
   .sw-inquiry-page .inquiry-hero__copy > p:last-child { font-size: 15px; }
   .sw-inquiry-content { padding: 46px 20px 72px; }
-  .sw-inquiry-intro { margin-bottom: 26px; }
+  .sw-inquiry-intro { margin-bottom: 52px; }
   .sw-inquiry-intro h2 { font-size: 25px; }
-  .sw-inquiry-intro p { font-size: 14px; }
   .sw-inquiry-card { padding: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
