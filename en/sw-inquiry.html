@@ -19,7 +19,7 @@
     <script src="../assets/js/lib/gsap.min.js"></script>
     <script src="../assets/js/lib/scrolltrigger.min.js"></script>
     <script src="../assets/js/lib/scrollToPlugin.min.js"></script>
-    <script type="module" src="../assets/js/eng/common.js?v=20261102-inquiry-public"></script>
+    <script type="module" src="../assets/js/eng/common.js?v=20261102-nav-login"></script>
   </head>
   <body>
     <div class="wrap">
@@ -34,36 +34,29 @@
         </section>
         <section class="sw-inquiry-content" aria-labelledby="sw-inquiry-heading">
           <div class="sw-inquiry-intro">
-            <span class="sw-inquiry-kicker">SOFTWARE Q&amp;A</span>
             <h2 id="sw-inquiry-heading">Which product do you need help with?</h2>
-            <p>Select a product to open its Q&amp;A board.</p>
           </div>
           <div class="sw-inquiry-cards">
             <article class="sw-inquiry-card">
-              <div class="sw-inquiry-card__logo"><img src="../ko/egbim/img/egbim_k.svg" alt="EG-BIM" /></div>
-              <p class="sw-inquiry-card__type">BIM Model</p>
-              <h3>EG-BIM Q&amp;A</h3>
+              <h3 class="sw-inquiry-card__logo"><img src="../ko/egbim/img/egbim_k.svg" alt="EG-BIM" width="150" height="26" /></h3>
               <p class="sw-inquiry-card__description">Browse questions and answers about BIM models and EG-BIM.</p>
-              <a class="sw-inquiry-link" href="https://qa-test.baroncs.co.kr/egbim/" aria-label="Open the EG-BIM Q&A board">EG-BIM inquiries <span aria-hidden="true">→</span></a>
+              <a class="sw-inquiry-link" href="https://qa-test.baroncs.co.kr/egbim/" aria-label="Open the EG-BIM Q&A board">Inquire <span aria-hidden="true">→</span></a>
             </article>
             <article class="sw-inquiry-card sw-inquiry-card--coming-soon" data-coming-soon="Coming soon.">
-              <div class="sw-inquiry-card__logo"><img src="../ko/tova/img/tova_k.svg" alt="TOVA" /></div>
-              <p class="sw-inquiry-card__type">Integrated Traffic Demand Analysis</p>
-              <h3>TOVA Q&amp;A</h3>
+              <h3 class="sw-inquiry-card__logo"><img src="../ko/tova/img/tova_k.svg" alt="TOVA" width="104" height="26" /></h3>
               <p class="sw-inquiry-card__description">Ask about TOVA traffic demand analysis features and workflows.</p>
               <span class="inquiry-sr-only">This Q&amp;A board is coming soon.</span>
-              <a class="sw-inquiry-link" href="/en/inquiry.html#tova" aria-label="Open the TOVA Q&A board">TOVA inquiries <span aria-hidden="true">→</span></a>
+              <!-- When the board opens, replace the button below with this link: <a class="sw-inquiry-link" href="/en/inquiry.html#tova" aria-label="Open the TOVA Q&A board">TOVA inquiries <span aria-hidden="true">→</span></a> -->
+              <button type="button" class="sw-inquiry-link sw-inquiry-link--disabled" aria-label="TOVA Q&A coming soon" disabled>Coming Soon</button>
             </article>
             <article class="sw-inquiry-card sw-inquiry-card--coming-soon" data-coming-soon="Coming soon.">
-              <div class="sw-inquiry-card__logo"><img src="../ko/gaia/img/gaia_k.svg" alt="GAIA" /></div>
-              <p class="sw-inquiry-card__type">Ground Investigation</p>
-              <h3>GAIA Q&amp;A</h3>
+              <h3 class="sw-inquiry-card__logo"><img src="../ko/gaia/img/gaia_k.svg" alt="GAIA" width="82" height="33" /></h3>
               <p class="sw-inquiry-card__description">Find help with GAIA ground investigation and analysis features.</p>
               <span class="inquiry-sr-only">This Q&amp;A board is coming soon.</span>
-              <a class="sw-inquiry-link" href="/en/inquiry.html#gaia" aria-label="Open the GAIA Q&A board">GAIA inquiries <span aria-hidden="true">→</span></a>
+              <!-- When the board opens, replace the button below with this link: <a class="sw-inquiry-link" href="/en/inquiry.html#gaia" aria-label="Open the GAIA Q&A board">GAIA inquiries <span aria-hidden="true">→</span></a> -->
+              <button type="button" class="sw-inquiry-link sw-inquiry-link--disabled" aria-label="GAIA Q&A coming soon" disabled>Coming Soon</button>
             </article>
           </div>
-          <p class="sw-inquiry-footnote">The Q&amp;A boards are available without signing in.</p>
         </section>
       </main>
       <footer id="footer"></footer>

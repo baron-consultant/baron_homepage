@@ -421,79 +421,54 @@ header .header_inner nav ol li.depth1:hover ul.depth2 {
   display: block;
 }
 
-/* Anonymous navigation: explain login-required sections and keep their links visibly disabled. */
-header .header_inner nav ol li.depth1.nav-login-required,
-header .sitemap nav ol li.depth1.nav-login-required,
-footer .footer_inner nav ol li.depth1.nav-login-required {
-  position: relative;
+/* Anonymous navigation: login-required links stay disabled and a fixed notice at the bottom of the dropdown links to sign-in. */
+/* width:auto로 공통 li의 width:100%를 풀어야 좌우 음수 여백만큼 드롭다운 너비에 맞게 늘어난다. */
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice {
+  width: auto;
+  margin: 16px -16px -16px;
 }
 
-header .header_inner nav ol li.depth1.nav-login-required::after,
-header .sitemap nav ol li.depth1.nav-login-required::after,
-footer .footer_inner nav ol li.depth1.nav-login-required::after {
-  content: attr(data-login-tooltip);
-  position: absolute;
-  top: var(--login-tooltip-top, calc(100% + 8px));
-  left: var(--login-tooltip-left, 50%);
-  z-index: 1000;
-  width: max-content;
-  max-width: min(320px, calc(100vw - 32px));
-  padding: 12px 18px;
-  border: 2px solid var(--color-primary);
-  border-radius: 9px;
-  background: #fff;
-  color: var(--color-primary);
-  font-size: 16px;
-  font-weight: 700;
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice a,
+header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice a {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 6px;
+  background-color: #eaf2ff;
+  color: #0f4ff3;
+  font-size: 15px;
+  font-weight: 400;
   line-height: 1.5;
   text-align: center;
-  white-space: normal;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32), 0 0 0 1px var(--color-primary);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-4px);
-  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-header .header_inner nav ol li.depth1.nav-login-required::before,
-header .sitemap nav ol li.depth1.nav-login-required::before,
-footer .footer_inner nav ol li.depth1.nav-login-required::before {
-  content: "";
-  position: absolute;
-  top: calc(var(--login-tooltip-top, 100%) - 9px);
-  left: calc(var(--login-tooltip-left, 50%) + 20px);
-  z-index: 1001;
-  width: 0;
-  height: 0;
-  border-top: 9px solid var(--color-primary);
-  border-right: 9px solid transparent;
-  border-left: 9px solid transparent;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.15s ease, visibility 0.15s ease;
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice a strong,
+header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice a strong {
+  font-weight: 700;
 }
 
-header .header_inner nav ol li.depth1.nav-login-required:hover::after,
-header .header_inner nav ol li.depth1.nav-login-required:focus-within::after,
-header .sitemap nav ol li.depth1.nav-login-required:hover::after,
-header .sitemap nav ol li.depth1.nav-login-required:focus-within::after,
-footer .footer_inner nav ol li.depth1.nav-login-required:hover::after,
-footer .footer_inner nav ol li.depth1.nav-login-required:focus-within::after {
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice:hover a,
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice a:focus-visible,
+header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice a:hover,
+header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice a:focus-visible {
+  background-color: #dbe8ff;
+  color: #0f4ff3;
+}
+
+/* PC 사이트맵: 3열 그리드 아래 전체 행으로 안내를 둔다. */
+header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 0 0 16px;
   opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
 }
 
-header .header_inner nav ol li.depth1.nav-login-required:hover::before,
-header .header_inner nav ol li.depth1.nav-login-required:focus-within::before,
-header .sitemap nav ol li.depth1.nav-login-required:hover::before,
-header .sitemap nav ol li.depth1.nav-login-required:focus-within::before,
-footer .footer_inner nav ol li.depth1.nav-login-required:hover::before,
-footer .footer_inner nav ol li.depth1.nav-login-required:focus-within::before {
-  opacity: 1;
-  visibility: visible;
+/* 푸터는 드롭다운이 아니므로 안내를 표시하지 않고 비활성 링크만 유지한다. 로그인 상태에서는 어디서도 표시하지 않는다. */
+footer .footer_inner nav ol li.depth1 ul.depth2 li.nav-login-notice,
+html[data-baron-auth-state="authenticated"] nav li.nav-login-notice {
+  display: none;
 }
 
 header .header_inner nav a[data-auth-disabled="true"],
@@ -1828,6 +1803,13 @@ header#header_recruit .btn_menu {
   }
   header .sitemap nav ol li.depth1 ul.depth2 li:hover {
     opacity: 1;
+  }
+  /* 모바일 사이트맵: 아코디언 하단 로그인 안내 */
+  header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice {
+    padding: 12px 20px 16px;
+  }
+  header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice a {
+    white-space: normal;
   }
 
   /* 인재채용 모바일 메뉴 */

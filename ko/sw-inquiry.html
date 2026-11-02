@@ -19,7 +19,7 @@
     <script src="../assets/js/lib/gsap.min.js"></script>
     <script src="../assets/js/lib/scrolltrigger.min.js"></script>
     <script src="../assets/js/lib/scrollToPlugin.min.js"></script>
-    <script type="module" src="../assets/js/common.js?v=20261102-inquiry-public"></script>
+    <script type="module" src="../assets/js/common.js?v=20261102-nav-login"></script>
   </head>
   <body>
     <div class="wrap">
@@ -34,36 +34,29 @@
         </section>
         <section class="sw-inquiry-content" aria-labelledby="sw-inquiry-heading">
           <div class="sw-inquiry-intro">
-            <span class="sw-inquiry-kicker">SOFTWARE Q&amp;A</span>
             <h2 id="sw-inquiry-heading">어떤 제품에 대해 문의하시나요?</h2>
-            <p>제품을 선택하면 해당 제품의 Q&amp;A 게시판으로 이동합니다.</p>
           </div>
           <div class="sw-inquiry-cards">
             <article class="sw-inquiry-card">
-              <div class="sw-inquiry-card__logo"><img src="./egbim/img/egbim_k.svg" alt="EG-BIM" /></div>
-              <p class="sw-inquiry-card__type">BIM 모델</p>
-              <h3>EG-BIM Q&amp;A</h3>
+              <h3 class="sw-inquiry-card__logo"><img src="./egbim/img/egbim_k.svg" alt="EG-BIM" width="150" height="26" /></h3>
               <p class="sw-inquiry-card__description">BIM 모델과 EG-BIM 사용에 관한 질문과 답변을 확인하세요.</p>
-              <a class="sw-inquiry-link" href="https://qa-test.baroncs.co.kr/egbim/" aria-label="EG-BIM Q&A 게시판으로 이동">EG-BIM 문의하기 <span aria-hidden="true">→</span></a>
+              <a class="sw-inquiry-link" href="https://qa-test.baroncs.co.kr/egbim/" aria-label="EG-BIM Q&A 게시판으로 이동">문의하기 <span aria-hidden="true">→</span></a>
             </article>
             <article class="sw-inquiry-card sw-inquiry-card--coming-soon" data-coming-soon="오픈 예정입니다.">
-              <div class="sw-inquiry-card__logo"><img src="./tova/img/tova_k.svg" alt="TOVA" /></div>
-              <p class="sw-inquiry-card__type">통합 교통 수요 분석</p>
-              <h3>TOVA Q&amp;A</h3>
+              <h3 class="sw-inquiry-card__logo"><img src="./tova/img/tova_k.svg" alt="TOVA" width="104" height="26" /></h3>
               <p class="sw-inquiry-card__description">TOVA의 교통 수요 분석 기능과 사용 방법을 문의하세요.</p>
               <span class="inquiry-sr-only">현재 오픈 예정입니다.</span>
-              <a class="sw-inquiry-link" href="/ko/inquiry.html#tova" aria-label="TOVA Q&A 게시판으로 이동">TOVA 문의하기 <span aria-hidden="true">→</span></a>
+              <!-- 오픈 시 아래 버튼을 이 링크로 교체: <a class="sw-inquiry-link" href="/ko/inquiry.html#tova" aria-label="TOVA Q&A 게시판으로 이동">TOVA 문의하기 <span aria-hidden="true">→</span></a> -->
+              <button type="button" class="sw-inquiry-link sw-inquiry-link--disabled" aria-label="TOVA Q&A 오픈 예정" disabled>오픈 예정</button>
             </article>
             <article class="sw-inquiry-card sw-inquiry-card--coming-soon" data-coming-soon="오픈 예정입니다.">
-              <div class="sw-inquiry-card__logo"><img src="./gaia/img/gaia_k.svg" alt="GAIA" /></div>
-              <p class="sw-inquiry-card__type">지반 조사</p>
-              <h3>GAIA Q&amp;A</h3>
+              <h3 class="sw-inquiry-card__logo"><img src="./gaia/img/gaia_k.svg" alt="GAIA" width="82" height="33" /></h3>
               <p class="sw-inquiry-card__description">GAIA의 지반 조사 및 분석 기능에 관한 문의를 남기세요.</p>
               <span class="inquiry-sr-only">현재 오픈 예정입니다.</span>
-              <a class="sw-inquiry-link" href="/ko/inquiry.html#gaia" aria-label="GAIA Q&A 게시판으로 이동">GAIA 문의하기 <span aria-hidden="true">→</span></a>
+              <!-- 오픈 시 아래 버튼을 이 링크로 교체: <a class="sw-inquiry-link" href="/ko/inquiry.html#gaia" aria-label="GAIA Q&A 게시판으로 이동">GAIA 문의하기 <span aria-hidden="true">→</span></a> -->
+              <button type="button" class="sw-inquiry-link sw-inquiry-link--disabled" aria-label="GAIA Q&A 오픈 예정" disabled>오픈 예정</button>
             </article>
           </div>
-          <p class="sw-inquiry-footnote">Q&amp;A 게시판은 로그인 없이 확인할 수 있습니다.</p>
         </section>
       </main>
       <footer id="footer"></footer>
