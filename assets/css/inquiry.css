@@ -12,8 +12,11 @@
 .sw-inquiry-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .sw-inquiry-card { position: relative; display: flex; min-height: 310px; flex-direction: column; align-items: flex-start; padding: 30px; border: 1px solid #e4e9ef; border-top: 3px solid #1488c2; border-radius: 8px; background: #fff; box-shadow: 0 12px 32px #1739560b; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .sw-inquiry-card:hover { transform: translateY(-4px); border-color: #c8dff0; box-shadow: 0 18px 40px #17395616; }
-.sw-inquiry-card--coming-soon::after { content: attr(data-coming-soon); position: absolute; top: 50%; left: 50%; z-index: 2; padding: 12px 18px; border: 2px solid var(--color-primary); border-radius: 9px; background: #fff; color: var(--color-primary); font-size: 16px; font-weight: 700; line-height: 1.5; white-space: nowrap; box-shadow: 0 6px 18px rgba(0, 0, 0, .24), 0 0 0 1px var(--color-primary); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, calc(-50% + 4px)); transition: opacity .15s ease, transform .15s ease, visibility .15s ease; }
-.sw-inquiry-card--coming-soon:hover::after, .sw-inquiry-card--coming-soon:focus-within::after { opacity: 1; visibility: visible; transform: translate(-50%, -50%); }
+.sw-inquiry-card--coming-soon::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; background: rgba(15, 35, 60, .72); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
+.sw-inquiry-card--coming-soon::after { content: attr(data-coming-soon); position: absolute; top: 50%; left: 50%; z-index: 3; color: #fff; font-size: 22px; font-weight: 700; line-height: 1.5; text-align: center; white-space: nowrap; text-shadow: 0 2px 8px rgba(0, 0, 0, .28); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, calc(-50% + 4px)); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+.sw-inquiry-card--coming-soon:hover::before, .sw-inquiry-card--coming-soon:focus-within::before,
+.sw-inquiry-card--coming-soon:hover::after, .sw-inquiry-card--coming-soon:focus-within::after { opacity: 1; visibility: visible; }
+.sw-inquiry-card--coming-soon:hover::after, .sw-inquiry-card--coming-soon:focus-within::after { transform: translate(-50%, -50%); }
 .sw-inquiry-card__logo { display: flex; align-items: center; justify-content: flex-start; height: 42px; margin-bottom: 20px; }
 .sw-inquiry-card__logo img { display: block; max-width: 150px; max-height: 38px; object-fit: contain; }
 .sw-inquiry-card__type { color: #788598; font-size: 13px; line-height: 1.5; }
