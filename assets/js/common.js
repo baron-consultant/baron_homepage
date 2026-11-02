@@ -351,6 +351,8 @@ $(function () {
 
 $(function () {
   const currentPath = location.pathname;
+  // S/W Q&A 페이지는 HTML <title>을 그대로 유지한다.
+  if (currentPath === "/ko/sw-inquiry.html") return;
   if (currentPath.indexOf("/recruit/") > 0) {
     document.querySelector("head title").textContent =
       "인재채용 | (주)바론컨설턴트";
