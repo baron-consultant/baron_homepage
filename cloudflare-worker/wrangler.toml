@@ -19,7 +19,7 @@ SESSION_TTL_SECONDS = "3600"
 
 # Anonymous access policy.
 PUBLIC_EXACT_PATHS = "/,/ko/index.html,/en/index.html,/ko/sv_bigroom.html,/en/sv_bigroom.html"
-PUBLIC_PREFIXES = "/ko/egbim/,/ko/tova/,/ko/gaia/,/en/egbim/,/en/tova/,/en/gaia/,/ko/kngil/,/en/kngil/,/ko/pr_,/en/pr_"
+PUBLIC_PREFIXES = "/ko/br_,/en/br_,/ko/dt_,/en/dt_,/ko/egbim/,/ko/tova/,/ko/gaia/,/en/egbim/,/en/tova/,/en/gaia/,/ko/kngil/,/en/kngil/,/ko/pr_,/en/pr_"
 PROTECTED_PREFIXES = "/ko/,/en/,/_include/,/assets/,/recruit/,/portfolio/"
 INTERNAL_ONLY_PREFIXES = "/protected/"
 

@@ -31,6 +31,11 @@ const landingPagePaths = [
 ];
 const publicPagePaths = [
   ...landingPagePaths,
+  `${rootPrefix}/ko/br_`,
+  `${rootPrefix}/en/br_`,
+  `${rootPrefix}/ko/dt_`,
+  `${rootPrefix}/en/dt_`,
+  `${rootPrefix}/recruit/`,
   `${rootPrefix}/ko/sv_sw.html`,
   `${rootPrefix}/en/sv_sw.html`,
   `${rootPrefix}/ko/sv_sw_`,
@@ -81,6 +86,35 @@ document.addEventListener('click', (event) => {
   event.preventDefault();
   event.stopImmediatePropagation();
 }, true);
+
+function followLoginTooltip(event) {
+  const target = event.target instanceof Element ? event.target : null;
+  const menuItem = target?.closest('li.nav-login-required[data-login-tooltip]');
+  if (!menuItem) return;
+
+  const rect = menuItem.getBoundingClientRect();
+  const margin = 8;
+  const offset = 16;
+  const tooltipWidth = Math.min(320, Math.max(0, window.innerWidth - margin * 2));
+  const tooltipHeight = 84;
+
+  let left = event.clientX + offset;
+  if (left + tooltipWidth > window.innerWidth - margin) {
+    left = event.clientX - tooltipWidth - offset;
+  }
+  left = Math.max(margin, left);
+
+  let top = event.clientY + offset;
+  if (top + tooltipHeight > window.innerHeight - margin) {
+    top = event.clientY - tooltipHeight - offset;
+  }
+  top = Math.max(margin, top);
+
+  menuItem.style.setProperty('--login-tooltip-left', `${left - rect.left}px`);
+  menuItem.style.setProperty('--login-tooltip-top', `${top - rect.top}px`);
+}
+
+document.addEventListener('pointermove', followLoginTooltip, { passive: true });
 
 // ?�� AJAX 관??SCRIPT
 $(function () {

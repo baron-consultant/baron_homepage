@@ -59,6 +59,10 @@ const DEFAULT_PUBLIC_EXACT_PATHS = [
   '/assets/img/eng/logo_w.svg',
 ];
 const DEFAULT_PUBLIC_PREFIXES = [
+  '/ko/br_',
+  '/en/br_',
+  '/ko/dt_',
+  '/en/dt_',
   '/ko/tova/',
   '/en/tova/',
   '/ko/gaia/',
