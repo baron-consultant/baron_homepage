@@ -5,7 +5,7 @@ const rootPrefix = appPathSegments.length && !rootMarkerSegments.includes(appPat
   ? `/${appPathSegments[0]}`
   : "";
 const appOrigin = currentUrl.origin;
-const productionClientHosts = new Set(["baroncs.co.kr", "www.baroncs.co.kr", "test.baroncs.co.kr"]);
+const productionClientHosts = new Set(["baroncs.co.kr", "www.baroncs.co.kr"]);
 const fixedProductionRedirectHosts = new Set(["baroncs.co.kr", "www.baroncs.co.kr"]);
 const usesProductionClient = productionClientHosts.has(currentUrl.hostname);
 const usesFixedProductionRedirect = fixedProductionRedirectHosts.has(currentUrl.hostname);
@@ -26,7 +26,7 @@ const productionConfig = {
 };
 
 const stagingConfig = {
-  clientId: "037b546a-86b7-4ff4-bdaf-c41c98fb6766",
+  clientId: "de1c77a5-d861-4e45-bf06-11cf45b95489",
   authorizeUrl: "https://sso.hmac.kr/oidc/oauth2/auth",
   tokenUrl: "https://sso.hmac.kr/oidc/oauth2/token",
   logoutUrl: "https://sso.hmac.kr/oidc/oauth2/sessions/logout",
