@@ -422,10 +422,11 @@ header .header_inner nav ol li.depth1:hover ul.depth2 {
 }
 
 /* Anonymous navigation: login-required links stay disabled and a fixed notice at the bottom of the dropdown links to sign-in. */
-/* width:auto로 공통 li의 width:100%를 풀어야 좌우 음수 여백만큼 드롭다운 너비에 맞게 늘어난다. */
+/* width:auto로 공통 li의 width:100%를 풀어야 좌우 음수 여백만큼 드롭다운 너비에 맞게 늘어난다.
+   음수 여백을 드롭다운 padding(20px)과 같게 두어 좌우·하단 가장자리에 붙인다. */
 header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice {
   width: auto;
-  margin: 16px -16px -16px;
+  margin: 16px -20px -20px;
 }
 
 header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice a,
@@ -442,6 +443,12 @@ header .sitemap nav ol li.depth1 ul.depth2 li.nav-login-notice a {
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+/* PC 드롭다운: 하단 띠 형태로 바깥 드롭다운(border-radius: 0 0 5px 5px)의 하단 라운드를 그대로 따른다. */
+header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice a {
+  padding: 14px 20px;
+  border-radius: 0 0 5px 5px;
 }
 
 header .header_inner nav ol li.depth1 ul.depth2 li.nav-login-notice a strong,
