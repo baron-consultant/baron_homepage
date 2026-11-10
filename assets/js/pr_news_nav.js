@@ -1,8 +1,11 @@
 // PR 뉴스 상세페이지 이전글/다음글 자동 연결
 // 파일명 규칙: pr_news_view_YYMMDD.html
-// 뉴스를 추가/삭제할 때는 아래 NEWS_DATES 배열만 수정하면 됩니다.
+// 뉴스를 추가/삭제할 때는 해당 언어의 날짜 배열을 수정합니다. 오래된 날짜부터 정렬합니다.
 (function () {
-  const NEWS_DATES = ["251127", "260121", "260519", "260527"];
+  const NEWS_DATES_BY_LANGUAGE = {
+    ko: ["251127", "260121", "260519", "260527", "261109"],
+    en: ["251127", "260121", "260519", "260527"],
+  };
 
   function clearLink(el) {
     el.classList.add("no_content");
@@ -33,10 +36,11 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    const match = location.pathname.match(/pr_news_view_(\d{6})\.html$/);
+    const match = location.pathname.match(/\/(ko|en)\/pr_news_view_(\d{6})\.html$/);
     if (!match) return;
 
-    const idx = NEWS_DATES.indexOf(match[1]);
+    const NEWS_DATES = NEWS_DATES_BY_LANGUAGE[match[1]];
+    const idx = NEWS_DATES.indexOf(match[2]);
     if (idx === -1) return;
 
     const prevFile = idx > 0 ? "pr_news_view_" + NEWS_DATES[idx - 1] + ".html" : null;
