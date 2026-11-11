@@ -10,7 +10,7 @@
 .sw-inquiry-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .sw-inquiry-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 54px 30px 30px 30px; border: 1px solid #e4e9ef; border-top: 3px solid #1488c2; border-radius: 8px; background: #fff; box-shadow: 0 12px 32px #1739560b; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
 .sw-inquiry-card:hover { transform: translateY(-4px); border-color: #c8dff0; box-shadow: 0 18px 40px #17395616; }
-/* Coming soon cards (EG-BIM, TOVA, GAIA): default matches hover (gray border, no lift or overlay); the inquiry button is shown disabled. */
+/* Coming soon cards (TOVA, GAIA): default matches hover (gray border, no lift or overlay); the inquiry button is shown disabled. */
 .sw-inquiry-card--coming-soon, .sw-inquiry-card--coming-soon:hover { transform: none; border-color: #e4e9ef; box-shadow: 0 12px 32px #1739560b; }
 /* Hover overlay that shows data-coming-soon. Currently unused; add the sw-inquiry-card--coming-soon-overlay class to a card to show it again. */
 .sw-inquiry-card--coming-soon-overlay::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; background: rgba(15, 35, 60, .72); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
