@@ -1064,6 +1064,7 @@ body:has(.recruit.view) {
 }
 .recruit.list .tab_wrap {
   padding: 0 0px 22px 0px;
+  overflow: hidden;
 }
 .recruit.list .tabs {
   display: flex;
@@ -2040,6 +2041,12 @@ body:has(.recruit.view) {
   background-size: 28px;
 }
 @media all and (min-width: 1401px) {
+  .recruit.main section.sub1 .culture_stage {
+    display: flow-root;
+    transform: scale(var(--culture-scale, 1));
+    transform-origin: center top;
+  }
+
   .recruit.main section.sub2 .growth_copy {
     width: 100%;
     max-width: 1320px;

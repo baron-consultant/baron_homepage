@@ -84,7 +84,7 @@ const loginHref = `${location.pathname}?login=1`;
 
 // ── AJAX 관련 SCRIPT
 $(function () {
-  const includeVersion = '20261102-nav-login';
+  const includeVersion = '20261111-recruit';
   // 비로그인 요청은 Worker가 nav-public.html만 허용하므로 로그인 상태에 맞는 메뉴 파일을 선택한다.
   const navIncludeFile = isAuthenticated ? 'nav.html' : 'nav-public.html';
   const includeBase = `${rootPrefix}/_include`;
@@ -353,7 +353,7 @@ $(function () {
   const currentPath = location.pathname;
   // S/W Q&A 페이지는 HTML <title>을 그대로 유지한다.
   if (currentPath === "/ko/sw-inquiry.html") return;
-  if (currentPath.indexOf("/recruit/") > 0) {
+  if (currentPath.includes("/recruit/")) {
     document.querySelector("head title").textContent =
       "인재채용 | (주)바론컨설턴트";
   } else {

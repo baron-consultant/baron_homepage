@@ -79,7 +79,7 @@ function createJobListHTML(job, index, diff) {
 }
 
 function updateJobList() {
-  const listItems = document.querySelectorAll(".list_wrap li");
+  const listItems = document.querySelectorAll(".list_wrap li[data-cate]");
   listItems.forEach((item) => {
     const itemId = item.getAttribute("id");
     const relatedCheckbox = document.querySelector(
@@ -202,7 +202,7 @@ function checkAllNavInputs(isChecked) {
     ".apply_left input[type='checkbox']"
   );
   checkboxes.forEach((link) => {
-    link.checked = isChecked;
+    link.checked = isChecked && !link.disabled;
   });
 }
 function checkAllSubCheckboxes(parentCheckbox) {
@@ -219,7 +219,7 @@ function checkAllSubCheckboxes(parentCheckbox) {
     `.nav_${group} .depth2 input[type='checkbox']`
   );
   subCheckboxes.forEach((checkbox) => {
-    checkbox.checked = parentCheckbox.checked;
+    checkbox.checked = parentCheckbox.checked && !checkbox.disabled;
   });
 
   if (parentCheckbox.checked) {
@@ -293,7 +293,7 @@ function isAllChecked() {
 // ------------------------------
 
 function filterListByCategory(parentCate, category) {
-  const allItems = document.querySelectorAll(".apply_list .list_wrap li");
+  const allItems = document.querySelectorAll(".apply_list .list_wrap li[data-cate]");
   let visibleCount = 0;
 
   allItems.forEach((item) => {
@@ -310,11 +310,11 @@ function filterListByCategory(parentCate, category) {
 
 function updateTotalCount() {
   const displayCount = document.querySelectorAll(
-    ".apply_list .list_wrap li.show"
+    ".apply_list .list_wrap li[data-cate].show"
   ).length;
   const totalElement = document.querySelector(".apply_list .total b");
   if (totalElement) {
-    totalElement.textContent = `�?${displayCount}�?;
+    totalElement.textContent = `총 ${displayCount}개`;
   }
   renderEmptyMessage(displayCount);
 }
@@ -327,7 +327,7 @@ function renderEmptyMessage(count) {
     if (!existing) {
       const li = document.createElement("li");
       li.className = "list_none";
-      li.textContent = "?�재 모집중인 공고가 ?�습?�다.";
+      li.textContent = "현재 모집중인 공고가 없습니다.";
       ul.appendChild(li);
     }
   } else {
@@ -384,17 +384,17 @@ const reviewSwiper = new Swiper(".sub-inner .tab_wrap", {
 // ------------------------------
 function setApplyTotal() {
   const partInfoMap = {
-    engineer: "?��??�어",
-    developer: "개발??,
-    designer: "?�자?�너",
-    management: "경영기획/관�?,
+    engineer: "엔지니어",
+    developer: "개발자",
+    designer: "디자이너",
+    management: "경영기획/관리",
   };
 
   const tabs = document.querySelectorAll(".tab_wrap .tabs button");
 
   // ?�체 공고 ??처리
   const allItemsCount = document.querySelectorAll(
-    ".apply_list .list_wrap li"
+    ".apply_list .list_wrap li[data-cate]"
   ).length;
   const allCountFormatted =
     allItemsCount > 9 ? allItemsCount : `0${allItemsCount}`;
@@ -422,25 +422,14 @@ function setApplyTotal() {
       tab.classList.add("active");
 
       const selectedCate = tab.getAttribute("data-cate");
-      const allItems = document.querySelectorAll(".apply_list .list_wrap li");
-
-      allItems.forEach((item) => {
-        checkRemoveAll();
-        if (!selectedCate || selectedCate === "all") {
-          item.classList.add("show");
-          const parentCheckbox = document.querySelector(`#job_all`);
-          parentCheckbox.click();
-        } else {
-          const itemGroup = item.getAttribute("data-cate");
-          const isVisible = itemGroup === selectedCate;
-          item.classList.toggle("show", isVisible);
-          const parentCheckbox = document.querySelector(
-            `#job_${selectedCate}_all`
-          );
-          parentCheckbox.click();
-        }
-      });
-      updateTotalCount();
+      checkRemoveAll();
+      const parentCheckbox = document.querySelector(
+        selectedCate === "all" ? "#job_all" : `#job_${selectedCate}_all`
+      );
+      if (parentCheckbox && !parentCheckbox.disabled) {
+        parentCheckbox.click();
+      }
+      updateJobList();
 
       //updateParentCheckbox(selectedCate);
     });

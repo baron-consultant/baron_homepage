@@ -18,6 +18,8 @@ const DEFAULT_PUBLIC_EXACT_PATHS = [
   '/ko/inquiry.html',
   '/en/inquiry.html',
   '/_include/header.html',
+  '/_include/header_recruit.html',
+  '/_include/nav_recruit.html',
   '/_include/footer.html',
   '/_include/nav-public.html',
   '/_include/eng/header.html',

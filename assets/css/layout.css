@@ -1642,7 +1642,7 @@ header#header_recruit .btn_menu {
     mask-position: center;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
-    background-color: #fff;
+    background-color: #0c367f;
   }
   header#header_recruit.open .nav_wrap .logo_box a.recruit,
   header#header_recruit:hover .nav_wrap .logo_box a.recruit {

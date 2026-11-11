@@ -98,6 +98,26 @@ $(function () {
   );
   let activeIndex = 0;
   let isClicking = false;
+  const cultureSection = document.querySelector(".recruit.main section.sub1");
+  const cultureStage = cultureSection.querySelector(".culture_stage");
+
+  function getCulturePinStart() {
+    if (!window.matchMedia("(min-width: 1401px)").matches) {
+      cultureStage.style.removeProperty("--culture-scale");
+      return "top top";
+    }
+
+    // 헤더 높이와 무관하게 제목과 패널 전체를 화면 중앙에 배치한다.
+    const verticalInset = 32;
+    const availableHeight = Math.max(1, window.innerHeight - verticalInset * 2);
+    const stageHeight = cultureStage.offsetHeight;
+    const scale = Math.min(1, availableHeight / stageHeight);
+    cultureStage.style.setProperty("--culture-scale", scale);
+
+    const stageTop = (window.innerHeight - stageHeight * scale) / 2;
+    const sectionPadding = parseFloat(getComputedStyle(cultureSection).paddingTop);
+    return `top ${stageTop - sectionPadding}px`;
+  }
 
   function updateActiveTab(index, animate = true) {
     tabs.forEach((tab, i) => {
@@ -127,8 +147,8 @@ $(function () {
   }
 
   const scrollTriggerInstance = ScrollTrigger.create({
-    trigger: "section.sub1 ",
-    start: "top top",
+    trigger: cultureSection,
+    start: getCulturePinStart,
     end: "+=1000",
     pin: true,
     pinSpacing: false,
