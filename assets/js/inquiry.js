@@ -141,7 +141,10 @@ function selectService(next) {
     tab.setAttribute('aria-selected', String(active));
     tab.tabIndex = active ? 0 : -1;
   });
-  document.querySelector('#inquiry-panel').setAttribute('aria-labelledby', `tab-${service}`);
+  const panel = document.querySelector('#inquiry-panel');
+  if (panel.getAttribute('role') === 'tabpanel') {
+    panel.setAttribute('aria-labelledby', `tab-${service}`);
+  }
   document.querySelectorAll('[data-service-name]').forEach(el => { el.textContent = SERVICES[service]; });
   updateLanguageLinks();
   renderRows();
