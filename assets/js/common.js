@@ -308,14 +308,22 @@ $(function () {
 
   if (!$('.container').hasClass('recruit')) {
     loadHTML(`${includeBase}/header.html?v=${includeVersion}`, '#header', function () {
-      normalizeSiteLinks(document.querySelector('#header'));
+      const headerRoot = document.querySelector('#header');
+      normalizeSiteLinks(headerRoot);
+      configureHeaderActions(headerRoot);
+      if (headerRoot?.dataset.headerVariant === 'inquiry') {
+        headerRoot.querySelectorAll('.corp > .nav, .header_qa, .language, .btn_menu, .sitemap').forEach((element) => element.remove());
+        const updateInquiryHeader = () => headerRoot.classList.toggle('is-scrolled', window.scrollY > 8);
+        updateInquiryHeader();
+        window.addEventListener('scroll', updateInquiryHeader, { passive: true });
+        return;
+      }
       loadHTML(`${includeBase}/${navIncludeFile}?v=${includeVersion}`, '#header .corp .nav', function () {
         normalizeSiteLinks(document.querySelector('#header .corp .nav'));
         configureLoginNotices(document.querySelector('#header .corp .nav'));
         connectNavToMapList();
         initPackageSWTab();
       });
-      configureHeaderActions(document.querySelector('#header'));
       loadSitemapNav();
     });
   } else {
