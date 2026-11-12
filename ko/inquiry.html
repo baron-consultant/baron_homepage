@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../assets/css/lib/lenis.min.css" />
     <link rel="stylesheet" href="../assets/css/layout.css" />
     <link rel="stylesheet" href="../assets/css/common.css" />
-    <link rel="stylesheet" href="../assets/css/inquiry.css?v=20261112-sw-visual" />
+    <link rel="stylesheet" href="../assets/css/inquiry.css?v=20261112-egbim-tab" />
 
     <script src="../assets/js/lib/aos.min.js"></script>
     <script src="../assets/js/lib/lenis.min.js"></script>
@@ -22,7 +22,7 @@
     <script src="../assets/js/lib/scrollToPlugin.min.js"></script>
     <script type="module" src="../assets/js/common.js?v=20261112-inquiry-header"></script>
     <!-- S/W 문의 게시판: 디자인 목업(예시 데이터). API 연동 전까지 조회·등록·저장 기능 없음 -->
-    <script type="module" src="../assets/js/inquiry.js?v=20261102-auth-gate"></script>
+    <script type="module" src="../assets/js/inquiry.js?v=20261112-visible-tabs"></script>
   </head>
   <body>
     <div class="wrap">
@@ -41,13 +41,14 @@
             <div class="inquiry-tabs" role="tablist" aria-label="문의할 소프트웨어">
               <button type="button" role="tab" id="tab-egbim" aria-controls="inquiry-panel" aria-selected="true" data-service="egbim" aria-label="EG-BIM 문의">
                 <span class="inquiry-tab-description">BIM 모델</span>
-                <picture class="inquiry-tab-logo"><source media="(max-width: 600px)" srcset="./egbim/img/egbim_symbol.svg" width="49" height="25" /><img src="./egbim/img/egbim_k.svg" alt="EG-BIM" width="150" height="26" /></picture>
+                <span class="inquiry-tab-logo"><img src="./egbim/img/egbim_k.svg" alt="EG-BIM" width="150" height="26" /></span>
               </button>
-              <button type="button" role="tab" id="tab-tova" aria-controls="inquiry-panel" aria-selected="false" tabindex="-1" data-service="tova" aria-label="TOVA 문의">
+              <!-- TOVA/GAIA 오픈 시 해당 탭의 hidden 속성을 제거합니다. -->
+              <button type="button" role="tab" id="tab-tova" aria-controls="inquiry-panel" aria-selected="false" tabindex="-1" data-service="tova" aria-label="TOVA 문의" hidden>
                 <span class="inquiry-tab-description">통합 교통 수요분석</span>
                 <span class="inquiry-tab-logo"><img src="./tova/img/tova_k.svg" alt="TOVA" width="104" height="26" /></span>
               </button>
-              <button type="button" role="tab" id="tab-gaia" aria-controls="inquiry-panel" aria-selected="false" tabindex="-1" data-service="gaia" aria-label="GAIA 문의">
+              <button type="button" role="tab" id="tab-gaia" aria-controls="inquiry-panel" aria-selected="false" tabindex="-1" data-service="gaia" aria-label="GAIA 문의" hidden>
                 <span class="inquiry-tab-description">지반조사</span>
                 <span class="inquiry-tab-logo"><img src="./gaia/img/gaia_k.svg" alt="GAIA" width="82" height="33" /></span>
               </button>

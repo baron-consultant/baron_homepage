@@ -29,18 +29,22 @@ function createPreviewRows(service) {
 }
 
 const pageSize = 10;
+const tabs = [...document.querySelectorAll('.inquiry-tabs [role="tab"]')].filter(tab => !tab.hidden);
+const availableServices = new Set(tabs.map(tab => tab.dataset.service));
 const requestedService = new URLSearchParams(location.search).get('service');
 const initialService = Object.hasOwn(SERVICES, requestedService) ? requestedService : location.hash.slice(1);
-let service = Object.hasOwn(SERVICES, initialService) ? initialService : 'egbim';
+let service = availableServices.has(initialService) ? initialService : tabs[0].dataset.service;
 let currentPage = 1;
 let query = '';
 const searchForm = document.querySelector('#inquiry-search');
 const rowsElement = document.querySelector('#inquiry-rows');
 const pagination = document.querySelector('#inquiry-pagination');
-const tabs = [...document.querySelectorAll('.inquiry-tabs [role="tab"]')];
 const detail = document.querySelector('#inquiry-detail');
 const compose = document.querySelector('#inquiry-compose');
 const composeForm = document.querySelector('#inquiry-compose-form');
+for (const option of composeForm.elements.service.options) {
+  option.hidden = option.disabled = !availableServices.has(option.value);
+}
 let dialogOpener;
 let previousPrevent;
 
@@ -128,7 +132,7 @@ function renderRows() {
 }
 
 function selectService(next) {
-  service = next;
+  service = availableServices.has(next) ? next : tabs[0].dataset.service;
   currentPage = 1;
   query = '';
   searchForm.reset();
@@ -161,7 +165,10 @@ tabs.forEach((tab, index) => {
 });
 window.addEventListener('hashchange', () => {
   const next = location.hash.slice(1);
-  if (Object.hasOwn(SERVICES, next)) selectService(next);
+  if (Object.hasOwn(SERVICES, next)) {
+    selectService(next);
+    if (next !== service) history.replaceState(null, '', `#${service}`);
+  }
 });
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
@@ -219,7 +226,7 @@ composeForm.addEventListener('submit', event => {
   document.querySelector('#inquiry-compose-feedback').textContent = copy.submitPreview;
 });
 selectService(service);
-if (requestedService) {
+if (requestedService || (initialService && initialService !== service)) {
   const cleanUrl = new URL(location.href);
   cleanUrl.searchParams.delete('service');
   cleanUrl.hash = service;
