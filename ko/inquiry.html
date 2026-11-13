@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../assets/css/lib/lenis.min.css" />
     <link rel="stylesheet" href="../assets/css/layout.css" />
     <link rel="stylesheet" href="../assets/css/common.css" />
-    <link rel="stylesheet" href="../assets/css/inquiry.css?v=20261112-egbim-heading" />
+    <link rel="stylesheet" href="../assets/css/inquiry.css?v=20261113-sky-board" />
 
     <script src="../assets/js/lib/aos.min.js"></script>
     <script src="../assets/js/lib/lenis.min.js"></script>
@@ -22,19 +22,13 @@
     <script src="../assets/js/lib/scrollToPlugin.min.js"></script>
     <script type="module" src="../assets/js/common.js?v=20261112-inquiry-header"></script>
     <!-- S/W 문의 게시판: 디자인 목업(예시 데이터). API 연동 전까지 조회·등록·저장 기능 없음 -->
-    <script type="module" src="../assets/js/inquiry.js?v=20261112-board-heading"></script>
+    <script type="module" src="../assets/js/inquiry.js?v=20261113-sky-board"></script>
   </head>
-  <body>
+  <body class="inquiry-board-layout">
     <div class="wrap">
       <header id="header" class="inquiry-header" data-header-variant="inquiry"></header>
-      <main class="container inquiry-page inquiry-board-page inquiry-page--circuit" data-inquiry-ko="../ko/inquiry.html" data-inquiry-en="../en/inquiry.html">
-        <section class="inquiry-hero" aria-labelledby="inquiry-title">
-          <div class="inquiry-hero__copy">
-            <p class="sw-inquiry-eyebrow">BARON SOFTWARE SUPPORT</p>
-            <h1 id="inquiry-title">S/W Q&amp;A</h1>
-            <p>소프트웨어 관련 문의하기</p>
-          </div>
-        </section>
+      <main class="container inquiry-page inquiry-board-page" data-inquiry-ko="../ko/inquiry.html" data-inquiry-en="../en/inquiry.html">
+        <h1 id="inquiry-title" class="inquiry-sr-only">S/W Q&amp;A — 소프트웨어 관련 문의하기</h1>
 
         <div class="inquiry-workspace">
           <!-- 제품 탭은 추후 사용을 위해 보존하며, 현재는 제목 앞에 제품 로고만 표시합니다. -->
@@ -94,15 +88,14 @@
             </table>
           </div>
           <p class="inquiry-sr-only" id="inquiry-results" role="status"></p>
-          <nav class="inquiry-pagination" aria-label="문의 목록 페이지" id="inquiry-pagination"></nav>
           <div class="inquiry-board__bottom">
-            <p class="inquiry-preview-note">디자인 확인용 예시 게시물입니다.</p>
+            <p class="inquiry-total">총 <strong id="inquiry-total-count">0</strong>건</p>
+            <nav class="inquiry-pagination" aria-label="문의 목록 페이지" id="inquiry-pagination"></nav>
             <button type="button" class="inquiry-button inquiry-write" id="inquiry-write"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 15 12-12 5 5L9 20l-6 1 1-6Zm10-10 5 5M4 15l5 5" /></svg>문의등록</button>
           </div>
         </section>
         </div>
       </main>
-      <footer id="footer"></footer>
     </div>
 
     <dialog class="inquiry-dialog" id="inquiry-detail" aria-labelledby="inquiry-detail-title" data-lenis-prevent>

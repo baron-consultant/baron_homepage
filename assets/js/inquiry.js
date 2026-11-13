@@ -39,6 +39,7 @@ let query = '';
 const searchForm = document.querySelector('#inquiry-search');
 const rowsElement = document.querySelector('#inquiry-rows');
 const pagination = document.querySelector('#inquiry-pagination');
+const totalCount = document.querySelector('#inquiry-total-count');
 const detail = document.querySelector('#inquiry-detail');
 const compose = document.querySelector('#inquiry-compose');
 const composeForm = document.querySelector('#inquiry-compose-form');
@@ -127,6 +128,7 @@ function renderRows() {
   pageButton('‹', currentPage - 1, currentPage === 1);
   for (let page = 1; page <= pages; page++) pageButton(String(page), page);
   pageButton('›', currentPage + 1, currentPage === pages);
+  if (totalCount) totalCount.textContent = filtered.length.toLocaleString(document.documentElement.lang);
   document.querySelector('#inquiry-results').textContent = message('results', {service: SERVICES[service], count: filtered.length, page: currentPage, pages});
   window.ScrollTrigger?.refresh();
 }

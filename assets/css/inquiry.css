@@ -262,3 +262,81 @@ html:lang(en) .inquiry-table .col-status { width: 10%; }
 @media (max-width: 360px) {
   html:lang(en) .inquiry-categories span { padding: 0 3px; font-size: 11px; white-space: nowrap; }
 }
+
+/* Korean Q&A: a full-width sky above a board in normal document flow.
+   Keep ten rows per page; smaller windows can scroll without stretching the board. */
+.inquiry-board-layout {
+  --inquiry-header-height: 64px;
+  --inquiry-row-height: 48px;
+}
+.inquiry-board-layout > .wrap {
+  min-height: 100dvh;
+  background-color: #fff;
+  /* sky_bg already includes a soft alpha fade to the white page. */
+  background-image: url(../img/sky_bg.png);
+  background-position: center top;
+  background-size: max(1440px, 100%) auto;
+  background-repeat: no-repeat;
+}
+.inquiry-board-layout #header.inquiry-header {
+  height: var(--inquiry-header-height);
+  background: transparent;
+}
+.inquiry-board-layout #header.inquiry-header.is-scrolled { background: #fffffff2; }
+.inquiry-board-layout #header.inquiry-header .header_inner { width: min(1328px, 100%); padding: 0 24px; }
+.inquiry-board-layout #header.inquiry-header .logo_box a.logo { background-color: #0c367f; }
+.inquiry-board-layout #header.inquiry-header .header_login_trigger img { filter: brightness(0); }
+.inquiry-board-layout #header.inquiry-header :focus-visible { outline-color: #0c367f; }
+.inquiry-board-layout .inquiry-board-page {
+  box-sizing: border-box;
+  height: auto;
+  padding-top: var(--inquiry-header-height);
+}
+.inquiry-board-layout .inquiry-workspace {
+  width: min(1328px, 100%);
+  margin: 0 auto;
+  padding: 28px 24px 32px;
+}
+.inquiry-board-layout .inquiry-board {
+  padding: 0;
+  background: transparent;
+}
+.inquiry-board-layout .inquiry-board__heading { margin-bottom: 16px; }
+.inquiry-board-layout .inquiry-controls { padding-bottom: 24px; }
+.inquiry-board-layout .inquiry-table-scroll { overflow-x: auto; background: #fff; }
+.inquiry-board-layout .inquiry-table th { height: 40px; }
+.inquiry-board-layout .inquiry-table td { height: var(--inquiry-row-height); }
+.inquiry-board-layout .inquiry-table .inquiry-empty { height: var(--inquiry-row-height); }
+.inquiry-board-layout .inquiry-board__bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+}
+.inquiry-board-layout .inquiry-total { color: #697386; font-size: 14px; white-space: nowrap; }
+.inquiry-board-layout .inquiry-total strong { color: var(--inquiry-blue); font-weight: 700; }
+.inquiry-board-layout .inquiry-pagination { margin: 0; }
+.inquiry-board-layout .inquiry-write { justify-self: end; }
+
+@media (max-width: 1000px) {
+  .inquiry-board-layout .inquiry-controls { gap: 12px; }
+}
+@media (max-width: 600px) {
+  .inquiry-board-layout { --inquiry-header-height: 60px; }
+  .inquiry-board-layout #header.inquiry-header .header_inner { padding: 0 16px; }
+  .inquiry-board-layout .inquiry-workspace { padding: 20px 16px 28px; }
+  .inquiry-board-layout .inquiry-board__heading { gap: 8px; margin-bottom: 12px; }
+  .inquiry-board-layout .inquiry-board__title { gap: 10px; }
+  .inquiry-board-layout .inquiry-board h2 { font-size: 18px; }
+  .inquiry-board-layout .inquiry-board__title img { width: 100px; }
+  .inquiry-board-layout .inquiry-remote { min-height: 36px; padding: 0 10px; }
+  .inquiry-board-layout .inquiry-filters { gap: 10px; }
+  .inquiry-board-layout .inquiry-controls { padding-bottom: 12px; }
+  .inquiry-board-layout .inquiry-board__bottom { grid-template-columns: minmax(48px, 1fr) auto minmax(88px, 1fr); gap: 6px; padding-top: 12px; }
+  .inquiry-board-layout .inquiry-total { font-size: 12px; }
+  .inquiry-board-layout .inquiry-pagination { gap: 2px; }
+  .inquiry-board-layout .inquiry-pagination button { width: 24px; height: 36px; font-size: 12px; }
+  .inquiry-board-layout .inquiry-write { min-width: 82px; min-height: 40px; gap: 4px; padding: 0 10px; font-size: 13px !important; }
+  .inquiry-board-layout .inquiry-write svg { width: 14px; height: 14px; }
+}
