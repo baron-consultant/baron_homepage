@@ -270,6 +270,8 @@ html:lang(en) .inquiry-table .col-status { width: 10%; }
   --inquiry-gutter: calc(24 * var(--inquiry-unit));
   --inquiry-header-height: calc(64 * var(--inquiry-unit));
   --inquiry-row-height: calc(48 * var(--inquiry-unit));
+  --inquiry-board-top-space: calc(var(--inquiry-header-height) + var(--inquiry-gutter));
+  --inquiry-board-bottom-space: calc(32 * var(--inquiry-unit));
 }
 .inquiry-board-layout > .wrap {
   min-height: 100dvh;
@@ -296,13 +298,20 @@ html:lang(en) .inquiry-table .col-status { width: 10%; }
 .inquiry-board-layout #header.inquiry-header :focus-visible { outline-color: #0c367f; }
 .inquiry-board-layout .inquiry-board-page {
   box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  /* Equal outer tracks center the board in the viewport. Their minimums
+     keep it below the fixed header and allow normal scrolling on short screens. */
+  grid-template-rows: minmax(var(--inquiry-board-top-space), 1fr) auto minmax(var(--inquiry-board-bottom-space), 1fr);
+  min-height: 100dvh;
   height: auto;
-  padding-top: var(--inquiry-header-height);
+  padding-top: 0;
 }
 .inquiry-board-layout .inquiry-workspace {
+  grid-row: 2;
   width: min(var(--inquiry-layout-width), 100%);
   margin: 0 auto;
-  padding: calc(28 * var(--inquiry-unit)) var(--inquiry-gutter) calc(32 * var(--inquiry-unit));
+  padding: 0 var(--inquiry-gutter);
 }
 .inquiry-board-layout .inquiry-board {
   padding: 0;
@@ -358,11 +367,11 @@ html:lang(en) .inquiry-table .col-status { width: 10%; }
   .inquiry-board-layout .inquiry-controls { gap: 12px; }
 }
 @media (max-width: 600px) {
-  .inquiry-board-layout { --inquiry-header-height: 60px; }
+  .inquiry-board-layout { --inquiry-header-height: 60px; --inquiry-board-top-space: 80px; --inquiry-board-bottom-space: 28px; }
   .inquiry-board-layout #header.inquiry-header .header_inner { padding: 0 16px; }
   .inquiry-board-layout #header.inquiry-header .header_login { margin-right: 12px; }
   .inquiry-board-layout #header.inquiry-header .header_login_trigger { width: 32px; height: 32px; }
-  .inquiry-board-layout .inquiry-workspace { padding: 20px 16px 28px; }
+  .inquiry-board-layout .inquiry-workspace { padding: 0 16px; }
   .inquiry-board-layout .inquiry-board__heading { gap: 8px; margin-bottom: 12px; }
   .inquiry-board-layout .inquiry-board__title { gap: 10px; }
   .inquiry-board-layout .inquiry-board h2 { font-size: 18px; }
