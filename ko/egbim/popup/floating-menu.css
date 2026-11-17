@@ -1,0 +1,52 @@
+/* Loaded only by the Korean EG-BIM detail popup shell. */
+body:has(.egbim-original-header) .floating_guide_only { display: none; }
+
+.egbim-floating-menu {
+  position: fixed;
+  top: 96px;
+  right: 0;
+  z-index: 20;
+  width: 82px;
+  aspect-ratio: 165 / 564;
+  background: url(../img/floating_bg.png) center / contain no-repeat;
+}
+.egbim-floating-menu a {
+  position: absolute;
+  right: 0;
+  width: 92%;
+  height: 28%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.egbim-floating-menu__guide { top: 22%; }
+.egbim-floating-menu__download { top: 50%; }
+.egbim-floating-menu i {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background: center / contain no-repeat;
+}
+.egbim-floating-menu__guide i { background-image: url(../img/ico_floating_book.svg); }
+.egbim-floating-menu__download i { background-image: url(../img/ico_floating_download.svg); }
+.egbim-floating-menu a:is(:hover, :focus-visible) { color: #ffc600; }
+.egbim-floating-menu__guide:is(:hover, :focus-visible) i { background-image: url(../img/ico_floating_book_on.svg); }
+.egbim-floating-menu__download:is(:hover, :focus-visible) i { background-image: url(../img/ico_floating_download_on.svg); }
+.egbim-floating-menu a:focus-visible { outline: 2px solid #ffc600; outline-offset: -3px; border-radius: 4px; }
+
+@media (max-width: 1400px) {
+  .egbim-floating-menu { top: 56px; width: 70px; }
+  .egbim-floating-menu a { font-size: 12px; }
+}
+@media (max-width: 600px) {
+  .egbim-floating-menu { width: 60px; }
+  .egbim-floating-menu a { font-size: 11px; gap: 2px; }
+  .egbim-floating-menu i { width: 24px; height: 24px; }
+}
