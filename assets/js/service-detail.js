@@ -3,6 +3,7 @@
 //   이 스크립트가 있고 조건(같은 출처, 일반 클릭, dialog 지원)이 맞으면 PC·모바일 모두 팝업으로 연다.
 // - 제품 페이지 원본은 수정하지 않는다. 같은 출처 iframe 문서에만 헤더·푸터·플로팅·KNGIL 공지 숨김 스타일을 주입한다.
 // - 제품 페이지의 common.js(SSO)와 GA 스크립트는 iframe 안에서 그대로 실행된다.
+// - ?popup=gaia|tova|egbim|kngil 주소로 해당 제품 팝업을 공유할 수 있다.
 (() => {
   if (typeof HTMLDialogElement !== "function") return;
 
@@ -20,6 +21,7 @@
   const SHELL_ID = "service-detail-shell";
   const SHELL_PATH = /^\/(ko|en)\/(gaia|tova|egbim|kngil)\//;
   const NAMES = { egbim: "EG-BIM", tova: "TOVA", gaia: "GAIA", kngil: "KNGIL" };
+  const POPUP_PARAM = "popup";
   const TEXT =
     document.documentElement.lang === "en"
       ? {
@@ -45,6 +47,31 @@
   let trigger;
   let pageUrl;
   let loadTimer;
+
+  function setPopupAddress(product, method = "replaceState") {
+    const address = new URL(window.location.href);
+    if (product) address.searchParams.set(POPUP_PARAM, product);
+    else address.searchParams.delete(POPUP_PARAM);
+    if (address.href !== window.location.href) {
+      history[method](history.state, "", address.href);
+    }
+  }
+
+  function syncPopupFromAddress() {
+    const product = new URL(window.location.href).searchParams.get(POPUP_PARAM);
+    // 주소에서 임의의 URL을 받아 iframe에 넣지 않고, 페이지에 있는 제품 링크만 허용한다.
+    const link = Object.hasOwn(NAMES, product)
+      ? Array.from(document.querySelectorAll("a[data-service-detail]")).find((item) => item.dataset.serviceDetail === product)
+      : null;
+    if (!link) {
+      if (dialog?.open) dialog.close();
+      return;
+    }
+    const url = new URL(link.getAttribute("href"), window.location.href);
+    if (url.origin !== window.location.origin) return;
+    if (dialog?.open && trigger === link) return;
+    open(link, url);
+  }
 
   function createDialog() {
     dialog = document.createElement("dialog");
@@ -127,10 +154,11 @@
   });
 
   function onFrameLoad() {
-    if (!dialog.open || frame.getAttribute("src") === "about:blank") return;
+    if (!dialog.open) return;
 
     let doc;
     try {
+      if (frame.contentWindow.location.href === "about:blank") return;
       // 다른 출처로 이동했다면 여기서 접근이 막혀 예외가 발생한다.
       if (frame.contentWindow.location.origin !== window.location.origin) throw new Error("cross-origin");
       doc = frame.contentDocument;
@@ -178,6 +206,7 @@
     if (!dialog) createDialog();
 
     const name = NAMES[link.dataset.serviceDetail] || link.textContent.trim();
+    if (trigger && trigger !== link) trigger.setAttribute("aria-expanded", "false");
     trigger = link;
     pageUrl = url;
 
@@ -199,12 +228,13 @@
 
     clearTimeout(loadTimer);
     loadTimer = setTimeout(fail, LOAD_TIMEOUT_MS);
-    frame.src = embedUrl.href;
+    // iframe 이동이 뒤로가기 기록을 추가하면 주소의 팝업 상태와 어긋나므로 현재 항목을 교체한다.
+    frame.contentWindow.location.replace(embedUrl.href);
   }
 
   function onClose() {
     clearTimeout(loadTimer);
-    frame.src = "about:blank";
+    frame.contentWindow.location.replace("about:blank");
     frame.classList.add("is-pending");
     status.hidden = true;
     document.documentElement.classList.remove("service-detail-open");
@@ -214,6 +244,8 @@
     }
     trigger = null;
     pageUrl = null;
+    // 직접 공유한 주소에서도 닫기는 현재 페이지에 머물며 팝업 표시만 제거한다.
+    setPopupAddress(null);
   }
 
   document.addEventListener("click", (event) => {
@@ -225,6 +257,16 @@
     if (url.origin !== window.location.origin) return;
 
     event.preventDefault();
+    if (Object.hasOwn(NAMES, link.dataset.serviceDetail)) {
+      setPopupAddress(link.dataset.serviceDetail, "pushState");
+    }
     open(link, url);
   });
+
+  window.addEventListener("popstate", syncPopupFromAddress);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncPopupFromAddress, { once: true });
+  } else {
+    syncPopupFromAddress();
+  }
 })();
