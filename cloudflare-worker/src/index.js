@@ -13,6 +13,8 @@ const DEFAULT_PUBLIC_EXACT_PATHS = [
   '/index.html',
   '/ko/index.html',
   '/en/index.html',
+  '/ko/sv_sw.html',
+  '/en/sv_sw.html',
   '/ko/sw-inquiry.html',
   '/en/sw-inquiry.html',
   '/ko/inquiry.html',
@@ -63,6 +65,8 @@ const DEFAULT_PUBLIC_EXACT_PATHS = [
   '/assets/img/eng/logo_w.svg',
 ];
 const DEFAULT_PUBLIC_PREFIXES = [
+  '/ko/sv_sw_',
+  '/en/sv_sw_',
   '/ko/br_',
   '/en/br_',
   '/ko/dt_',
