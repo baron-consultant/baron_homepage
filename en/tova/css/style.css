@@ -4828,6 +4828,10 @@ footer .address em.tel {
 /* --------------------------------- */
 /* 구매하기 buy */
 /* --------------------------------- */
+/* Keep the space below the purchase content white when the popup hides the footer. */
+html:has(.container.buy) {
+  background-color: #fff;
+}
 .buy .intro .top {
   background-image: url(../img/buy_intro_bg.webp);
 }
