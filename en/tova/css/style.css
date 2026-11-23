@@ -2399,7 +2399,7 @@ footer .address em.tel {
   text-align: right;
 }
 .primary .intro .top {
-  background-image: url(../img/primary_intro_bg.jpg);
+  background-image: url(../img/primary_intro_bg.webp);
 }
 .primary .intro .keyword em {
   display: inline-block;
@@ -3223,7 +3223,7 @@ footer .address em.tel {
   text-align: right;
 }
 .road .intro .top {
-  background-image: url(../img/road_intro_bg.jpg);
+  background-image: url(../img/road_intro_bg.webp);
 }
 .road .intro .condition {
   margin: 0 auto;
@@ -4829,7 +4829,7 @@ footer .address em.tel {
 /* 구매하기 buy */
 /* --------------------------------- */
 .buy .intro .top {
-  background-image: url(../img/buy_intro_bg.jpg);
+  background-image: url(../img/buy_intro_bg.webp);
 }
 .buy .contents_wrap {
   width: 100%;
