@@ -30,6 +30,8 @@ const landingPagePaths = [
   `${rootPrefix}/en/index.html`,
 ];
 const authRestrictedPaths = [
+  `${rootPrefix}/ko/dt_`,
+  `${rootPrefix}/en/dt_`,
   `${rootPrefix}/ko/sv_`,
   `${rootPrefix}/en/sv_`,
   `${rootPrefix}/ko/dx.html`,
@@ -39,13 +41,15 @@ const authRestrictedPaths = [
 ];
 const normalizedLandingPagePaths = landingPagePaths.map(normalizePath);
 const isLandingPage = normalizedLandingPagePaths.includes(currentPath);
-const publicPackagePaths = [
+const publicServicePaths = [
+  `${rootPrefix}/ko/sv_bigroom.html`,
+  `${rootPrefix}/en/sv_bigroom.html`,
   `${rootPrefix}/ko/sv_sw.html`,
   `${rootPrefix}/en/sv_sw.html`,
   `${rootPrefix}/ko/sv_sw_`,
   `${rootPrefix}/en/sv_sw_`,
 ];
-const isPublicInfoPage = publicPackagePaths.some((entry) => matchesPublicPath(currentPath, entry))
+const isPublicInfoPage = publicServicePaths.some((entry) => matchesPublicPath(currentPath, entry))
   || !authRestrictedPaths.some((entry) => matchesPublicPath(currentPath, entry));
 const loginRequested = isPublicInfoPage && new URL(window.location.href).searchParams.get('login') === '1';
 
@@ -84,7 +88,7 @@ const loginHref = `${location.pathname}?login=1`;
 
 // ?�� AJAX 관??SCRIPT
 $(function () {
-  const includeVersion = '20261117-public-package';
+  const includeVersion = '20261123-public-menu';
   // 비로그인 요청은 Worker가 nav-public.html만 허용하므로 로그인 상태에 맞는 메뉴 파일을 선택한다.
   const navIncludeFile = isAuthenticated ? 'nav.html' : 'nav-public.html';
   const includeBase = `${rootPrefix}/_include/eng`;

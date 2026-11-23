@@ -15,6 +15,8 @@ const DEFAULT_PUBLIC_EXACT_PATHS = [
   '/en/index.html',
   '/ko/sv_sw.html',
   '/en/sv_sw.html',
+  '/ko/sv_bigroom.html',
+  '/en/sv_bigroom.html',
   '/ko/sw-inquiry.html',
   '/en/sw-inquiry.html',
   '/ko/inquiry.html',
@@ -69,8 +71,6 @@ const DEFAULT_PUBLIC_PREFIXES = [
   '/en/sv_sw_',
   '/ko/br_',
   '/en/br_',
-  '/ko/dt_',
-  '/en/dt_',
   '/ko/tova/',
   '/en/tova/',
   '/ko/gaia/',
@@ -86,6 +86,8 @@ const DEFAULT_PUBLIC_PREFIXES = [
   '/assets/',
 ];
 const DEFAULT_PROTECTED_PREFIXES = [
+  '/ko/dt_',
+  '/en/dt_',
   '/ko/sv_',
   '/en/sv_',
   '/ko/dx',
