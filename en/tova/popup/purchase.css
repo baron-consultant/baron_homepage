@@ -1,0 +1,16 @@
+/* Keep the same yellow purchase shortcut and full-button hit area as the Korean popup. */
+.tova-purchase-shortcut .floating_buy {position:relative;margin:0}
+.tova-purchase-shortcut .floating_buy a {display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#111;text-decoration:none}
+.tova-purchase-shortcut a:focus-visible {outline:2px solid #fff;outline-offset:4px}
+@media(max-width:1200px){
+  .tova-purchase-shortcut {top:64px;right:24px}
+  .tova-purchase-shortcut .floating_buy {width:88px;height:40px;border-radius:0}
+  .tova-purchase-shortcut .floating_buy::after {display:block}
+  .tova-purchase-shortcut .floating_buy a {font-size:14px}
+  .tova-purchase-shortcut .floating_buy a span {display:inline}
+}
+@media(max-width:600px){
+  .tova-purchase-shortcut {top:48px}
+  .tova-purchase-shortcut .floating_buy {width:80px;height:32px}
+  .tova-purchase-shortcut .floating_buy a {font-size:13px}
+}
